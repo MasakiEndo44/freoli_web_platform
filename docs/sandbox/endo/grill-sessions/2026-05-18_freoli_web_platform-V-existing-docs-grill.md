@@ -9,7 +9,7 @@ owners: [endo]
 grill_target:
   product: freoli_web_platform
   layers: [V, O, C, F, E, S]
-  current_layer: O
+  current_layer: F
   writeout_paths:
     V: docs/requirements/freoli_web_platform/vision.md
     O: docs/requirements/freoli_web_platform/outcomes.md
@@ -28,7 +28,8 @@ grill_target:
 - turns: 1
 - progress_stalled_turns: 0
 - last_saved: 2026-05-18T00:00:00Z
-- next_action: "Capability (C) 層へ進む or stop"
+- next_action: "Eval (E) 層へ進む or stop"
+- f_layer_mode: "選択肢 C 完了（v0.1 UI 8 個別 + 重要枠 2 短縮 + 非 UI 2 短縮 = 11 ターン）"
 - mode: NEW
 - web_gate_suppressed_layers: []
 - web_gate_refusal_count: {}
@@ -43,8 +44,8 @@ grill_target:
 
 - V: { answered: 8/8, ready_to_writeout: true, writeout_done: true }
 - O: { answered: 8/8, ready_to_writeout: true, writeout_done: true }
-- C: { answered: 0/8, ready_to_writeout: false, writeout_done: false, items: [] }
-- F: { answered: 0/8, ready_to_writeout: false, writeout_done: false, items: [] }
+- C: { answered: 8/8, ready_to_writeout: true, writeout_done: true, items: [CAP-001, CAP-002, CAP-003, CAP-004, CAP-005, CAP-006, CAP-007, CAP-008] }
+- F: { answered: 12/12, ready_to_writeout: true, writeout_done: true, items: [FEAT-001✓, FEAT-002✓, FEAT-003✓, FEAT-004✓, FEAT-005✓, FEAT-006✓, FEAT-007✓, FEAT-008✓, FEAT-009✓, FEAT-010✓, FEAT-011✓, FEAT-012✓] }
 - E: { answered: 0/8, ready_to_writeout: false, writeout_done: false, items: [] }
 - S: { answered: 0/8, ready_to_writeout: false, writeout_done: false }
 
@@ -306,6 +307,355 @@ grill_target:
 - label: [I: AGENTS.md §設計3原則 + §6 + v3 §非機能要件 派生]
 - at: 2026-05-18T00:00:00Z
 
+### C-1: できること動詞列挙
+- Q: このプロダクトができるべきことを動詞で列挙
+- recommended: 7 Capability に集約（CAP-001〜007）
+- answer: |
+    CAP-001: ライブ参加意思の即時形成 ができる ← system_requirements F1 / detailed §4.1
+    CAP-002: バンドの世界観・正体の即時伝達 ができる ← system_requirements F2 / detailed §4.2
+    CAP-003: 正規ブッキング窓口の提供 ができる ← system_requirements F3.3,F3.6 / detailed §4.3
+    CAP-004: コンテンツ権利ガバナンスの運用 ができる ← system_requirements §運用ルール + 設計決定#15 / AGENTS.md §6 Layer 2
+    CAP-005: Reversibility-First デプロイの維持 ができる ← system_requirements §非機能要件 / AGENTS.md 設計原則②
+    CAP-006: ライブ実績の継続記録 ができる ← system_requirements F1.4 + (grill 新規) D-O1 actual_attendance フィールド
+    CAP-007: SNS チャネル間の橋渡し ができる ← system_requirements F3.1〜F3.5 (特に F3.4) / AGENTS.md 非交渉UXシーケンス
+    v0.5 / v1.0 追加候補: CAP-008 楽曲プレビューの提供 / CAP-009 ファン継続接点の維持
+- label: [I: O 層 §10 接続 + v3 機能要件カテゴリ + 既存 2 ドキュメント整合]
+- at: 2026-05-18T00:00:00Z
+
+### C-2: 実現手段の階層分類（base/uplift 読み替え）
+- Q: 各 capability は静的か動的か運用依存か
+- recommended: L1 静的 / L2 動的（外部 API）/ L3 運用 の 3 階層に分類
+- answer: |
+    L1 静的（data/*.ts + SSG、追加処理ゼロ）:
+    - CAP-001 ライブ参加意思の即時形成 (data/lives.ts) ← system F1 / detailed §4.1
+    - CAP-002 世界観伝達 (data/members.ts + public/images/ + Tailwind) ← system F2 / detailed §4.2
+    - CAP-006 ライブ実績の継続記録（コード面）← system F1.4 + (grill 新規) D-O1
+    - CAP-007 SNS チャネル間の橋渡し (data/links.ts) ← system F3.1〜F3.5 / AGENTS.md 非交渉UX
+    L2 動的（外部 API 必要）:
+    - CAP-003 正規ブッキング窓口: Resend + Cloudflare Turnstile + Route Handler ← system F3.6 + 設計決定 #14,#20 / detailed §4.3
+    L3 運用（人間依存）:
+    - CAP-004 権利ガバナンス: Notion/Google Docs Yes ログ + PR レビュー ← system §運用ルール + 設計決定 #15
+    - CAP-005 Reversibility-First デプロイ: Git + Vercel 標準機能 + 運用規律 ← AGENTS.md §6 Layer 1
+    - CAP-006 ライブ実績の継続記録（運用面）: Content Owner が公演翌日記入
+    含意:
+    - L1 主体（6/7 Capability）: Vercel Hobby 無料枠で完結、Reversibility-First 成立
+    - L2 は CAP-003 のみ: Resend/Turnstile 障害時の縮退を C-5 で規定（mailto: フォールバック候補）
+    - L3 は 3 Capability: コードでは保証できず運営者規律に依存
+- label: [I: 既存 2 ドキュメント整合確認済み]
+- at: 2026-05-18T00:00:00Z
+
+### C-3: 依存前提（データ・外部 API・人間インプット）
+- Q: 各 capability が機能するために必要な前提条件は？
+- recommended: Capability 別に前提と不在時の縮退を整理
+- answer: |
+    CAP-001: data/lives.ts に最低1件 + 過去日付の自動非表示 / 不在時 → F1.5 プレースホルダー ← system F1
+    CAP-002: 承諾済写真 + アー写撮影5/24-25 (仮定) + Tailwind cyan/sky × 黒 / 不在時 → テキストフォールバック ← system 設計決定 #21, #10
+    CAP-003: RESEND_API_KEY + Turnstile キー + freoli.official@gmail.com + app/api/contact/route.ts Zod 契約 / 不在時 → lib/env.ts で早期失敗 or mailto: 縮退 (F3.3) ← system F3.6, F3.3 + 設計決定 #14, #19, #20 / AGENTS.md §2
+    CAP-004: CONTENT_POLICY.md 配置 (v0.1 配置予定、現状未配置 = 要確認) + 被写体本人窓口 + Yes ログ (Notion/Google Docs) / 不在時 → CAP-004 不完全 ← system §運用ルール + 設計決定 #15 / AGENTS.md §6 Layer 2
+    CAP-005: Vercel-GitHub 連携 + prevent-destructive-command hook + .gitignore で .env* + lib/env.ts 経由のみ / 不在時 → .env* 誤コミットリスク ← AGENTS.md §6 Layer 1
+    CAP-006: (grill 新規) data/lives.ts 型に actual_attendance: number | null 追加 + Content Owner が公演翌日記入 ← system F1.4 + D-O1
+    CAP-007: data/links.ts に SNS/サブスク URL + 楽曲未リリース期は Spotify/Apple Music grayed out + SNS リンクバーをヒーロー直下 / 不在時 → 月次手動リンクチェック ← system F3.1〜F3.5, ドメイン言語禁止 / AGENTS.md §5, 非交渉 UX
+    整合チェック:
+    - 完全整合: CAP-001 / CAP-002 / CAP-005 / CAP-007
+    - 新規追加: CAP-006 (actual_attendance フィールド = D-O1)
+    - (要確認) 残: CAP-004 CONTENT_POLICY.md 未配置
+- label: [I: 既存 2 ドキュメント整合 + (要確認) フラグ付き]
+- at: 2026-05-18T00:00:00Z
+
+### C-4: 安定性（Stability）
+- Q: 各 capability の安定性は？
+- recommended: stable / evolving / volatile に分類
+- answer: |
+    判定基準（本案件用）:
+    - stable: v0.1〜v1.0 で中身が変わらない
+    - evolving: バージョン進行で拡張・変形（撤回なし）
+    - volatile: 外部要因で内容が頻繁に変動
+    Capability 別:
+    - CAP-001 volatile: data/lives.ts の内容はライブ毎に変動 + チケット URL は恒久的に揺れる (設計決定 #16)
+    - CAP-002 evolving: v0.1 写真のみ → v0.5 楽曲メタ → v1.0 OG 画像戦略まで拡張。ネオンブルー × 黒のトーン自体は stable
+    - CAP-003 stable: Zod 型契約・送信先メアド・Turnstile 構成は不変 (AGENTS.md §2 API-First)
+    - CAP-004 stable: 被写体本人 Yes 必須 / 削除 1 営業日以内はバージョン不変原則 (設計原則 ③)
+    - CAP-005 stable: Git + Vercel 標準フロー、独自ドメイン取得しても Reversibility 不変
+    - CAP-006 evolving: v0.1 は data/lives.ts 拡張のみ、v0.5 で集計レポート (要確認)
+    - CAP-007 evolving: v0.1 外部リンクのみ → v0.5 Spotify/Apple Music Embed 追加 (設計決定 #6)
+    集計: stable 3 / evolving 3 / volatile 1
+    含意:
+    - stable 3 (003, 004, 005): S 層で API 契約・hook 仕様を厳密に固める対象
+    - evolving 3 (002, 006, 007): v0.5 / v1.0 で再 grill 対象
+    - volatile 1 (001): 運用負荷が継続発生、Content Owner の月次運用タスク固定化
+- label: [I: 既存 2 ドキュメント ロードマップ整合]
+- at: 2026-05-18T00:00:00Z
+
+### C-5: Graceful Degradation
+- Q: 各 capability が失敗したときの縮退動作は？
+- recommended: system F1.2/F3.3/F3.6 のフォールバック仕様 + AGENTS.md §7 壊れ方 3 パターンと整合
+- answer: |
+    CAP-001 失敗パターン: 次回ライブ未定 / チケット URL 未取得 / 過去日付残存
+      縮退: F1.5 プレースホルダー / F1.2「会場へお問い合わせください」恒久フォールバック (設計決定 #16) / 月次手動整理
+    CAP-002 失敗パターン: 写真承諾未取得 / アー写撮影遅延
+      縮退: 表示せずテキストプレースホルダーに降格 (権利優先) / 既存ライブ写真 10 枚から代替
+    CAP-003 失敗パターン: Resend ダウン / Turnstile 失敗 / Zod 検証エラー / 全送信失敗
+      縮退: F3.3 mailto: freoli.official@gmail.com 二重窓口へ自動降格 / 再試行促進 / フィールド別エラー / 内部情報はクライアントに返さない (AGENTS.md §7 Gate 1)
+    CAP-004 失敗パターン: 削除依頼検知漏れ / Yes ログと公開画像の照合漏れ
+      縮退: 月次照合 (Notion Yes ログ ↔ public/images/) / 検知後 1 営業日以内 PR マージ削除 (設計決定 #15) / Vercel revert で前バージョン (CAP-005 連携)
+    CAP-005 失敗パターン: 不正コミットが main / .env* 誤コミット / ビルド失敗
+      縮退: 5 分以内に Vercel revert + git revert + git push (O-8 整合) / hook で自動ブロック + secret rotation / preview ビルド失敗時 main マージ禁止
+    CAP-006 失敗パターン: 記入忘れ / 動員数不明
+      縮退: actual_attendance: null 許容 / 遡って記入 / null は KGI 算出から除外、未記入を減点しない
+    CAP-007 失敗パターン: SNS 凍結 / URL 切れ / 楽曲未リリース期のタップ
+      縮退: data/links.ts から除外 / 月次手動チェック / 無効状態 + 「2025 年配信予定」ラベル (system §ドメイン言語禁止)
+    AGENTS.md §7 壊れ方 3 パターン対応:
+    - ① ロジック破綻 → CAP-003 Zod / API ルートテスト
+    - ② 状態不整合 → CAP-003 Resend / CAP-004 Yes ログ / CAP-006 / プレビュー実送信 + ログ + 目視照合
+    - ③ UX 断絶 → CAP-001 / CAP-002 / CAP-007 / プレビュー URL モバイル・デスクトップ目視
+- label: [I: 既存 2 ドキュメント整合 + AGENTS.md §7 整合]
+- at: 2026-05-18T00:00:00Z
+
+### C-6: 独立進化と依存グラフ
+- Q: どの capability が独立して進化できるか、依存関係は？
+- recommended: 既存 2 ドキュメントの非交渉 UX シーケンス + 設計決定から依存抽出
+- answer: |
+    Capability ごとの独立進化:
+    - CAP-005 (Reversibility): 完全独立、全 Capability の基盤層
+    - CAP-004 (権利ガバナンス): 半独立、CAP-002/006/007 の公開可否判定に介入
+    - CAP-001 (ライブ集客): 独立、data/lives.ts のみ、CAP-006 に影響
+    - CAP-002 (世界観伝達): 半独立、CAP-004 依存、UX 順序最上位
+    - CAP-003 (ブッキング窓口): 独立、Zod 契約閉鎖、D-O2 が O 層 KPI に影響
+    - CAP-006 (ライブ実績記録): CAP-001 に強依存、data/lives.ts 型共有
+    - CAP-007 (SNS 橋渡し): 半独立、CAP-004 (URL のみ管理) / 非交渉 UX シーケンス制約
+    依存関係の核心:
+    1. CAP-005 は基盤層: v0.1 launch 前の最優先
+    2. CAP-004 は横断制約: コードではなく運用原則として CAP-002/006/007 介入
+    3. CAP-001 ⇄ CAP-006 が最強依存: data/lives.ts 共有、actual_attendance 追加は型変更を伴う
+    4. 非交渉 UX シーケンス (F2.1 / AGENTS.md) が Capability 表示順を固定:
+       Hero(CAP-002) → SNS Bar(CAP-007) → Lives(CAP-001) → Members(CAP-002) → Subs(CAP-007) → News(CAP-006 派生) → Contact(CAP-003)
+       順序を入れ替える Feature は却下対象
+    整合チェック:
+    - 完全整合: 依存グラフは既存 2 ドキュメント記述から構造化
+    - (grill 新規): CAP-001 ⇄ CAP-006 依存は D-O1 由来
+- label: [I: 既存 2 ドキュメント整合 + AGENTS.md 非交渉 UX]
+- at: 2026-05-18T00:00:00Z
+
+### C-7: 複数プロダクト間での共通化
+- Q: 他プロダクトでも使えそうな capability は？
+- recommended: 今フェーズでは共通化しない。横展開候補のみメモ化
+- answer: |
+    現状: 単一プロダクト運営（他プロダクト未存在）、30_themes ディレクトリ未配置
+    横展開ポテンシャル評価:
+    - CAP-001 ライブ集客: 高 (バンド・ライブ系事業者共通)
+    - CAP-002 世界観伝達: 低 (バンド固有)
+    - CAP-003 ブッキング窓口: 高 (フォーム + Resend + Turnstile は汎用)
+    - CAP-004 権利ガバナンス: 高 (写真扱う全事業共通原則)
+    - CAP-005 Reversibility: 極めて高 (Vercel + Git の標準)
+    - CAP-006 ライブ実績記録: 中 (公演履歴を持つ事業者)
+    - CAP-007 SNS 橋渡し: 高 (マルチチャネル運営者共通)
+    結論: 今フェーズ (v0.1〜v1.0) では共通化しない
+    将来候補: ひろむ・aberyo がバックアップ招待され別バンドプロジェクトが立ち上がった場合、CAP-003 / CAP-004 / CAP-005 が横展開最初の候補
+    整合チェック: 既存 2 ドキュメントは FREOLI 単独前提、横断テーマ概念は (grill 新規)
+- label: [I: 現状確認 + 推論]
+- at: 2026-05-18T00:00:00Z
+
+### C-8: Outcome との紐付け
+- Q: 各 capability は Outcomes のどれにどう貢献？
+- recommended: Capability × Outcome マトリクスで紐付け
+- answer: |
+    CAP-001 → O-1 動員数 (主) + Leading チケット導線 CTR
+    CAP-002 → O-7 Tier 1/2 (「サイト見て来ました」「あの色のバンド」) + Leading スクロール率
+    CAP-003 → O-6 Lagging 問い合わせ着信 + Leading 送信完了率 + D-O2 内訳
+    CAP-004 → O-8 運用品質 (権利確認 100% / 削除 1 営業日)
+    CAP-005 → O-8 信頼性 (revert 5 分 / ビルド 100% / .env* 0 件)
+    CAP-006 → O-1 計測精度 (D-O1 actual_attendance) + Tier 1 ブッカー根拠資料
+    CAP-007 → O-6 Leading SNS リンクバー CTR + Lagging SNS フォロワー月次増分
+    Outcome 側カバレッジ:
+    - O-1 動員数: CAP-001 主 + CAP-006 計測基盤 + CAP-002/007 補助 ✓
+    - O-3 失敗下限: CAP-003 ✓
+    - O-4 計測: CAP-006 + Vercel Analytics ✓
+    - O-5 セグメント: CAP-003 + D-O2 ✓
+    - O-6 Leading/Lagging: CAP-001/003/007 直接 + CAP-002 間接 ✓
+    - O-7 定性: CAP-002 主 / CAP-003 ブッカー ✓
+    - O-8 運用品質: CAP-004/005 直接 + CAP-001 鮮度 ✓
+    整合チェック:
+    - 全 Outcome が少なくとも 1 Capability でカバー、過不足なし
+    - 重複貢献は CAP-001 ⇄ CAP-006 と CAP-002 ⇄ CAP-007、O-6 と O-7 で役割分担明確
+    - (grill 新規): CAP-006 → O-1 計測精度紐付けは grill 由来（既存ドキュメントは F1.4 のみ）
+- label: [I: Outcome 層 + 既存 2 ドキュメント整合]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-001: Hero（ヒーロービジュアル）
+- Persona: Primary 高橋みさき / Secondary 田村ブッカー
+- Trigger: SNS から HP 着地後の最初の 3 秒
+- Done When: 「あの色のバンド」認識 + スクロール意欲発生
+- Capability: CAP-002（メイン）+ CAP-005
+- User Story: HP を開いた瞬間にバンド写真・ロゴ・1 行キャッチが全幅で見えて、3 秒で「私の好きなやつだ」と確信してスクロールしたくなる
+- 受け入れ基準: ① LCP 2.5 秒以内 ② next/image priority + WebP 全幅 ③ FREOLI ロゴ + 30〜80 字キャッチがネオンブルーで重なる
+- Out of Scope: 動画埋め込み / スライダー / パララックス / 楽曲再生ボタン / 多言語
+- Phase: v0.1 必須
+- 既存要件対応: F2.1 + F2.2 + 設計決定 #10, #21
+- 整合: ✓ 完全整合
+- 依存課題: キャッチコピー文面確定（v3 中優先度 #1）
+- label: [I: 既存 v3 §F2 + 設計決定 + Vision V-7 派生]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-002: NextLive（次回ライブ情報セクション）
+- Persona: Primary 高橋みさき / Secondary 田村ブッカー
+- Trigger: ヒーロー直下到達 or SNS で 7/11 ライブを見て確認しに来た瞬間
+- Done When: 日付・会場・予約方法を 3 秒で把握、Google Maps or 会場問い合わせをタップ
+- Capability: CAP-001
+- User Story: ヒーロー直下で次のライブ日付・会場・チケット導線・Google Maps を一目で把握、行く意欲を 100% に変え予約手段へ進める
+- 受け入れ基準: ① ヒーロー直下配置（D-C1） ② 日付・会場・時刻・価格・Google Maps を 1 セクション内 ③ チケット URL 未取得時の恒久フォールバック「ご予約・お問い合わせは会場まで」+ 電話/公式サイト ④ 過去日付の自動移行
+- Out of Scope: 自動予約システム / 地図埋め込み / ライブ詳細ページ / カレンダー連携
+- Phase: v0.1 必須、Week 2 中盤、初回データは 7/11 Blue Sheep
+- 既存要件対応: F1.1, F1.2, F1.3, F1.5 + 設計決定 #16
+- 整合: ✓ 完全整合、Google Maps は detailed §6 インテグレーション（外部リンクのみ）と整合
+- 依存課題: Blue Sheep の電話番号 or 公式サイト URL 確定（v3 中優先度 #6）
+- label: [I: 既存 v3 §F1 + 設計決定 #16 + AGENTS.md 非交渉 UX]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-003: Members（メンバープロフィール）
+- Persona: Primary 高橋みさき / Secondary 田村ブッカー
+- Trigger: ヒーロー → ライブ情報を見終わってメンバーセクションへスクロールした瞬間
+- Done When: 4 人の名前・パート・顔・個性を把握、親近感発生（業界はメンバー構成即時判明）
+- Capability: CAP-002（メイン）+ CAP-004（写真承諾の制約）
+- User Story: 4 人のメンバー名（ゆうすけ/あのむ/ひろむ/Aberyo）・パート・顔写真・1〜2 行紹介を一覧、「この 4 人の音、想像できる」
+- 受け入れ基準: ① 横並び（デスクトップ）/ 縦並び（モバイル） ② 楽器順 Vo/Gt → Gt → Ba → Dr ③ 被写体 Yes 取得済写真のみ、未承諾はシルエットアイコン代替
+- Out of Scope: 個別詳細ページ / メンバー個人 SNS / 個人 YouTube / インタビュー記事
+- Phase: v0.1 必須、Week 2 中盤実装、写真承諾 5/29-31
+- 既存要件対応: F2.3 + 設計決定 #17 (4 人組) + #18 (えんまさ = あのむ) + 付録 D
+- 整合: ✓ 完全整合、付録 D 表記と楽器順を採用
+- 依存課題: 個別紹介文 1〜2 行 ×4（v3 中優先度 #2）/ 写真合意取得
+- label: [I: 既存 v3 §F2.3 + 付録 D + 設計決定 #17, #18]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-005: SNSBar（SNS リンクバー）
+- Persona: Primary 高橋みさき（流入元と異なる SNS への橋渡し希望者）/ Secondary 田村ブッカー
+- Trigger: ヒーロー直下到達 or 流入元 SNS と別 SNS で追いたくなった瞬間
+- Done When: 4 種 SNS の存在認識 → 好みのチャネルへタップ → 流入元以外でフォロー追加
+- Capability: CAP-007
+- User Story: ヒーロー直下に IG / YouTube / TikTok / X の 4 種アイコンが並び、流入元以外でもフォロー追加できる
+- 受け入れ基準: ① ヒーロー直下配置（D-C1 順序固定） ② アイコン + ラベル、Lucide React 等の軽量ライブラリ ③ target="_blank" + rel="noopener noreferrer"
+- Out of Scope: SNS 投稿埋め込み（設計決定 #6）/ フォロワー数表示 / 共有ボタン
+- Phase: v0.1 必須、Week 2 前半実装
+- 既存要件対応: F3.1 + F3.5 + AGENTS.md 非交渉 UX シーケンス
+- 整合: ✓ 完全整合
+- 依存課題: 各 SNS 正規 URL を data/links.ts に確定（既存運用中、取得済前提）
+- label: [I: 既存 v3 §F3 + AGENTS.md 非交渉 UX]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-006: Subscriptions（サブスクリンク + v0.5 Embed）
+- Persona: Primary 高橋みさき（Discover Weekly / Release Radar ユーザー）/ Secondary 田村ブッカー
+- Trigger: v0.1 メンバー紹介後「音聴きたい」/ v0.5+ リリース告知後の試聴
+- Done When: v0.1 「2025 年配信予定」認識 → SNS フォローで期待化 / v0.5 Embed で試聴 → プレイリスト追加
+- Capability: CAP-007（v0.5+ で楽曲入口に拡張）
+- User Story v0.1: アイコンが grayed out + 「2025 年配信予定」、期待感で SNS フォロー
+- User Story v0.5: Spotify Embed で即試聴、お気に入り追加可
+- 受け入れ基準: ① v0.1 grayed out + 「2025 年配信予定」(誤認防止) ② v0.5+ で実 URL + Embed 常時設置 (F3.4) ③ 公式 Embed のみ (設計決定 #6)
+- Out of Scope: v0.1 実 URL 有効化 / v0.1 Embed / YouTube 楽曲動画埋め込み (恒久禁止) / Bandcamp 等
+- Phase: v0.1 grayed out 必須 → v0.5 Embed 化
+- 既存要件対応: F3.2 + F3.4 + 設計決定 #6 + ドメイン言語禁止
+- 整合: ✓ 完全整合、evolving Feature 明示
+- 依存課題: v0.5 期に Artist URL 取得
+- label: [I: 既存 v3 §F3.2/F3.4 + 設計決定 #6 + AGENTS.md §5]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-007: News（お知らせ／ニュース欄）
+- Persona: Primary 高橋みさき（活動中シグナル確認、再訪動機）/ Secondary 田村ブッカー（最近の活動・メディア露出把握）
+- Trigger: サブスク後「最近どうしてる？」/ SNS 投稿で「メディア出演」見て詳細確認
+- Done When: 最新 3〜5 件を時系列把握、「活動中・定期更新」認識、再訪意欲形成
+- Capability: CAP-008（メイン）+ CAP-004（投稿前レビュー）
+- User Story: ニュース欄で最新 3〜5 件（ライブ・楽曲・メディア）時系列降順、「活動中・更新されている」確認、フォロー継続 or 再訪動機
+- 受け入れ基準: ① 時系列降順 3〜5 件（日付・タイトル・本文・タグ） ② v0.1 は data/news.ts 直書き + PR レビューえんまさ必須 (F4.2) ③ 月 1 回以上更新（毎月 1 日カレンダーリマインダー）
+- Out of Scope: コメント/いいね（DB 禁止）/ RSS（v0.5+）/ 個別詳細ページ / CMS（v0.5+ F4.3）/ 通知メール（v1.0 メーリングリスト）
+- Phase: v0.1 必須、初回投稿 = 7/11 Blue Sheep ライブ告知
+- 既存要件対応: F4.1 + F4.2 + F4.3 + 設計決定 #15
+- 整合: ✓ 完全整合、CAP-008 として v0.1 必須に格上げ（D-C4 由来）、detailed §4.5 整合
+- 依存課題: 初回投稿文面（v3 中優先度 #3）/ 月次更新リマインダー
+- label: [I: 既存 v3 §F4 + 設計決定 #15 + D-C4]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-008: ContactForm（問い合わせフォーム）
+- Persona: Primary 田村ブッカー / メディア / 対バン / Secondary 高橋みさき（D-O2 種別プルダウンで分離）
+- Trigger: サイトを見終わって「話したい」/ 業界 5 分以内判断後の最後のアクション
+- Done When: 4 項目 + Turnstile 完了 → 送信完了画面、Gmail 受信 → 24h 以内 1 次返信
+- Capability: CAP-003（メイン）+ CAP-005（環境変数）
+- User Story: 田村ブッカーが「出演依頼」カテゴリで本文送信、SNS DM 経由しない正規ルート、迅速返信期待
+- 受け入れ基準: ① 4 フィールド + 5 種カテゴリ（出演/取材/コラボ/ファン感想/その他、D-O2 D-C4 拡張） ② 送信成功で完了画面 + Resend で freoli.official@gmail.com 送達 ③ 失敗時 mailto: フォールバック（F3.3）、内部情報はクライアントに返さない（AGENTS.md §7 Gate 1）、30 秒以内完了
+- Out of Scope: 差出人ドメイン (v0.5+) / ファイル添付 / ボイス / 多言語 / 履歴管理 UI
+- Phase: v0.1 必須、Week 2 中盤集中実装、Week 1 で API キー取得
+- 既存要件対応: F3.6 + F3.3 + 設計決定 #14, #19, #20
+- 整合: ✓ 完全整合、D-O2 ファン感想追加で 5 種に拡張済み、AGENTS.md §2 API-First Zod 契約整合
+- 依存課題: Vercel 環境変数設定 / Privacy ページ連携 (FEAT-009) / honeypot 名 (website 推奨)
+- label: [I: 既存 v3 §F3.6/F3.3 + 設計決定 #14/#19/#20 + D-O2/D-C4]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-009: Privacy（プライバシーポリシーページ）
+- Persona: Primary 田村ブッカー / メディア（個人情報送信前のコンプラ確認）/ Secondary 高橋みさき（安心感）
+- Trigger: フォーム下部「プライバシーポリシーに同意する」or フッターからアクセス
+- Done When: 取得情報・利用目的・保持期間・第三者提供・削除手段を理解、安心してフォーム送信へ戻る
+- Capability: CAP-003（F5.5 として前提条件）
+- User Story: /privacy で取得情報（氏名・メアド・本文）・利用目的（返信のみ）・1 年保持・第三者提供なしを明示確認、リスク極小判断で安心打診
+- 受け入れ基準: ① /privacy 独立ページ、フッター + フォーム下部リンク ② v3 付録 B 素案起点、6 項目必須 ③ 個人情報保護法・GDPR 準拠平易な日本語
+- Out of Scope: 英語版（v1.0）/ Cookie バナー（Cookieless）/ 版管理 UI / ユーザー保有データ確認画面（そもそも保有なし）
+- Phase: v0.1 必須、Week 1 素案 → Week 2 中盤ページ実装
+- 既存要件対応: F5.5 + 付録 B
+- 整合: ✓ 完全整合、D-C4 で CAP-003 前提に明示追記済み
+- 依存課題: 付録 B 素案の法的確認、バンド継続不能時の取扱記述
+- label: [I: 既存 v3 §F5.5 + 付録 B + D-C4]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-004: PhotoGallery（バンド写真ギャラリー）[短縮]
+- Persona: Primary 高橋みさき / Trigger: メンバー紹介後「ライブの様子も見たい」/ Done When: 3〜5 枚を視認、世界観補強
+- Capability: CAP-002 + CAP-004（撮影者クレジット + 全員 Yes）
+- User Story: アー写・ライブ写真 3〜5 枚をギャラリー表示で世界観補強、ライブ参加意欲向上
+- 受け入れ基準: ① 3〜5 枚グリッド + next/image ② 被写体 Yes + 撮影者クレジット（付録 A） ③ 撮影禁止会場の写真は掲載不可
+- Out of Scope: ライトボックス / ダウンロード / コメント
+- Phase: v0.1 重要枠（時間許可時）/ 確実に Phase 2
+- 既存要件対応: F2.4 + 付録 A
+- 整合: ✓ 完全整合
+- label: [I: 既存 v3 §F2.4 + 付録 A]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-010: PastLives（過去ライブ履歴）[短縮]
+- Persona: Primary 高橋みさき + Secondary 田村ブッカー（動員力・ライブ経験判断、5 分判断の核）
+- Trigger: ライブ情報後スクロール or 業界の「これまでどれくらいライブやってる？」
+- Done When: 過去 5〜10 公演の日付・会場・対バン・自主/ブッキング区別を把握、活動実績判断
+- Capability: CAP-006
+- User Story: 過去 5〜10 公演を日付降順、動員力・対バン関係・自主企画経験を 5 分判断、ブッキング根拠化
+- 受け入れ基準: ① 過去 5〜10 件日付降順、日付・会場・対バン・自主/ブッキング区別 ② actual_attendance あればオプショナル表示（D-O1） ③ data/lives.ts 共通スキーマ管理（CAP-001 ⇄ CAP-006 依存）
+- Out of Scope: ライブ写真インライン（FEAT-004 へ）/ 個別詳細ページ / セットリスト
+- Phase: v0.1 重要枠 / 確実に Phase 2
+- 既存要件対応: F1.4 + (grill 新規) D-O1
+- 整合: ✓ 完全整合 + D-O1 反映済み
+- label: [I: 既存 v3 §F1.4 + D-O1]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-011: DeployGuard（デプロイ運用ガード）[短縮、非 UI]
+- Persona: Tech Owner えんまさ + フォールバック担当 aberyo/ひろむ
+- Trigger: コミット / PR レビュー / .env* 編集 / Vercel デプロイ失敗
+- Done When: 全変更 revert 可能、.env* 誤コミット 0 件、preview ビルド 100%、不具合時 5 分以内 revert
+- Capability: CAP-005
+- User Story: destructive コマンド hook ブロック + lib/env.ts 経由のみで、誤操作・キー漏洩リスク撲滅、頻繁デプロイ可
+- 受け入れ基準: ① prevent-destructive-command.js hook 有効化 ② .gitignore 列挙 + process.env 直接参照禁止 + lib/env.ts 経由 ③ Gate 1 (pnpm typecheck/lint/build) 全 PR 通過、preview 失敗時 main マージ禁止
+- Out of Scope: 自動ロールバック CI / ステージング環境 (Vercel preview 代替) / Secret スキャン CI (v1.0+)
+- Phase: v0.1 launch 前必須、Week 1 で hook + .gitignore + lib/env.ts
+- 既存要件対応: F5.3 + F5.4 + 技術スタック §環境変数管理 + AGENTS.md §6 Layer 1, §7
+- 整合: ✓ 完全整合、D-C4 で CAP-005 に F5.3/F5.4 明示追記済み
+- label: [I: 既存 v3 §F5.3/F5.4 + AGENTS.md §6/§7 + D-C4]
+- at: 2026-05-18T00:00:00Z
+
+### FEAT-012: ContentPolicy（CONTENT_POLICY.md 配置）[短縮、非 UI]
+- Persona: Content Owner えんまさ + メンバー 4 人（承諾フロー当事者）+ 削除依頼者
+- Trigger: コンテンツ公開前承認 / 削除依頼受領 / 新規写真追加
+- Done When: CONTENT_POLICY.md がリポジトリ直下、5 項目の権利ルール明文化
+- Capability: CAP-004
+- User Story: CONTENT_POLICY.md があり、削除依頼時の手順明文化、権利トラブル予防 + 1 営業日対応可
+- 受け入れ基準: ① リポジトリ直下配置（v3 付録 A 素案起点） ② 5 項目（メンバー写真/ライブ写真/アー写/動画/楽曲埋め込み/ニュース投稿） ③ 削除依頼連絡先 + 1 営業日 SLA 明記
+- Out of Scope: 利用規約 ToS（v1.0）/ 法的拘束力のある契約文書（弁護士監修 v1.0+）
+- Phase: v0.1 launch 前必須（D-C3 確定、現状未配置 → Week 1）
+- 既存要件対応: F5.1 + F5.2 + 付録 A + 設計決定 #15
+- 整合: ✓ 完全整合 + D-C3 で v0.1 launch 前必須タスクに格上げ
+- label: [I: 既存 v3 §F5.1/F5.2 + 付録 A + D-C3]
+- at: 2026-05-18T00:00:00Z
+
 ---
 
 ## Decisions (Resolved)
@@ -313,10 +663,18 @@ grill_target:
 - D-O1: data/lives.ts に actual_attendance: number | null フィールドを追加（O-4 由来、Capability 層 / Feature 層へ移送）
 - D-O2: F3.6 問い合わせフォームに「お問い合わせ種別」プルダウン追加（O-5 由来、Feature 層へ移送）
 - D-O3: 定性シグナル発生簿は Notion / Google Docs で外部運用（O-7 由来、運用ガイドラインへ移送）
+- D-C1: 非交渉 UX シーケンス（Hero → SNS Bar → Lives → Members → Subs → News → Contact）は Capability 独立進化の制約として明文化（C-6 由来、Feature 層判断基準）
+- D-C2: data/lives.ts 型に actual_attendance: number | null を追加（C-3, CAP-006 由来、Feature 層 F-PastLives で具体化）
+- D-C3: CONTENT_POLICY.md は v0.1 launch 前の必須タスクとして明文化（C-3, CAP-004 由来、v3 §付録 A 素案を起点）
+- D-C4: F4 ニュース機能を CAP-008 として追加（既存 2 ドキュメント整合チェック由来）+ F5.3/F5.4 を CAP-005 に明示、F5.5 を CAP-003 に明示。これで F1〜F5 全項目が Capability でカバー
+- D-F1: 用件カテゴリプルダウンを 5 種に拡張（出演依頼 / 取材・メディア / コラボ / ファン感想 / その他）。D-O2 + D-C4 の統合（FEAT-008 で確定）
+- D-F2: data/lives.ts に NextLive と PastLives の共通スキーマを採用し actual_attendance: number | null を共有（CAP-001 ⇄ CAP-006 依存、FEAT-002 / FEAT-010 で確定）
 
 ---
 
 ## Conflicts
+
+- C1: C-1 で 7 Capability に集約したが、書き出し前の整合性チェックで F4 ニュース機能の漏れ・F5.3/F5.4/F5.5 の明示不足を検出。CAP-008 追加 + CAP-003/CAP-005 への明示追記で解決（D-C4 / 2026-05-18 解決済み）。
 
 ---
 
@@ -324,6 +682,8 @@ grill_target:
 
 - V -> docs/requirements/freoli_web_platform/vision.md (written at 2026-05-18T00:00:00Z)
 - O -> docs/requirements/freoli_web_platform/outcomes.md (written at 2026-05-18T00:00:00Z)
+- C -> docs/requirements/freoli_web_platform/capabilities.md (written at 2026-05-18T00:00:00Z, 8 capabilities CAP-001〜CAP-008)
+- F -> docs/requirements/freoli_web_platform/features/ (written at 2026-05-18T00:00:00Z, 12 features FEAT-001〜FEAT-012 + index.md, B 形式ディレクトリ)
 
 ---
 
