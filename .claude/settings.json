@@ -4,7 +4,12 @@
       "Bash(bash .harness-bundle/install.sh --hooks-only)",
       "Bash(bash .harness-bundle/install.sh --templates-only)",
       "Bash(bash .harness-bundle/install.sh --skills=\"goal-grill,requirements-grill,pr-draft-summary,security-sensitive-change-review,integration-nextjs-app-router\")",
-      "Bash(node /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.claude/hooks/prevent-destructive-command.js)"
+      "Bash(node /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.claude/hooks/prevent-destructive-command.js)",
+      "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/expert-misaki-discussion.skill)",
+      "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/requirements-doc-creator.skill)",
+      "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/skill-creator.skill)",
+      "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/skill-improver.skill)",
+      "Bash(bash .harness-bundle/install.sh --skills=expert-misaki-discussion,requirements-doc-creator,skill-creator,skill-improver)"
     ]
   },
   "enabledMcpjsonServers": [],
