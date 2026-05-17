@@ -1,0 +1,197 @@
+# AGENTS.md — `<PROJECT_NAME>` エージェント向けガイドライン
+
+> このファイルは AI エージェント（Claude Code / Cursor 等）が読み込む共通ルールブック。
+> ハーネス 01 構築ガイドラインに従って作成された雛形。プレースホルダ `<...>` をプロジェクト固有の値に置き換えること。
+
+---
+
+## 1. プロダクト方針（最上位）
+
+`<PROJECT_NAME>` は `<ONE_LINE_MISSION>` を目的とする。
+
+### 設計 3 原則
+
+> **① `<PRINCIPLE_1>`**
+> `<WHY_AND_HOW>`
+
+> **② `<PRINCIPLE_2>`**
+> `<WHY_AND_HOW>`
+
+> **③ `<PRINCIPLE_3>`**
+> `<WHY_AND_HOW>`
+
+### 非交渉の UX シーケンス（必要な場合のみ）
+
+```
+<STEP_1> → <STEP_2> → <STEP_3> → ...
+```
+
+この順序は絶対に変えない。順序を崩すと `<EXPECTED_FAILURE_MODE>`。
+
+---
+
+## 2. API-First 設計 & 型安全な契約
+
+- **厳格ルール:** API リクエスト / レスポンスの型定義を TypeScript で完成させ main ブランチにマージするまで、フロントエンド実装を開始してはならない。
+- **コントラクト駆動開発:** 型定義が確定するまで、フロントエンドは合意済みの型に基づいたモックデータで開発を進める。
+
+---
+
+## 3. レイヤードアーキテクチャ（役割分担）
+
+- **バックエンド/インフラ層:** `<BACKEND_OWNER>` が担当。DB スキーマ・認可・API 型定義・コアロジックを担う。
+- **フロントエンド/要件層:** `<FRONTEND_OWNER>` が担当。UI/UX 実装・要件定義を担う。
+
+---
+
+## 4. 技術スタック
+
+- **スタック:** `<FRAMEWORK_AND_VERSION>` / `<DB>` / `<AUTH>` / `<HOSTING>` / TypeScript / etc.
+- **パッケージマネージャ:** `<pnpm | npm | yarn | bun>` のみ使用。他は禁止。
+- **環境変数:** `.env.local` で管理。リポジトリには絶対にコミットしない。アプリケーションコード内では `<ENV_WRAPPER>` 経由でのみ読む。`process.env` の直接参照禁止。
+
+---
+
+## 5. ドメイン言語 — 禁止表現（任意）
+
+ユーザーが目にする文言（UI コピー・AI プロンプト・エラーメッセージ・シェアカード）に以下を含めない：
+
+- **禁止語:** `<LIST_OF_BANNED_WORDS>`
+- **禁止理由:** `<WHY>`
+- **代替表現:** `<ALTERNATIVES>`
+- **例外:** コード内の変数名・DB カラム名では正式名称の使用可。
+
+---
+
+## 6. Protected Areas（AI エージェント操作境界）
+
+リスクレベル **`<R1|R2|R2+|R3>`**。判定根拠は `docs/harness/HARNESS_DECISIONS.md` 参照。
+
+### Layer 1：インフラ層（hook で自動ブロック・人間が手動でのみ実行）
+
+`.claude/hooks/prevent-destructive-command.js` が以下を実行時にブロックする：
+
+- DB マイグレーション破壊コマンド
+- 危険な SQL（`DROP TABLE` / `TRUNCATE` / RLS 無効化等）
+- `.env*` ファイル読み取り
+- `git push --force` / `git reset --hard`
+- `rm -rf` 引数なし
+
+ファイルパスとしての保護対象：
+
+- `<DB_MIGRATIONS_PATH>` — 例: `supabase/migrations/**`、`prisma/migrations/**`
+- `.env*` すべて（`.env.example` 含む）
+- `<AUTH_CONFIG_PATH>` — 例: `middleware.ts` の認証設定、`lib/auth/**`
+
+### Layer 2：コンテンツ層（変更前に意味設計担当 = `<CONTENT_OWNER>` 承認必須）
+
+- `<CONTENT_PATH_1>` — 例: `lib/prompts/**`（AI プロンプト）
+- `<CONTENT_PATH_2>` — 例: `lib/copy/**`（公開コピー）
+- `<CONTENT_PATH_3>` — 例: `lib/pricing/**`（価格ロジック）
+
+### Layer 3：開発層（AI 委任 OK）
+
+- `app/**` — ページ・レイアウト
+- `components/**` — UI コンポーネント
+- `app/api/**` — API ルート（PR レビュー前提）
+
+> **Gate 2 適用注意**：Layer 3 ファイルでも、UI コピー・文言・UX フロー・ブランド要素を変更する場合は意味設計担当の承認（Gate 2）が必要。
+
+---
+
+## 7. レビューゲート（Gate 1 / Gate 2）
+
+AI が生成した全 PR は以下の 2 層ゲートを通過してマージする。
+
+### Gate 1（`<TECH_OWNER>` 担当）— 技術的適合性：全 PR 必須
+
+| チェック項目 | 観点 |
+|---|---|
+| 認可（IDOR 防御） | ユーザースコープが全 CRUD で確認されているか |
+| 認証連携 | JWT / セッション取得が共通ヘルパー経由か |
+| 型安全境界 | API 入力値が Zod 等で検証されているか |
+| N+1・漏洩クエリ | ループ内 DB 呼び出しなし / 不要カラム露出なし |
+| エラー境界 | 内部エラーをそのままクライアントに返していないか |
+
+### Gate 2（`<CONTENT_OWNER>` 担当）— 意味的妥当性
+
+| 変更タイプ | 対象パス | 添付物 |
+|---|---|---|
+| AI プロンプト変更 | `<PROMPT_PATH>` | AI 応答サンプル 3 件（before/after） |
+| ロジック変更 | `<LOGIC_PATH>` | 結果サンプル 3 ケース（before/after） |
+| UI コピー変更 | `components/**` / `app/**` のテキスト | プレビュー URL + 変更文言 diff |
+| UX フロー変更 | ページ順序・フォーム順序 | プレビュー URL + フロー図 |
+
+Gate 2 **対象外**: スタイリングのみ / バグ修正（表示内容変更なし）/ リファクタリング
+
+### 検証コマンド
+
+- `<typecheck_command>` — 例: `pnpm typecheck`
+- `<lint_command>` — 例: `pnpm lint`
+- `<build_command>` — 例: `pnpm build`
+
+### 機能完了の定義
+
+> **機能完了 = 型チェック通過（機械）＋ ビルド成功（機械）＋ 動作確認済み（`<CONTENT_OWNER>`）**
+
+3 条件が揃うまで main マージ不可。「ビルドが通ったから完了」は禁止。
+
+#### 壊れ方 3 パターン（タスク着手時に該当を宣言）
+
+| パターン | 症状 | 確認手段 |
+|---|---|---|
+| ① ロジック破綻 | 同一入力で異なる結果 | 単体テスト |
+| ② 状態不整合 | 書き込んだのに読めない（認可 + 認証） | プレビュー URL + 手動ログ確認 |
+| ③ UX 断絶 | API は動くが UI が仕様と違う | プレビュー URL での目視確認 |
+
+---
+
+## 8. ブランチ管理規則
+
+ブランチは必ず `/start-task <タスク説明>` で作成する（同梱の skill）。
+
+### 命名規則
+
+| プレフィックス | 用途 |
+|---|---|
+| `feature/<slug>` | 新機能開発 |
+| `fix/<slug>` | バグ修正 |
+| `docs/<slug>` | ドキュメント |
+| `chore/<slug>` | 設定・依存関係・CI |
+| `refactor/<slug>` | リファクタリング |
+
+- `<slug>` は kebab-case（例：`feature/42-user-profile`）
+- 日本語・スペース禁止
+
+### 自動化ルール（3 原則）
+
+- **Merge Once, Delete Immediately**：PR マージ後ブランチは自動削除
+- **Name First, Automate Second**：命名規則違反は PR コメントで警告のみ（マージブロックなし）
+- **Long-term Branches are Explicit**：長期育成ブランチは `.github/PROTECTED_BRANCHES.txt` に明示列挙
+
+---
+
+## 9. スキル使い分けガイド
+
+### ワークフローコマンド
+
+| タイミング | コマンド | やること |
+|---|---|---|
+| タスク着手時 | `/start-task <タスク説明>` | pre-flight チェック + ブランチ作成 |
+| 実装完了時 | `/finish-task [PR タイトル]` | typecheck/lint + commit + push/PR 作成 |
+
+### 場面別の skill
+
+| 場面 | skill |
+|---|---|
+| 実装前のゴール確認（単一機能・タスク） | `/goal-grill` |
+| 全体要件を Vision→EngSpec まで段階的に深掘り | `/requirements-grill` |
+| 全機能のシステム要件定義・PRD | `/requirements-doc-creator` |
+| 認証・DB migration・API route 変更時 | `/security-sensitive-change-review` |
+| 議論・ブレスト・複数視点での検討 | `/expert-misaki-discussion` |
+| 既存 skill の改善 | `/skill-improver` |
+| 新規 skill の作成・eval | `/skill-creator` |
+| skill を中央 hub へ publish / install | `/skill-shipper` |
+| Issue + TSK ファイル一括生成 | `/task-issue-generator` |
+| PR ドラフト要約生成 | `/pr-draft-summary` |
+| Next.js App Router プロジェクト初期化 | `/integration-nextjs-app-router` |

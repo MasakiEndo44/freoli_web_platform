@@ -1,0 +1,24 @@
+# CODEOWNERS — `<PROJECT_NAME>`
+# 構文: <path-pattern> <@reviewer> [<@reviewer2> ...]
+# https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+
+# === デフォルト ===
+*                           @<PROJECT_OWNER>
+
+# === Layer 1：インフラ層（人間が手動でのみ実行）===
+/.github/                   @<PROJECT_OWNER>
+/.claude/                   @<PROJECT_OWNER>
+/supabase/                  @<TECH_OWNER>
+/prisma/                    @<TECH_OWNER>
+.env*                       @<PROJECT_OWNER>
+
+# === Layer 2：コンテンツ層（意味設計担当の承認必須）===
+/lib/prompts/               @<CONTENT_OWNER>
+/lib/copy/                  @<CONTENT_OWNER>
+/lib/pricing/               @<CONTENT_OWNER>
+
+# === Layer 3：開発層（AI 委任 OK・1 名以上のレビュー）===
+/app/                       @<FRONTEND_OWNER>
+/components/                @<FRONTEND_OWNER>
+/app/api/                   @<TECH_OWNER>
+/lib/                       @<TECH_OWNER>

@@ -1,0 +1,36 @@
+# CODEOWNERS — FREOLI Web Platform
+# 構文: <path-pattern> <@reviewer> [<@reviewer2> ...]
+# https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Bootstrap 期：えんまさ（@MasakiEndo44）が Owner / Tech Owner / Content Owner を兼任。
+# コラボレーター招待後にひろむ・aberyo を追加し、本ファイルを「Honest CODEOWNERS」原則に
+# 従って全員記載に更新する。
+
+# === デフォルト ===
+*                           @MasakiEndo44
+
+# === Layer 1：インフラ層（人間が手動でのみ実行）===
+/.github/                   @MasakiEndo44
+/.claude/                   @MasakiEndo44
+/.harness-bundle/           @MasakiEndo44
+.env*                       @MasakiEndo44
+/next.config.js             @MasakiEndo44
+/next.config.mjs            @MasakiEndo44
+/vercel.json                @MasakiEndo44
+/tsconfig.json              @MasakiEndo44
+/package.json               @MasakiEndo44
+/pnpm-lock.yaml             @MasakiEndo44
+
+# === Layer 2：コンテンツ層（Content Owner の承認必須）===
+/data/                      @MasakiEndo44
+/CONTENT_POLICY.md          @MasakiEndo44
+/app/privacy/               @MasakiEndo44
+/public/images/members/     @MasakiEndo44
+/public/images/lives/       @MasakiEndo44
+
+# === Layer 3：開発層（AI 委任 OK・1 名以上のレビュー）===
+/app/                       @MasakiEndo44
+/components/                @MasakiEndo44
+/app/api/                   @MasakiEndo44
+/lib/                       @MasakiEndo44
+/styles/                    @MasakiEndo44
