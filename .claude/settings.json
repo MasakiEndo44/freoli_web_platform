@@ -24,7 +24,19 @@
       "Bash(pnpm build *)",
       "Bash(awk '/^---$/{c++} END{print \"--- count:\", c}' /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/docs/design/v0.1/design_spec.md)",
       "Bash(pnpm --version)",
-      "Bash(pnpm install *)"
+      "Bash(pnpm install *)",
+      "Bash(claude plugin *)",
+      "Bash(curl -s https://api.github.com/repos/anthropics/claude-plugins-official/contents/plugins)",
+      "Read(//private/tmp/**)",
+      "Bash(curl -s https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/plugins/README.md)",
+      "Bash(curl -s 'https://api.github.com/repos/anthropics/claude-plugins-official/git/trees/main?recursive=1')",
+      "Bash(curl -s 'https://api.github.com/repos/anthropics/claude-plugins-official/contents/plugins?per_page=100')",
+      "Bash(curl -s 'https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/plugins/pr-review-toolkit/plugin.json')",
+      "Bash(curl -s 'https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/plugins/frontend-design/plugin.json')",
+      "Bash(curl -s 'https://api.github.com/repos/anthropics/claude-plugins-official/contents/plugins/pr-review-toolkit')",
+      "Bash(curl -s 'https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/plugins/pr-review-toolkit/README.md')",
+      "Bash(curl -s 'https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/plugins/frontend-design/README.md')",
+      "Bash(curl -s 'https://api.github.com/repos/anthropics/claude-plugins-official/contents/plugins')"
     ]
   },
   "enabledMcpjsonServers": [],
