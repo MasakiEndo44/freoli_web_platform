@@ -26,7 +26,7 @@ export type InputProps = TextInputProps | TextareaInputProps;
 
 const labelClass = "font-jp text-sm font-medium text-zinc-50 mb-2 block";
 const fieldBase =
-  "w-full bg-zinc-900 border border-zinc-800 text-zinc-50 placeholder-zinc-500 rounded-md px-4 py-3 transition-colors duration-150 focus:outline-none focus:border-cyan-400";
+  "w-full bg-zinc-900/80 backdrop-blur-sm border border-zinc-800 text-zinc-50 placeholder-zinc-500 rounded-md px-4 py-3 transition-colors duration-150 focus:outline-none focus:border-cyan-400";
 const fieldError = "border-red-400 ring-1 ring-red-400/50";
 
 function splitBase<T extends BaseInputProps>(props: T) {
