@@ -53,6 +53,20 @@ applies_to:
   - **NextLive チケット枠の左ライン**：`border-l-2 border-cyan-400 shadow-[-2px_0_12px_rgba(34,211,238,0.2)]`
 - **不採用**：B-a 点光源・B-c アウトラインは v0.1 では使用しない（v0.5 以降のリブランディング時に再評価）
 
+### 1.3 背景画像（リキッドテクスチャ）
+
+> v0.1の追加仕様として、単なる `bg-black` ではなく、リキッド状のサイバースタイル背景画像を採用する。
+
+- **アセットパス**：`public/images/background/liquid-bg.png`
+- **デザイン原則**：
+  - **Atmosphere over Detail**：画像をハッキリ見せるのではなく、暗く落としてボカすことで「ライブハウスの空気感」を演出する。
+  - **Contrast is King**：テキストのコントラスト比（4.5:1）を死守する。
+- **具体的実装仕様**：
+  - `background-image: url('/images/background/liquid-bg.png')`
+  - `background-attachment: fixed`
+  - `background-size: cover`
+  - 画像の不透明度は `20%` 程度に落とし、背景の `bg-black` とブレンドするか、上に半透明の黒レイヤーを重ねる。
+
 ---
 
 ## 2. Typography Scale
