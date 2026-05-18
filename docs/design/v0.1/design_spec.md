@@ -59,15 +59,55 @@ applies_to:
 
 - **アセットパス**：`public/images/background/liquid-bg.png`
 - **デザイン原則**：
+  - **Visible by Default, Restrained by Choice**：背景は最初から「見える」ことを保証し、調整は opacity / blur で控えめにする。「見えない可能性」を含む実装は採用しない（PR #6 → fix での教訓）。
   - **Deep Authentic Blue**：原画から抽出した極めて濃い青をベースに、シアンやマゼンタの発光を引き立てる。
   - **Glassmorphism Texture**：すりガラスのような半透明と光の屈折を加えることで高級感と可読性を両立する。
-  - **Atmosphere over Detail**：ディテールよりも「深夜のライブハウスの空気感」の演出を優先する。
+  - **Atmosphere over Detail**：ディテールよりも「深夜のライブハウスの空気感」の演出を優先する。ただし atmosphere は閾値ベースの知覚現象であり、閾値を下回ったら表現として 0 と等価。
   - **Contrast is King**：テキストのコントラスト比（4.5:1）を死守する。
-- **具体的実装仕様**：
-  - `background-image: url('/images/background/liquid-bg.png')`
-  - `background-attachment: fixed`
-  - `background-size: cover`
-  - 画像自体にグラスモーフィズムの質感が含まれているため、CSS側のボカシ（`filter: blur()`）や不透明度の極端な引き下げは、画像の鮮やかさや質感を殺さない範囲（必要最小限）で調整する。
+
+#### 4 層 Stacking Contract（必須）
+
+`body { background-color: black }` を `body::before { z-index: -1 }` の前面に置くと擬似要素が完全に隠蔽される CSS の仕様があるため、以下の 4 層契約で実装する：
+
+| 層 | 要素 | 役割 |
+|---|---|---|
+| 1 (最背面) | `html` | `bg-black` で fallback 色を保証 |
+| 2 | `body` | `background: transparent`（空気層） |
+| 3 | `body::before` | `z-index: 0` で背景画像を浮かべる |
+| 4 (最前面) | `body > *`（main 等） | `position: relative; z-index: 1` でコンテンツを前面に出す |
+
+各セクションに不透明な `bg-black` を当てるとこの契約が破れる（背景画像が遮蔽される）ため、可読性が必要な場合は半透明オーバーレイ（`bg-black/40` 等）で個別調整する。SNSBar の `bg-zinc-950` は「個性のあるラインとして強調」の意図なので維持してよい。
+
+#### 具体的実装仕様（正本）
+
+```css
+html { @apply bg-black; color-scheme: dark; }
+body {
+  @apply text-zinc-50 antialiased;
+  background: transparent;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/images/background/liquid-bg.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.7;
+  filter: blur(4px);
+  z-index: 0;
+  pointer-events: none;
+}
+body > * {
+  position: relative;
+  z-index: 1;
+}
+```
+
+- `opacity: 0.7`（旧 0.6 から微増、「世界観 1 秒検知」要件を満たすため）
+- `filter: blur(4px)` は維持（画像の質感を損なわない範囲）
+- `z-index` は `0` を採用（`-1` は body 塗りに隠蔽されるため不採用）
 
 ---
 
