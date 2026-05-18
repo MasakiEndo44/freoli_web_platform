@@ -108,13 +108,20 @@ applies_to:
 
 | 用途 | Tailwind クラス | px 換算 |
 |---|---|---|
-| Section 垂直余白 | `py-16 md:py-24` | 64〜96 / 96〜144 |
+| Section 垂直余白（汎用） | `py-16 md:py-24` | 64〜96 / 96〜144 |
+| Hero 下部 padding | `px-[22px] pb-[30px]` / `md:px-16 md:pb-14` | Mobile 22/30 / Desktop 64/56 |
+| NextLive Section padding | `px-[22px] py-10` / `md:px-16 md:pt-[52px] md:pb-14` | — |
+| SNS Bar padding | `px-5 py-[14px]` / `md:px-16 md:py-[18px]` | Mobile 20/14 / Desktop 64/18 |
 | コンテナ最大幅 | `max-w-6xl mx-auto px-4 md:px-8` | 1152px |
-| Card padding | `(主案で確定、例 p-6 md:p-8)` | — |
-| Card 間ギャップ | `(主案で確定、例 gap-4 md:gap-6)` | — |
-| Form input padding | `(主案で確定、例 px-4 py-3)` | — |
-| Form input 間ギャップ | `(主案で確定、例 gap-4)` | — |
-| Button padding | `(主案で確定、例 px-6 py-3)` | — |
+| Card padding (NextLive チケット予約枠) | `px-6 py-5` | 24/20 |
+| Card padding (汎用 Members 等) | `p-6 md:p-8` | — |
+| Card 間ギャップ | `gap-4 md:gap-6` | 16 / 24 |
+| Form input padding | `px-4 py-3` | 16 / 12 |
+| Form input 間ギャップ | `gap-4` | 16 |
+| Button padding (Hero CTA) | `px-[22px] py-[11px]` / `md:px-7 md:py-[13px]` | Mobile 22/11 / Desktop 28/13 |
+| Button padding (汎用) | `px-6 py-3` | 24 / 12 |
+
+> **22px / 30px / 52px のカスタム値について**：採用案（[freoli-final.jsx](../references/freoli-final.jsx)）のレイアウトバランスを保持するため、Tailwind 標準スケール（`px-6`=24px 等）に丸めずカスタム任意値で残す。`tailwind.config.ts` の `theme.extend.spacing` に追加トークンとしては登録せず、`px-[22px]` 形式で都度指定する方針。
 
 ---
 
@@ -127,23 +134,30 @@ applies_to:
 | プロパティ | 値 |
 |---|---|
 | Variants | `primary` / `secondary` / `ghost` / `link` |
-| Height | `(主案で確定、例 h-12 / md:h-14)` |
-| Padding | `(主案で確定、例 px-6)` |
-| Border radius | `(主案で確定、例 rounded-full or rounded-lg)` |
-| Font | `text-base font-semibold` |
-| Min tap area | 44px × 44px（WCAG / iOS HIG 準拠、`min-h-[44px]`） |
+| Height | `min-h-[44px]`（タップエリア基準を全 variant で強制） |
+| Padding (Hero CTA, primary) | `px-[22px] py-[11px] md:px-7 md:py-[13px]` |
+| Padding (汎用) | `px-6 py-3` |
+| Border radius | `rounded-none`（採用案は角張ったフラット形状を採用） |
+| Font (Hero CTA) | `font-inter font-bold text-xs md:text-sm tracking-[0.06em]` |
+| Font (汎用) | `font-inter font-semibold text-base` |
+| Primary 背景・文字 | `bg-cyan-400 text-black`（hover: `bg-cyan-500`） |
+| Secondary | `border border-cyan-400 text-cyan-400 bg-transparent`（hover: `bg-cyan-400/10`） |
+| Min tap area | 44px × 44px（WCAG 2.2 / iOS HIG 準拠、`min-h-[44px] min-w-[44px]`） |
 | States | `normal / hover / focus-visible / disabled / loading` |
-| Focus ring | `focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black` |
+| Focus ring | `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black` |
 | Transition | `transition-colors duration-150` |
+| アイコン併用 | 右側矢印は inline-flex で `gap-2.5`（10px）、SVG 12〜14px |
+
+> **注**：採用案の Hero CTA は本来 padding が 11px / 13px で 44px 未満になる。Spec 上は `min-h-[44px]` を強制し、padding は維持しつつ高さを自動拡張する。実装時に視覚的バランスが崩れる場合は Content Owner と再調整。
 
 ### 4.2 Input
 
 | プロパティ | 値 |
 |---|---|
 | Types | `text` / `email` / `textarea` |
-| Height (text/email) | `(主案で確定、例 h-12)` |
-| Padding | `(主案で確定、例 px-4 py-3)` |
-| Border radius | `(主案で確定、例 rounded-md)` |
+| Height (text/email) | `h-12`（48px、`min-h-[44px]` 担保） |
+| Padding | `px-4 py-3` |
+| Border radius | `rounded-md`（採用案の NextLive チケット枠 6px と同系統） |
 | Border | `border border-zinc-800` → focus 時 `border-cyan-400` |
 | Background | `bg-zinc-900` |
 | Text color | `text-zinc-50` |
@@ -158,10 +172,11 @@ applies_to:
 |---|---|
 | Background | `bg-zinc-900` |
 | Border | `border border-zinc-800` |
-| Border radius | `(主案で確定、例 rounded-lg)` |
-| Padding | `(主案で確定、例 p-6 md:p-8)` |
+| Border radius | `rounded-md`（6px、採用案 NextLive チケット枠と統一） |
+| Padding | `px-6 py-5`（NextLive 系）/ `p-6 md:p-8`（Members 等の汎用） |
 | Variants | `default / hoverable / featured` |
-| Hover (hoverable) | `(主案で確定、例 hover:border-cyan-400 transition-colors)` |
+| Hover (hoverable) | `hover:border-cyan-400 transition-colors duration-200` |
+| Featured (NextLive チケット強調) | 左ボーダーを `border-l-2 border-cyan-400` + `shadow-[-2px_0_12px_rgba(34,211,238,0.2)]` で発光 |
 
 ### 4.4 SectionContainer
 
@@ -177,10 +192,12 @@ applies_to:
 
 | Variant | クラス | 用途 |
 |---|---|---|
-| `h1` | `(主案で確定)` | Hero タイトル |
-| `h2` | `text-2xl md:text-4xl font-bold` | セクション見出し |
-| `h3` | `text-xl md:text-2xl font-semibold` | サブ見出し |
-| `eyebrow` | `text-sm font-semibold tracking-widest uppercase text-cyan-400` | セクション上の小見出し（主案で採用するか確定） |
+| `h1` | `font-inter font-extrabold text-[64px] md:text-[116px] tracking-[-0.03em] md:tracking-[-0.036em] leading-[0.92] md:leading-[0.88] text-zinc-50` | Hero タイトル（英文ロゴ "FREOLI"） |
+| `h2` | `font-jp font-bold text-2xl md:text-4xl text-zinc-50` | セクション見出し |
+| `h3` | `font-jp font-semibold text-xl md:text-2xl text-zinc-50` | サブ見出し |
+| `eyebrow` | `font-inter font-semibold text-[9px] tracking-[0.28em] text-zinc-400 uppercase`（先頭に半角ダッシュ "— " を付与する運用） | セクション上の小見出し。採用案では `"— NEXT LIVE"` 形式で使用 |
+
+> **採用案との差分**：`eyebrow` の色を従来案の `text-cyan-400` から `text-zinc-400` に変更（採用案の NextLive 上部ラベルが zinc-400 で実装されているため）。アクセント色を強調したい場合のみ `text-cyan-400` のバリアントを許可。
 
 ---
 
@@ -190,14 +207,17 @@ applies_to:
 
 ### 5.1 ブレイクポイントごとの主な変化
 
+採用案は **375px と 1024px の 2 アートボード** のみ用意されている。中間帯（640〜1023px）の振る舞いは下表の方針で実装する：**`lg:` 未満は Mobile レイアウトを流用** し、`lg:` で Desktop へ一段で切替える。
+
 | 画面幅 | Hero | Members | NextLive | Form |
 |---|---|---|---|---|
-| 320〜639px | 縦並び、Hero 写真フル幅、テキスト中央寄せ | 縦並び（1 列） | 単一カラム | 縦並び |
-| 640〜1023px | 同上 or 軽く 2 カラム | 2 列グリッド | 単一カラム or 2 カラム | 縦並び |
-| 1024〜1535px | 2 カラム or レイアウト変更 | 4 列グリッド | 2 カラム（情報 + マップ） | フォーム + 補助情報の 2 カラム |
-| 1536px〜 | 同上 + 余白拡大 | 4 列グリッド + 余白拡大 | 同上 | 同上 |
+| 320〜1023px (Mobile) | 縦並び、Hero 写真フル幅、テキスト下部 22px 余白、FREOLI 64px | 縦並び（1 列） | 単一カラム、日付大型は 64px に縮小 | 縦並び |
+| 1024〜1535px (Desktop) | 同レイアウト + 余白 64px、FREOLI 116px | 4 列グリッド | 2 カラム（左：日付+会場 / 右：時間+価格+CTA） | フォーム + 補助情報の 2 カラム |
+| 1536px〜 (Wide) | 余白のみ拡大、最大幅 1152px で頭打ち | 4 列グリッド + 余白拡大 | 同上 | 同上 |
 
-詳細は Figma の Frame と照合。
+> **Mobile/Desktop の Hero 構造は同一**（Hero photo + テキスト下部寄せ + SNSBar）。Desktop 化に伴う構造変更はない。サイズ・余白のみ Tailwind `md:` / `lg:` プレフィックスで切替える。
+>
+> Tablet 帯（640〜1023px）に独自レイアウトは設けない。これは v0.1 のスコープ短縮判断であり、v0.5 以降で必要なら再設計する。
 
 ### 5.2 タップエリア最低値
 
@@ -237,13 +257,25 @@ applies_to:
 | Image alt | 全 `<Image>` に `alt` 必須（装飾は `alt=""`） |
 | Skip link | v0.1 ではスコープ外（単一ページなので） |
 
+### 7.1 採用案レビューで検出した修正必須事項
+
+実装時に以下を **デザイン成果物から修正して反映** する：
+
+| # | 検出箇所 | 問題 | 実装時の修正方針 |
+|---|---|---|---|
+| 1 | SNS バー（Mobile・Desktop 共通） | SVG アイコン 18〜20px のみで `min-h-[44px] min-w-[44px]` 未達 | `<a>` ラッパで `flex items-center justify-center min-h-11 min-w-11 p-3` を確保し、視覚的なアイコンサイズは維持 |
+| 2 | Desktop SNS バーのアイコン下ラベル文字色 | `text-zinc-600` (#52525b) × `bg-zinc-950` (#0a0a0a) ≈ 2.4:1（4.5:1 未達） | ① `text-zinc-400` (#a1a1aa, 約 7.2:1) に昇格、または ② ラベルを削除して `aria-label` 属性で代替 |
+| 3 | Hero CTA `bg-cyan-400` × `text-black` のテキストサイズ 12px | 大テキスト基準 18.66px 未満なので 4.5:1 必要 | cyan-400 × black ≈ 14.5:1 で問題なし、ただし最終確認は実装時 |
+| 4 | Hero CTA のタップエリア（padding 11/13px のみ → 高さ約 34/40px） | 44px 未達 | `min-h-[44px]` を強制（§4.1 で規定済み） |
+| 5 | NextLive チケット予約カードの「予約する →」ボタン padding 12/24px | 高さ約 38px、44px 未達 | `min-h-[44px]` を強制 |
+
 ---
 
 ## 8. 受け入れチェック（Stage 4 完了判定）
 
-- [ ] 上記すべての `(主案で確定)` 項目が埋まっている
-- [ ] `tailwind.config.ts` に Color Tokens / Typography Scale が反映済み
-- [ ] `app/globals.css` に base スタイル + フォント変数が設定済み
+- [x] 上記すべての `(主案で確定)` 項目が埋まっている（2026-05-18 完了）
+- [x] `tailwind.config.ts` に Color Tokens / Typography Scale が反映済み（2026-05-18 完了。Color は Tailwind 標準色を直接 class で利用する方針のため `theme.extend.colors` への登録は行わず、`theme.extend.fontFamily` で `font-inter` / `font-jp` のみ追加。タイポは Hero など Inter / Noto Sans JP 含むカスタム値を都度 `text-[64px]` 形式で指定する方針）
+- [x] `app/globals.css` に base スタイル + フォント変数が設定済み（2026-05-18 完了。`@layer base` で body を `bg-black text-zinc-50 antialiased` に固定、`font-family` に `--font-noto-sans-jp` / `--font-inter` を CSS 変数経由で適用。`app/layout.tsx` で `next/font/google` から Inter + Noto Sans JP を読み込み、`html` 要素に `lang="ja"` と両フォント variable を付与）
 - [ ] 5 プリミティブが `/styleguide` で全状態表示
 - [ ] レスポンシブ 4 ブレイクポイントで崩れなし
 - [ ] コントラスト比 4.5:1 を Lighthouse or DevTools で確認
@@ -255,6 +287,6 @@ applies_to:
 | 日付 | 更新内容 | 担当 |
 |---|---|---|
 | `(YYYY-MM-DD)` | 初版作成（テンプレート配置時） | endo |
-| `(YYYY-MM-DD)` | Stage 2 主案確定値を転記 | endo |
-| `(YYYY-MM-DD)` | Stage 3 で `tailwind.config.ts` 反映完了 | endo |
+| 2026-05-18 | Stage 2 主案 = HE-01（A-a × B-b × C-c）+ NextLive-2 を `docs/design/references/freoli-final.jsx` から転記。§1〜§5・§7 のプレースホルダ全埋め、§7.1 に SNS バー / CTA タップエリア・コントラスト修正方針を追加 | endo |
+| 2026-05-18 | Stage 3：`tailwind.config.ts` に `font-inter` / `font-jp` を登録、`app/globals.css` で body を dark 固定 + フォント変数適用、`app/layout.tsx` を `next/font/google` の Inter + Noto Sans JP に差替え（Geist 削除）、`lang="ja"` 化。`pnpm typecheck` / `pnpm lint` 通過 | endo |
 | `(YYYY-MM-DD)` | Stage 4 で 5 プリミティブ実装完了 | endo |

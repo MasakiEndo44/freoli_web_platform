@@ -21,7 +21,10 @@
       "Bash(pnpm add *)",
       "Bash(pnpm typecheck *)",
       "Bash(pnpm lint *)",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(awk '/^---$/{c++} END{print \"--- count:\", c}' /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/docs/design/v0.1/design_spec.md)",
+      "Bash(pnpm --version)",
+      "Bash(pnpm install *)"
     ]
   },
   "enabledMcpjsonServers": [],
