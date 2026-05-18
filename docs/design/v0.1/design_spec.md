@@ -32,23 +32,26 @@ applies_to:
 | Background (base) | `bg-black` | `#000000` | ページ全体の地色 |
 | Background (subtle) | `bg-zinc-950` | `#0a0a0a` | セクション切替の弱コントラスト |
 | Surface (card) | `bg-zinc-900` | `#18181b` | Card / Input 背景 |
-| Primary | `(主案で確定)` | `(値)` | cyan-400 / sky-400 のどちらを主として使うか確定 |
-| Primary Hover | `(主案で確定)` | `(値)` | cyan-500 / sky-500 |
+| Primary | `bg-cyan-400` / `text-cyan-400` | `#22d3ee` | CTA 背景・アクセント線・価格強調。`FR.cy4` に対応 |
+| Primary Hover | `bg-cyan-500` / `text-cyan-500` | `#06b6d4` | Button / Link hover |
+| Accent (補助) | `bg-sky-400` / `text-sky-400` | `#38bdf8` | Hero サブコピー・グラデーション起点。`FR.sk4` に対応 |
 | Text Primary | `text-zinc-50` | `#fafafa` | 本文・見出し |
-| Text Secondary | `text-zinc-400` | `#a1a1aa` | キャプション・補助情報 |
+| Text Secondary | `text-zinc-400` | `#a1a1aa` | キャプション・補助情報（コントラスト比 4.5:1 を担保する下限） |
+| Text Tertiary | `text-zinc-500` | `#71717a` | 装飾的ラベル（コントラスト 4.5:1 を満たさないため意味ある文字に使用禁止） |
 | Border | `border-zinc-800` | `#27272a` | カード枠・区切り線 |
-| Error | `(主案で確定、推奨 red-400)` | `(値)` | フォームエラー |
-| Success | `(主案で確定、推奨 emerald-400)` | `(値)` | フォーム送信成功 |
+| Error | `text-red-400` / `border-red-400` | `#f87171` | フォームエラー |
+| Success | `text-emerald-400` | `#34d399` | フォーム送信成功 |
 
 ### 1.2 ネオン光の表現パターン（主案の軸 B 選択を反映）
 
-主案で採用した軸 B（点光源 / グラデーション / アウトライン）に応じて記載：
-
-- **採用パターン**：`(B-a / B-b / B-c のいずれか)`
-- **具体的実装**：
-  - 例（B-a 点光源採用時）：`text-cyan-400 drop-shadow-[0_0_8px_rgb(34,211,238,0.5)]`
-  - 例（B-b グラデーション採用時）：`bg-gradient-to-b from-sky-400/20 via-black to-black`
-  - 例（B-c アウトライン採用時）：`border border-cyan-400 text-cyan-400 bg-transparent`
+- **採用パターン**：**B-b（sky→cyan グラデーション wash）**
+- **設計意図**：写真上に sky-400 → cyan-400 の薄い斜めグラデーションを乗せ、下部は黒へフェードしてテキスト可読性を確保。点光源やアウトラインは Hero では使用しない。
+- **具体的実装パターン**：
+  - **Hero カラーウォッシュ**：`bg-[linear-gradient(148deg,rgba(56,189,248,0.22)_0%,rgba(34,211,238,0.14)_40%,transparent_66%)]`（Mobile）/ `bg-[linear-gradient(148deg,rgba(56,189,248,0.20)_0%,rgba(34,211,238,0.12)_42%,transparent_68%)]`（Desktop）
+  - **下部ダークフェード**：`bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.66)_60%,#000_100%)]`（Mobile, 22%/55%/100% を Desktop で使用）
+  - **CTA / アクセント線**：純色 `bg-cyan-400` を使用（グロー効果は使わない、フラットに振る）
+  - **NextLive チケット枠の左ライン**：`border-l-2 border-cyan-400 shadow-[-2px_0_12px_rgba(34,211,238,0.2)]`
+- **不採用**：B-a 点光源・B-c アウトラインは v0.1 では使用しない（v0.5 以降のリブランディング時に再評価）
 
 ---
 
@@ -65,24 +68,36 @@ applies_to:
 
 ### 2.2 スケール（主案で確定する）
 
-| 用途 | Tailwind クラス | Figma 上のサイズ |
+| 用途 | Tailwind クラス | デザイン上のサイズ |
 |---|---|---|
-| Hero Title (英文ロゴ) | `(主案で確定、例 text-5xl md:text-7xl font-bold)` | `(Figma 値)` |
-| Hero Subtitle (日本語キャッチ) | `(主案で確定、例 text-base md:text-xl font-medium)` | `(Figma 値)` |
-| Section Heading (h2) | `text-2xl md:text-4xl font-bold` | `(Figma 値)` |
-| Sub Heading (h3) | `text-xl md:text-2xl font-semibold` | `(Figma 値)` |
-| Body | `text-base md:text-lg` | `(Figma 値)` |
-| Caption | `text-sm text-zinc-400` | `(Figma 値)` |
-| Button Label | `text-base font-semibold` | `(Figma 値)` |
-| Form Label | `text-sm font-medium` | `(Figma 値)` |
+| Hero Title (英文ロゴ "FREOLI") | `font-inter font-extrabold text-[64px] md:text-[116px] tracking-[-0.03em] md:tracking-[-0.036em] leading-[0.92] md:leading-[0.88] text-zinc-50` | Mobile 64px / Desktop 116px |
+| Hero Subtitle (日本語キャッチ) | `font-jp font-medium text-xs md:text-[15px] tracking-[0.12em] md:tracking-[0.10em] text-sky-400` | Mobile 12px / Desktop 15px |
+| Section Eyebrow (例 "— NEXT LIVE") | `font-inter font-semibold text-[9px] tracking-[0.28em] text-zinc-400 uppercase` | 9px |
+| NextLive 日付大 (例 "7.11") | `font-inter font-extrabold text-[96px] tracking-[-0.05em] leading-[0.84] text-zinc-50` | 96px（Desktop） |
+| NextLive 日付サブ ("FRI") | `font-inter font-bold text-[22px] text-cyan-400 leading-none` | 22px |
+| NextLive 価格 | `font-inter font-extrabold text-[28px] text-cyan-400` | 28px |
+| NextLive 時間 | `font-inter font-semibold text-[20px] text-zinc-50` | 20px |
+| NextLive 会場名 | `font-jp font-bold text-[26px] text-zinc-50` | 26px |
+| Section Heading (h2) | `font-jp font-bold text-2xl md:text-4xl text-zinc-50` | — |
+| Sub Heading (h3) | `font-jp font-semibold text-xl md:text-2xl text-zinc-50` | — |
+| Body | `font-jp text-base md:text-lg text-zinc-50` | — |
+| Caption | `font-jp text-sm text-zinc-400` | — |
+| Micro Label (TICKET / OPEN 等) | `font-inter text-[9px] tracking-[0.16em] text-zinc-400 uppercase` | 9px |
+| Button Label | `font-inter font-bold text-xs md:text-sm tracking-[0.06em]` | Mobile 12px / Desktop 14px |
+| Form Label | `font-jp text-sm font-medium text-zinc-50` | — |
+
+> 注：`font-inter` / `font-jp` は §2.1 で定義したフォント変数を `tailwind.config.ts` の `theme.extend.fontFamily` に登録した想定。実際のクラス名は `tailwind.config.ts` 反映時に確定する。
 
 ### 2.3 行高・字間
 
 | 用途 | line-height | letter-spacing |
 |---|---|---|
 | 日本語本文 | `leading-relaxed` (1.625) | `tracking-normal` |
-| 英文ロゴ | `(主案で確定、例 leading-none)` | `(主案で確定、例 tracking-tight or tracking-widest)` |
-| 見出し | `leading-tight` | `(主案で確定)` |
+| 英文ロゴ (Hero) | `leading-[0.92]` (Mobile) / `leading-[0.88]` (Desktop) | `tracking-[-0.03em]` / `tracking-[-0.036em]` |
+| 英文 NextLive 日付大 | `leading-[0.84]` | `tracking-[-0.05em]` |
+| 見出し (h2 / h3) | `leading-tight` (1.25) | `tracking-tight` |
+| 日本語キャッチ (Hero sub) | `leading-none` | `tracking-[0.12em]` (Mobile) / `tracking-[0.10em]` (Desktop) |
+| Micro Label (eyebrow) | `leading-none` | `tracking-[0.28em]`（eyebrow）/ `tracking-[0.16em]`（フィールドラベル） |
 
 ---
 
