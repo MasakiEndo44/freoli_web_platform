@@ -3,13 +3,13 @@ doc_id: grill.freoli_web_platform.V.existing-docs-grill
 doc_type: grill_session
 product: [freoli_web_platform]
 layer: sandbox
-status: in_progress
+status: completed
 as_of: 2026-05-18
 owners: [endo]
 grill_target:
   product: freoli_web_platform
   layers: [V, O, C, F, E, S]
-  current_layer: F
+  current_layer: S
   writeout_paths:
     V: docs/requirements/freoli_web_platform/vision.md
     O: docs/requirements/freoli_web_platform/outcomes.md
@@ -28,8 +28,10 @@ grill_target:
 - turns: 1
 - progress_stalled_turns: 0
 - last_saved: 2026-05-18T00:00:00Z
-- next_action: "Eval (E) 層へ進む or stop"
+- next_action: "完了。コミットして PR 作成、または stop"
+- s_layer_mode: "短縮版（既存ドキュメント整理 + AI 関連 S-5/S-6 は N/A）完了"
 - f_layer_mode: "選択肢 C 完了（v0.1 UI 8 個別 + 重要枠 2 短縮 + 非 UI 2 短縮 = 11 ターン）"
+- e_layer_mode: "短縮版（Global EARS + 優先 5 Feature 抜粋、AI 品質要件は本案件 N/A）"
 - mode: NEW
 - web_gate_suppressed_layers: []
 - web_gate_refusal_count: {}
@@ -46,8 +48,8 @@ grill_target:
 - O: { answered: 8/8, ready_to_writeout: true, writeout_done: true }
 - C: { answered: 8/8, ready_to_writeout: true, writeout_done: true, items: [CAP-001, CAP-002, CAP-003, CAP-004, CAP-005, CAP-006, CAP-007, CAP-008] }
 - F: { answered: 12/12, ready_to_writeout: true, writeout_done: true, items: [FEAT-001✓, FEAT-002✓, FEAT-003✓, FEAT-004✓, FEAT-005✓, FEAT-006✓, FEAT-007✓, FEAT-008✓, FEAT-009✓, FEAT-010✓, FEAT-011✓, FEAT-012✓] }
-- E: { answered: 0/8, ready_to_writeout: false, writeout_done: false, items: [] }
-- S: { answered: 0/8, ready_to_writeout: false, writeout_done: false }
+- E: { answered: 8/8 (短縮版で AI 関連 4 問は N/A), ready_to_writeout: true, writeout_done: true, items: [U-01..11, EV-01..05, ST-01..03, OP-01..04, IF-01..07, NL-01..04, CF-01..06, HE-01..04, DG-01..04, NW-01..04] }
+- S: { answered: 8/8 (短縮版で S-5/S-6 は N/A), ready_to_writeout: true, writeout_done: true }
 
 ---
 
@@ -684,6 +686,8 @@ grill_target:
 - O -> docs/requirements/freoli_web_platform/outcomes.md (written at 2026-05-18T00:00:00Z)
 - C -> docs/requirements/freoli_web_platform/capabilities.md (written at 2026-05-18T00:00:00Z, 8 capabilities CAP-001〜CAP-008)
 - F -> docs/requirements/freoli_web_platform/features/ (written at 2026-05-18T00:00:00Z, 12 features FEAT-001〜FEAT-012 + index.md, B 形式ディレクトリ)
+- E -> docs/requirements/freoli_web_platform/evals.md (written at 2026-05-18T00:00:00Z, 短縮版: Global EARS 30 + 優先 5 Feature 抜粋 18 = 計 48 件、AI 品質要件は N/A 明示)
+- S -> docs/requirements/freoli_web_platform/engineering.md (written at 2026-05-18T00:00:00Z, 短縮版: Tech Stack + データモデル + API 契約 + UI 構成 + 外部統合 + ADR 6 件 + AI エージェント向け禁止事項。S-5/S-6 は N/A)
 
 ---
 
