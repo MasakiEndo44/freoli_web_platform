@@ -46,7 +46,10 @@
       "mcp__playwright__browser_take_screenshot",
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_click",
-      "mcp__playwright__browser_evaluate"
+      "mcp__playwright__browser_evaluate",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(echo \"Started PID: $!\")",
+      "Read(//tmp/**)"
     ]
   },
   "enabledMcpjsonServers": [],
