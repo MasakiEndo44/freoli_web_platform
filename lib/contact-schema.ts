@@ -8,7 +8,7 @@ export const ContactInquirySchema = z.object({
   email: z.string().email("メールアドレスの形式が正しくありません"),
   category: z.enum(
     ["出演依頼", "取材・メディア", "コラボ", "ファン感想", "その他"],
-    { errorMap: () => ({ message: "お問い合わせ種別を選択してください" }) },
+    { message: "お問い合わせ種別を選択してください" },
   ),
   body: z
     .string()
