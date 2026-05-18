@@ -53,6 +53,22 @@ applies_to:
   - **NextLive チケット枠の左ライン**：`border-l-2 border-cyan-400 shadow-[-2px_0_12px_rgba(34,211,238,0.2)]`
 - **不採用**：B-a 点光源・B-c アウトラインは v0.1 では使用しない（v0.5 以降のリブランディング時に再評価）
 
+### 1.3 背景画像（濃い青のグラスモーフィズム・リキッドテクスチャ）
+
+> v0.1の追加仕様として、単なる `bg-black` ではなく、深いネイビーブルーを基調とし、すりガラスの質感（グラスモーフィズム）を加えたサイバースタイルの背景画像を採用する。
+
+- **アセットパス**：`public/images/background/liquid-bg.png`
+- **デザイン原則**：
+  - **Deep Authentic Blue**：原画から抽出した極めて濃い青をベースに、シアンやマゼンタの発光を引き立てる。
+  - **Glassmorphism Texture**：すりガラスのような半透明と光の屈折を加えることで高級感と可読性を両立する。
+  - **Atmosphere over Detail**：ディテールよりも「深夜のライブハウスの空気感」の演出を優先する。
+  - **Contrast is King**：テキストのコントラスト比（4.5:1）を死守する。
+- **具体的実装仕様**：
+  - `background-image: url('/images/background/liquid-bg.png')`
+  - `background-attachment: fixed`
+  - `background-size: cover`
+  - 画像自体にグラスモーフィズムの質感が含まれているため、CSS側のボカシ（`filter: blur()`）や不透明度の極端な引き下げは、画像の鮮やかさや質感を殺さない範囲（必要最小限）で調整する。
+
 ---
 
 ## 2. Typography Scale
