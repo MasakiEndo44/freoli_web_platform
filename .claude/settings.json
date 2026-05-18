@@ -9,7 +9,19 @@
       "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/requirements-doc-creator.skill)",
       "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/skill-creator.skill)",
       "Bash(unzip -l /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/.harness-bundle/skills/skill-improver.skill)",
-      "Bash(bash .harness-bundle/install.sh --skills=expert-misaki-discussion,requirements-doc-creator,skill-creator,skill-improver)"
+      "Bash(bash .harness-bundle/install.sh --skills=expert-misaki-discussion,requirements-doc-creator,skill-creator,skill-improver)",
+      "Bash(pnpm create *)",
+      "Bash(tee /tmp/freoli_nextjs_init.log)",
+      "Read(//private/tmp/freoli-web-init/**)",
+      "Bash(mv /tmp/freoli-web-init/.eslintrc.json /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/)",
+      "Bash(mv /tmp/freoli-web-init/app /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/)",
+      "Bash(mv /tmp/freoli-web-init/next-env.d.ts /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/)",
+      "Bash(mv /tmp/freoli-web-init/next.config.mjs /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/)",
+      "Bash(mv /tmp/freoli-web-init/package.json /Users/masaki/Documents/Projects/005_FREOLI/Freoli_platform/)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm build *)"
     ]
   },
   "enabledMcpjsonServers": [],
