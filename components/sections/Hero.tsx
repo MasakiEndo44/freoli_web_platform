@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <header className="relative w-full bg-black overflow-hidden h-[524px] lg:h-[620px]">
+    <header className="relative w-full overflow-hidden h-[524px] lg:h-[620px]">
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative h-full aspect-[2/3]">
           <Image
@@ -16,11 +16,11 @@ export function Hero() {
             className="object-cover"
           />
           <div
-            className="absolute inset-y-0 left-0 w-6 lg:w-20 bg-gradient-to-r from-black to-transparent"
+            className="absolute inset-y-0 left-0 w-6 lg:w-20 bg-gradient-to-r from-black/85 to-transparent"
             aria-hidden="true"
           />
           <div
-            className="absolute inset-y-0 right-0 w-6 lg:w-20 bg-gradient-to-l from-black to-transparent"
+            className="absolute inset-y-0 right-0 w-6 lg:w-20 bg-gradient-to-l from-black/85 to-transparent"
             aria-hidden="true"
           />
         </div>
@@ -30,7 +30,7 @@ export function Hero() {
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.66)_60%,#000_100%)] lg:bg-[linear-gradient(to_bottom,transparent_22%,rgba(0,0,0,0.52)_55%,#000_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.55)_60%,rgba(0,0,0,0.85)_100%)] lg:bg-[linear-gradient(to_bottom,transparent_22%,rgba(0,0,0,0.42)_55%,rgba(0,0,0,0.85)_100%)]"
         aria-hidden="true"
       />
 
