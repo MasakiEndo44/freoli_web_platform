@@ -1,21 +1,36 @@
+import Image from "next/image";
+
 import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <header className="relative w-full bg-black overflow-hidden h-[524px] lg:h-[620px]">
-      {/*
-        写真未配置時のフォールバック：spec §1.2 の sky→cyan グラデーション wash と
-        下部ダークフェードを重ねて Hero を成立させる。写真は v0.1 後半で
-        next/image を以下の <div className="absolute inset-0"> 直前に差し込む想定。
-        例：<Image src={photoPath} alt="" fill priority className="object-cover" />
-      */}
-      <div className="absolute inset-0 bg-zinc-950" aria-hidden="true" />
+    <header className="relative w-full overflow-hidden h-[524px] lg:h-[620px]">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative h-full aspect-[2/3]">
+          <Image
+            src="/images/band/freoli_1.JPEG"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-y-0 left-0 w-6 lg:w-20 bg-gradient-to-r from-black/85 to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-y-0 right-0 w-6 lg:w-20 bg-gradient-to-l from-black/85 to-transparent"
+            aria-hidden="true"
+          />
+        </div>
+      </div>
       <div
         className="absolute inset-0 bg-[linear-gradient(148deg,rgba(56,189,248,0.22)_0%,rgba(34,211,238,0.14)_40%,transparent_66%)] lg:bg-[linear-gradient(148deg,rgba(56,189,248,0.20)_0%,rgba(34,211,238,0.12)_42%,transparent_68%)]"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.66)_60%,#000_100%)] lg:bg-[linear-gradient(to_bottom,transparent_22%,rgba(0,0,0,0.52)_55%,#000_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.55)_60%,rgba(0,0,0,0.85)_100%)] lg:bg-[linear-gradient(to_bottom,transparent_22%,rgba(0,0,0,0.42)_55%,rgba(0,0,0,0.85)_100%)]"
         aria-hidden="true"
       />
 

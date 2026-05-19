@@ -23,9 +23,9 @@ export const members: Member[] = [
     displayName: "あのむ",
     partLabel: "Gt./Cho.",
     partOrder: 2,
-    photoPath: null,
-    bio: "（仮）ギターとコーラスを担当。",
-    consentLogged: false,
+    photoPath: "/images/members/anomu_1.JPEG",
+    bio: "Guitar, Chorus, Composer.",
+    consentLogged: true,
   },
   {
     id: "hiromu",
