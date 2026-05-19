@@ -12,7 +12,10 @@ function client(): Resend {
   return cachedClient;
 }
 
-type ContactPayload = Omit<ContactInquiry, "website" | "turnstileToken">;
+type ContactPayload = Omit<
+  ContactInquiry,
+  "website" | "turnstileToken" | "agreeToPrivacy"
+>;
 
 function escapeHtml(text: string): string {
   return text

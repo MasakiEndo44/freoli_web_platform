@@ -16,6 +16,9 @@ export const ContactInquirySchema = z.object({
     .max(2000, "2000 文字以内で入力してください"),
   website: z.string().max(0),
   turnstileToken: z.string().min(1, "認証トークンが無効です"),
+  agreeToPrivacy: z.literal(true, {
+    message: "プライバシーポリシーへの同意が必要です",
+  }),
 });
 
 export type ContactInquiry = z.infer<typeof ContactInquirySchema>;
