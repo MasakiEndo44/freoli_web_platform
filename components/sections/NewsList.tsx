@@ -21,7 +21,7 @@ export function NewsList() {
     .slice(0, 5);
 
   return (
-    <SectionContainer id="news" className="bg-black">
+    <SectionContainer id="news" className="bg-black/40">
       <Heading variant="eyebrow" className="block mb-3">
         — NEWS
       </Heading>
