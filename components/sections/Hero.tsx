@@ -5,14 +5,26 @@ import { Button } from "@/components/ui/Button";
 export function Hero() {
   return (
     <header className="relative w-full bg-black overflow-hidden h-[524px] lg:h-[620px]">
-      <Image
-        src="/images/band/freoli_1.JPEG"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative h-full aspect-[2/3]">
+          <Image
+            src="/images/band/freoli_1.JPEG"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-y-0 left-0 w-6 lg:w-20 bg-gradient-to-r from-black to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-y-0 right-0 w-6 lg:w-20 bg-gradient-to-l from-black to-transparent"
+            aria-hidden="true"
+          />
+        </div>
+      </div>
       <div
         className="absolute inset-0 bg-[linear-gradient(148deg,rgba(56,189,248,0.22)_0%,rgba(34,211,238,0.14)_40%,transparent_66%)] lg:bg-[linear-gradient(148deg,rgba(56,189,248,0.20)_0%,rgba(34,211,238,0.12)_42%,transparent_68%)]"
         aria-hidden="true"
