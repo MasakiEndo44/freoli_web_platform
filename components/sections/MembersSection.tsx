@@ -102,7 +102,7 @@ export function MembersSection() {
   const sorted = [...members].sort((a, b) => a.partOrder - b.partOrder);
 
   return (
-    <SectionContainer id="members" className="bg-black/15">
+    <SectionContainer id="members" className="bg-black/85">
       <Heading variant="eyebrow" className="block mb-3">
         — MEMBERS
       </Heading>

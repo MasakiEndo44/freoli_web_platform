@@ -136,7 +136,7 @@ export function LivesSection() {
   return (
     <section
       id="next-live"
-      className="bg-black/15 px-[22px] py-10 md:px-16 md:pt-[52px] md:pb-14"
+      className="bg-black/85 px-[22px] py-10 md:px-16 md:pt-[52px] md:pb-14"
     >
       <div className="max-w-6xl mx-auto">
         <Heading variant="eyebrow" className="block mb-11">
