@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { ContactInquirySchema, type ContactInquiry } from "@/lib/contact-schema";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -14,6 +15,10 @@ const CATEGORIES: ContactInquiry["category"][] = [
   "ファン感想",
   "その他",
 ];
+
+const FALLBACK_EMAIL = "freoli.official@gmail.com";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 type FormState = {
   name: string;
@@ -33,30 +38,72 @@ const initialState: FormState = {
 
 type FieldErrors = Partial<Record<keyof ContactInquiry, string[]>>;
 
+type Status =
+  | { kind: "idle" }
+  | { kind: "submitting" }
+  | { kind: "success" }
+  | { kind: "error"; message: string };
+
 export function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [token, setToken] = useState<string>("");
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function resetChallenge() {
+    setToken("");
+    turnstileRef.current?.reset();
+  }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const payload = {
-      ...form,
-      turnstileToken: "v0.1-stub",
-    };
+
+    const payload = { ...form, turnstileToken: token };
     const result = ContactInquirySchema.safeParse(payload);
     if (!result.success) {
       setErrors(result.error.flatten().fieldErrors as FieldErrors);
       return;
     }
     setErrors({});
-    console.log("[v0.1 stub] ContactInquiry", result.data);
-    setSubmitted(true);
+    setStatus({ kind: "submitting" });
+
+    let res: Response;
+    try {
+      res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(result.data),
+      });
+    } catch {
+      resetChallenge();
+      setStatus({
+        kind: "error",
+        message: "ネットワーク接続を確認のうえ、下記メールから直接ご連絡ください。",
+      });
+      return;
+    }
+
+    if (res.ok) {
+      setStatus({ kind: "success" });
+      setForm(initialState);
+      resetChallenge();
+      return;
+    }
+
+    resetChallenge();
+    const message =
+      res.status === 400
+        ? "入力内容または認証が無効でした。お手数ですが下記メールから直接ご連絡ください。"
+        : "送信に失敗しました。お手数ですが下記メールから直接ご連絡ください。";
+    setStatus({ kind: "error", message });
   }
+
+  const submitting = status.kind === "submitting";
 
   return (
     <SectionContainer id="contact" className="bg-zinc-950">
@@ -67,25 +114,15 @@ export function ContactForm() {
         お問い合わせ
       </Heading>
 
-      <div
-        role="note"
-        className="bg-amber-500/10 border border-amber-400 text-amber-300 p-4 mb-4 font-jp text-sm"
-      >
-        <strong className="font-bold">[v0.1 暫定]</strong>{" "}
-        v0.1 暫定実装：実際にはメールは送信されません。本実装は別 PR で対応します。
-      </div>
-
-      {submitted ? (
+      {status.kind === "success" ? (
         <div
           role="status"
           aria-live="polite"
           className="bg-zinc-900 border border-emerald-400 text-emerald-300 p-6 rounded-md font-jp"
         >
-          <p className="font-bold text-zinc-50 mb-2">
-            送信内容を受け付けました（暫定）
-          </p>
+          <p className="font-bold text-zinc-50 mb-2">送信ありがとうございました</p>
           <p className="text-sm text-zinc-400">
-            v0.1 では Console に内容を出力するのみです。実送信は次の PR で実装します。
+            内容を確認のうえ、24 時間以内に返信いたします。
           </p>
         </div>
       ) : (
@@ -164,8 +201,50 @@ export function ContactForm() {
             />
           </div>
 
-          <Button type="submit" variant="primary" className="self-start">
-            送信する
+          {TURNSTILE_SITE_KEY ? (
+            <div>
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={TURNSTILE_SITE_KEY}
+                onSuccess={setToken}
+                onError={() => setToken("")}
+                onExpire={() => setToken("")}
+                options={{ theme: "dark" }}
+              />
+              {errors.turnstileToken?.[0] ? (
+                <p className="text-sm text-red-400 mt-1">
+                  {errors.turnstileToken[0]}
+                </p>
+              ) : null}
+            </div>
+          ) : (
+            <p className="text-sm text-amber-300">
+              [設定エラー] NEXT_PUBLIC_TURNSTILE_SITE_KEY が未設定です。
+            </p>
+          )}
+
+          {status.kind === "error" ? (
+            <div
+              role="alert"
+              className="bg-zinc-900 border border-red-400 text-red-300 p-4 rounded-md font-jp text-sm"
+            >
+              <p className="mb-2">{status.message}</p>
+              <a
+                href={`mailto:${FALLBACK_EMAIL}`}
+                className="underline text-cyan-400 hover:text-cyan-300"
+              >
+                {FALLBACK_EMAIL}
+              </a>
+            </div>
+          ) : null}
+
+          <Button
+            type="submit"
+            variant="primary"
+            className="self-start"
+            disabled={submitting || !token}
+          >
+            {submitting ? "送信中..." : "送信する"}
           </Button>
         </form>
       )}
