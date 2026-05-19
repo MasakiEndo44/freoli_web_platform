@@ -283,16 +283,83 @@ git push origin main
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Roadmap & 現在の実装状況
 
-| Phase | 期間 | 主な内容 |
+> 詳細は [`docs/roadmap/IMPLEMENTATION_ROADMAP.md`](./docs/roadmap/IMPLEMENTATION_ROADMAP.md) を参照。
+> 要件 6 層（Vision / Outcome / Capability / Feature / Eval / EngSpec）は [`docs/requirements/freoli_web_platform/`](./docs/requirements/freoli_web_platform/)。
+
+### Phase 全景
+
+| Phase | トリガー | 主な内容 | 状態 |
+|---|---|---|---|
+| **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、7/11 ライブ集客装置 | 🟡 **残タスクあり**（下記参照） |
+| **v0.2** | Phase 1 完了 + 7/11 ライブ実測値 | PhotoGallery / PastLives / 動員数記録 | ⚪ 未着手 |
+| **v0.5** | 楽曲リリース | サブスク Embed / Hero コピー刷新 / News / Spotify ページ（4 同時着地） | ⚪ 外部依存待ち |
+| **v1.0** | サーキット出演 or 動員 100 人 | 独自ドメイン / 301 / プレスキット / メーリングリスト | ⚪ 外部依存待ち |
+
+### 📍 実装状況スナップショット（2026-05-20 時点、origin/main 反映後）
+
+**凡例**: 🟢 完了 / 🟡 部分実装 / 🔴 未着手・破綻 / ⚪ 計画通り未着手
+
+| Feature | 状態 | 主なギャップ |
 |---|---|---|
-| **v0.1** ✅ | 2025/5/31 | 最小構成リリース、7/11 ライブ集客装置 |
-| **v0.2** | 〜 2025/7/11 | 写真ギャラリー、過去ライブ履歴、パフォーマンス改善 |
-| **v0.5** | 2025年7〜9月 | Spotify / Apple Music 埋め込み、楽曲ページ |
-| **v1.0** | 2026 後半〜 | サーキット出演対応、独自ドメイン取得、プレスキット |
+| FEAT-001 Hero | 🟡 | キャッチコピー 30〜80 字未確定 |
+| FEAT-002 NextLive | 🟢 | — |
+| FEAT-003 Members | 🟡 | あのむ以外 3 名の bio・写真・承諾未完 |
+| FEAT-004 PhotoGallery | ⚪ | v0.2 で着手 |
+| FEAT-005 SNSBar | 🟡 | 全 SNS URL が `null` |
+| FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（grayed out。2026 年現在のため "2025 年配信予定" 文言は見直し検討要） |
+| FEAT-007 News | 🟡 | `data/news.ts` が空配列 |
+| **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
+| **FEAT-009 Privacy** | 🔴 | **`app/privacy/page.tsx` 未配置**。`ContactForm.tsx` の /privacy リンクも未追加（CF-06 未充足） |
+| FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義は実装済） |
+| FEAT-011 DeployGuard | 🟢 | hook + `lib/env.ts` (serverEnv) 配置済 |
+| **FEAT-012 ContentPolicy** | 🔴 | **`CONTENT_POLICY.md` 未配置** |
 
-詳細は [`docs/system_requirements.md`](./docs/system_requirements.md) の「開発ロードマップ」セクションを参照。
+外部サービス設定：
+
+| 項目 | 状態 |
+|---|---|
+| Vercel Environment Variables | 🟢 設定済（Production + Preview + Development） |
+| Cloudflare Turnstile Hostname Management | 🟢 `vercel.app` ワイルドカード登録済 |
+| Resend アカウント | 🟢 `freoli.official@gmail.com` で登録（A 案、サンドボックス制限解消） |
+
+### 🎯 次に着手すべき TODO（Phase 1 残）
+
+**🔴 最優先 — Phase 1 launch 完了に必須（1 PR で束ねる）**
+
+1. **FEAT-009 Privacy ページ配置** — `app/privacy/page.tsx` 新設（v3 §付録 B 素案を起点）
+2. **FEAT-012 CONTENT_POLICY.md 配置** — リポジトリ直下に v3 §付録 A 素案を起点に作成
+3. **ContactForm に `/privacy` リンク追加** — 送信前同意文として `components/sections/ContactForm.tsx` に組み込む（CF-06 充足）
+
+> 1〜3 は **1 PR で束ねる**（Phase as Single PR 原則）。すべて可逆タスク。
+
+**🟡 並行可 — コンテンツ拡充**
+
+4. Hero キャッチコピー 30〜80 字確定
+5. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
+6. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
+7. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
+8. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
+9. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
+10. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
+
+### 🛡️ 設計原則（議論ログ Turn 5）
+
+| # | 原則 | 意味 |
+|---|---|---|
+| ① | **Phase as Single PR** | 1 つの Phase 遷移は 1 つのブランチ・1 つの PR で完結 |
+| ② | **Reversible First** | 不可逆タスク（DNS / ENV / 外部 API 鍵 / 公開写真）は Phase の頭に配置 |
+| ③ | **Bandscape Co-evolution** | バンド像と HP の進化を同時に着地（v0.5 は 4 つの同時着地） |
+
+詳細経緯は [`docs/discussions/議論ログ_実装ロードマップ.md`](./docs/discussions/議論ログ_実装ロードマップ.md)。
+
+### 進行管理図の更新義務
+
+Feature 状態が変わったら、以下 3 ファイルを必ず同期：
+- 本 README の「実装状況スナップショット」「次に着手すべき TODO」
+- [`CLAUDE.md`](./CLAUDE.md) の「現在の実装状況」「次に着手すべき TODO」
+- [`docs/roadmap/IMPLEMENTATION_ROADMAP.md`](./docs/roadmap/IMPLEMENTATION_ROADMAP.md) §2 実装状況インベントリ
 
 ---
 
