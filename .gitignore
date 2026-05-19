@@ -27,3 +27,6 @@ pnpm-debug.log*
 *.pem
 *.tsbuildinfo
 next-env.d.ts
+
+.playwright-mcp/
+/freoli-*.png

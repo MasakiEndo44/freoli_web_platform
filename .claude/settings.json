@@ -46,7 +46,15 @@
       "mcp__playwright__browser_take_screenshot",
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_click",
-      "mcp__playwright__browser_evaluate"
+      "mcp__playwright__browser_evaluate",
+      "Bash(tee /tmp/freoli-dev.log)",
+      "Bash(break)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(lsof -ti:3000 -ti:3001)",
+      "Bash(xargs kill *)",
+      "Bash(lsof -ti:3000)",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_close"
     ]
   },
   "enabledMcpjsonServers": [],
