@@ -2,7 +2,7 @@
 doc_id: roadmap.freoli_web_platform
 doc_type: implementation_roadmap
 product: freoli_web_platform
-as_of: 2026-05-19
+as_of: 2026-05-20
 owners: [endo]
 parent_doc: docs/requirements/freoli_web_platform/features/index.md
 source_discussion: docs/discussions/議論ログ_実装ロードマップ.md
@@ -25,8 +25,10 @@ review_cycle: per-phase-transition
 | # | 原則 | 意味 |
 |---|---|---|
 | ① | **Phase as Single PR** | 1 つの Phase 遷移は 1 つのブランチ・1 つの PR で完結させる。Vercel revert で Phase まるごと前バージョンに戻せる単位を維持。 |
-| ② | **Reversible First, Irreversible Front-loaded** | 不可逆タスク（DNS / ENV / 外部 API 鍵 / 公開済写真）は Phase の頭に集中。可逆な UI / コピー / `data/*.ts` 更新と分離する。 |
+| ② | **Reversible First, Irreversible Front-loaded** | 不可逆タスク（DNS / ENV / 外部 API 鍵 / 公開済写真 / Turnstile Hostname 登録）は Phase の頭に集中。可逆な UI / コピー / `data/*.ts` 更新と分離する。 |
 | ③ | **Bandscape Co-evolution** | バンド像の進化（"ライブで会うバンド" → "聴いて観に行くバンド"）と HP の Feature 進化を同時に着地させる。Embed だけ追加して Hero コピーが古いままは禁。 |
+
+> **運用原則**: ロードマップ更新時は **必ず `git fetch origin && git log origin/main --oneline` で main の最新を確認** してから現状診断を行う。作業ブランチが main 派生で古い場合、ブランチ内のローカルファイルだけ見ると未実装と誤診する（2026-05-19 → 2026-05-20 で経験）。
 
 ---
 
@@ -38,8 +40,9 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 最小構成 launch     重要枠の追加          楽曲リリース時          サーキット出演時
 2025/5/31 想定      〜 2025/7/11          2025 年内             2027 初頭
 
-[現在地: 2026-05-19]
-  ├ v0.1 launch は要件上 "完了" の想定だが Phase 1 残タスクが残存
+[現在地: 2026-05-20]
+  ├ Phase 1 大半完了（FEAT-008 動作確認済、A 案で Resend 再登録）
+  ├ FEAT-009 / FEAT-012 のみ残（次の単一 PR で完遂）
   ├ v0.2 着手前
   └ v0.5 / v1.0 は外部トリガー待ち
 
@@ -48,14 +51,14 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 | Phase | 入口条件（トリガー） | 出口条件（完了判定） | 主な Feature |
 |---|---|---|---|
-| **Phase 1 (v0.1)** | (済) 要件定義 v3 合意 | Phase 1 残タスク 5 件すべて main マージ + Vercel 本番反映 | FEAT-001/002/003/005/006(grayed)/007/008/009/011/012 |
+| **Phase 1 (v0.1)** | (済) 要件定義 v3 合意 | FEAT-009 + FEAT-012 + ContactForm の /privacy リンク追加が main マージ + Vercel 本番反映 | FEAT-001/002/003/005/006(grayed)/007/008/009/011/012 |
 | **v0.2** | Phase 1 完了 + 7/11 動員数実測値の取得 | FEAT-004 + FEAT-010 が main マージ + `actual_attendance` 全公演記入 | + FEAT-004 PhotoGallery / FEAT-010 PastLives |
 | **v0.5** | Spotify / Apple Music 配信代行登録完了 + 最初の楽曲マスター完成 | サブスク Embed + Hero コピー + News + Spotify ページ の 4 同時着地 PR が main マージ | FEAT-006 OP-01 / Hero 刷新 / FEAT-007 リリース告知運用 |
 | **v1.0** | サーキット出演オファー受領 or 動員 100 人達成 | 独自ドメイン稼働 + 301 リダイレクト動作確認 + /press ページ公開 | OP-02 / プレスキット / メーリングリスト検討 |
 
 ---
 
-## 2. 実装状況インベントリ（2026-05-19 時点）
+## 2. 実装状況インベントリ（2026-05-20 時点、origin/main 反映後）
 
 > **凡例**: 🟢 完了 / 🟡 部分実装 / 🔴 未着手・破綻 / ⚪ 未着手（Phase 2 以降のため計画通り）
 
@@ -70,10 +73,10 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 | **FEAT-005 SNSBar** | 🟡 | `SNSBar.tsx`、grayed out 状態 UI 実装済 | `data/links.ts` の Instagram / YouTube / TikTok / X の URL が全て `null`。**SNS URL 入力タスク**。 |
 | **FEAT-006 Subscriptions** | 🟢 | `SubscribeBar.tsx`、"2025 年配信予定" ラベル + grayed out 表示 | v0.1 仕様達成。v0.5 で Embed 化へ。**ただし日付 2026 年現在のため "2025 年配信予定" 文言の見直し検討要**（議論ログ Turn 2 みさき指摘）。 |
 | **FEAT-007 News** | 🟡 | `NewsList.tsx`、空配列フォールバック "ニュースは準備中です。" 表示 | `data/news.ts` が空配列。**7/11 ライブ告知の初回投稿**（v3 中優先度 #3）が必要。NW-03 月 1 回更新ルールの初回発火。 |
-| **FEAT-008 ContactForm** | 🔴 | `ContactForm.tsx` UI 実装 + Zod スキーマ (`lib/contact-schema.ts`) あり、しかし `turnstileToken: "v0.1-stub"` で送信は `console.log` のみ | **`app/api/contact/route.ts` が未配置**。Resend 統合・Turnstile サーバー検証・503 fallback すべて未実装。Phase 1 launch の致命的ギャップ。 |
-| **FEAT-009 Privacy** | 🔴 | `app/privacy/page.tsx` **未配置** | v3 §付録 B 素案を起点に作成。CF-06（フォームから /privacy へのリンク）の前提条件。 |
+| **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成**。`app/api/contact/route.ts` + `lib/turnstile.ts` + `lib/resend.ts` 分割、`@marsidev/react-turnstile` 統合、Zod 検証 + honeypot + 502 fallback。**2026-05-20 動作確認済**（A 案で `freoli.official@gmail.com` Resend 再登録 → preview URL でフォーム送信成功 → `freoli.official@gmail.com` Gmail 着信確認） | — |
+| **FEAT-009 Privacy** | 🔴 | `app/privacy/page.tsx` **未配置** | v3 §付録 B 素案を起点に作成。**CF-06（フォームから /privacy へのリンク）も未充足** — 現 ContactForm.tsx に `/privacy` リンクが無い。Privacy ページ配置と同 PR で ContactForm にリンク追加が必要。 |
 | **FEAT-010 PastLives** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。型定義 `actual_attendance: number \| null` は `data/lives.ts` に既に実装済（D-O1 / D-F2 反映済）。 |
-| **FEAT-011 DeployGuard** | 🟢 | `.claude/hooks/prevent-destructive-command.js` 配置済、`lib/env.ts` Zod fail-fast 実装、`.env.local` は `.gitignore` 対象 | — |
+| **FEAT-011 DeployGuard** | 🟢 | `.claude/hooks/prevent-destructive-command.js` 配置済、`lib/env.ts` の `serverEnv()` 関数化で fail-fast、`.env.local` は `.gitignore` 対象 | — |
 | **FEAT-012 ContentPolicy** | 🔴 | `CONTENT_POLICY.md` **未配置**（README から参照されているが実体ファイルなし） | v3 §付録 A 素案を起点にリポジトリ直下配置。CAP-004 運用の信頼源。 |
 
 ### 2.2 データファイル × 実装状況
@@ -85,49 +88,51 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 | `data/news.ts` | 🔴 | 空配列。初回投稿待ち。 |
 | `data/links.ts` | 🔴 | 全 6 件が `url: null` + `status: "coming-2025"`。SNS 実 URL 入力必須（status `"active"` 切替も）。 |
 
-### 2.3 環境変数 × Vercel デプロイ
+### 2.3 環境変数 × 外部サービス設定
 
-| 項目 | 状態 |
-|---|---|
-| `.env.local` | 🟢 配置済 |
-| `.env.example` | 🟢 配置済（`RESEND_API_KEY` / `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` / `CONTACT_EMAIL_TO`） |
-| Vercel Environment Variables | 🟡 **実値の本番設定状況は要確認**。本ファイル更新前にダッシュボードで確認すること。 |
-| `lib/env.ts` Zod fail-fast | 🟢 実装済 |
+| 項目 | 状態 | 補足 |
+|---|---|---|
+| `.env.local` | 🟢 配置済 | 2026-05-20 に A 案で `RESEND_API_KEY` を新キー（`freoli.official@gmail.com` 登録の Resend アカウント発行）に差し替え済 |
+| `.env.example` | 🟢 配置済 | `RESEND_API_KEY` / `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` / `CONTACT_EMAIL_TO` / `CONTACT_EMAIL_FROM` |
+| Vercel Environment Variables | 🟢 設定済 | Production + Preview + Development で 2026-05-20 動作確認済 |
+| **Cloudflare Turnstile Hostname Management** | 🟢 設定済 | 2026-05-20 に `vercel.app` ワイルドカード追加で `*.vercel.app` 全 preview / 本番をカバー（D-R6） |
+| `lib/env.ts` Zod fail-fast | 🟢 実装済 | `serverEnv()` 関数化 + キャッシュ |
+| Resend アカウント | 🟢 `freoli.official@gmail.com` で登録（A 案） | サンドボックス制限解消、`freoli.official@gmail.com` 宛送信成功 |
 
 ---
 
 ## 3. Phase 1 残タスク（最優先）
 
-> **方針**: 議論ログ D-R1 に従い、可能な限り **1 PR で束ねる**。ただし権利確認（Members 3 名分）は外部依存があるため分離可。
+> **方針**: 議論ログ D-R1 に従い、可能な限り **1 PR で束ねる**。FEAT-009 + FEAT-012 + ContactForm の /privacy リンク追加を 1 PR にまとめるのが最短。
 
 ### 3.1 不可逆タスク（Phase の頭に配置）
 
-| ID | タスク | 種別 | 補足 |
-|---|---|---|---|
-| P1-IR-01 | Vercel Environment Variables に `RESEND_API_KEY` / `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` / `CONTACT_EMAIL_TO` を本番・プレビュー両方に登録 | ENV 設定 | 設定後の取消は秘密情報露出のため不可逆扱い。Resend / Turnstile の発行も同時に。 |
-| P1-IR-02 | Members 3 名分の写真承諾取得 + Notion Yes ログ記入 | 権利確認 | 一度公開した写真の取消は被写体合意の取り直しコストを伴う |
+すべて完了。Phase 1 残では新規不可逆タスクはありません。
 
-### 3.2 可逆タスク（Phase 内で柔軟に）
+> （参考）これまでに発火した Phase 1 不可逆タスク：
+> - `RESEND_API_KEY` / `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `CONTACT_EMAIL_TO` / `CONTACT_EMAIL_FROM` を Vercel に登録
+> - Cloudflare Turnstile Hostname Management に `vercel.app` ワイルドカード登録（**D-R6**）
+> - Resend アカウントを `freoli.official@gmail.com` で登録（A 案、PR #9 マージ後の動作確認時に発火）
+
+### 3.2 可逆タスク
 
 | ID | タスク | 関連 Feature / EARS | 推定 PR |
 |---|---|---|---|
-| P1-RV-01 | `app/api/contact/route.ts` 実装（Resend SDK + Turnstile siteverify + Zod 検証 + 503 fallback） | FEAT-008 / CF-01〜06 / IF-01〜03 | PR-A |
-| P1-RV-02 | `ContactForm.tsx` の Turnstile ウィジェット統合（`turnstileToken: "v0.1-stub"` を実トークンに置換） | FEAT-008 / IF-02 | PR-A |
-| P1-RV-03 | `app/privacy/page.tsx` 配置（v3 §付録 B 素案ベース） | FEAT-009 / F5.5 / CF-06 | PR-A |
-| P1-RV-04 | `CONTENT_POLICY.md` をリポジトリ直下に配置（v3 §付録 A 素案ベース） | FEAT-012 / F5.1 / F5.2 | PR-A |
-| P1-RV-05 | Hero キャッチコピー 30〜80 字確定（"心が先に動く" Vision 整合） | FEAT-001 / HE-03 | PR-B（独立可） |
-| P1-RV-06 | Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + `photoPath` + `consentLogged: true` 反映 | FEAT-003 / U-09 | PR-C（IR-02 完了後） |
-| P1-RV-07 | 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加 | FEAT-007 / NW-04 | PR-B 同梱可 |
-| P1-RV-08 | `data/links.ts` の SNS 4 種（Instagram / YouTube / TikTok / X）の URL 入力 + `status: "active"` 切替 | FEAT-005 | PR-B 同梱可 |
-| P1-RV-09 | `data/lives.ts` の Blue Sheep 公演に `venueUrl` or `venuePhone`（v3 中優先度 #6） | FEAT-002 / NL-02 | PR-B 同梱可 |
-| P1-RV-10 | 7/11 Blue Sheep 公演の `actual_attendance` 遡及記入（実測値が取得できれば） | FEAT-002 / FEAT-010 / D-O1 | PR-D（v0.2 着手の最初の PR と統合可） |
+| P1-RV-A1 | `app/privacy/page.tsx` 配置（v3 §付録 B 素案ベース） | FEAT-009 / F5.5 / CF-06 | PR-Privacy |
+| P1-RV-A2 | `CONTENT_POLICY.md` をリポジトリ直下に配置（v3 §付録 A 素案ベース） | FEAT-012 / F5.1 / F5.2 | PR-Privacy |
+| P1-RV-A3 | `ContactForm.tsx` に `/privacy` ページへのリンクを追加（送信前同意文として） | FEAT-008 / CF-06 | PR-Privacy |
+| P1-RV-B1 | Hero キャッチコピー 30〜80 字確定（"心が先に動く" Vision 整合） | FEAT-001 / HE-03 | PR-Content |
+| P1-RV-B2 | Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + `photoPath` + `consentLogged: true` 反映（被写体承諾の Notion Yes ログ整備が前提） | FEAT-003 / U-09 | PR-Members |
+| P1-RV-B3 | 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加 | FEAT-007 / NW-04 | PR-Content |
+| P1-RV-B4 | `data/links.ts` の SNS 4 種（Instagram / YouTube / TikTok / X）の URL 入力 + `status: "active"` 切替 | FEAT-005 | PR-Content |
+| P1-RV-B5 | `data/lives.ts` の Blue Sheep 公演に `venueUrl` or `venuePhone`（v3 中優先度 #6） | FEAT-002 / NL-02 | PR-Content |
+| P1-RV-B6 | 7/11 Blue Sheep 公演の `actual_attendance` 遡及記入（実測値が取得できれば） | FEAT-002 / FEAT-010 / D-O1 | PR-D（v0.2 着手の最初の PR と統合可） |
+| P1-RV-B7 | "2025 年配信予定" 文言の見直し（議論ログ Turn 2 みさき指摘、現時点 2026 年） | FEAT-006 / ST-01 | PR-Content |
 
 ### 3.3 Phase 1 完了判定（出口条件）
 
-- [ ] 上記 P1-IR / P1-RV 全項目が main マージ済
-- [ ] Vercel 本番 URL でフォーム実送信が成功し `freoli.official@gmail.com` に着信確認
-- [ ] `/privacy` ページがリンクから到達可能で内容が法的観点で問題なし
-- [ ] `CONTENT_POLICY.md` がリポジトリ直下に配置され README から参照可能
+- [ ] P1-RV-A1〜A3（PR-Privacy）が main マージ済 → ContactForm から `/privacy` 到達可能 + CONTENT_POLICY.md がリポジトリ直下に存在
+- [x] フォーム実送信が成功し `freoli.official@gmail.com` に着信確認（2026-05-20 動作確認済）
 - [ ] Members 4 名全員 `consentLogged: true` か、未承諾は `photoPath: null` でシルエットフォールバック表示
 - [ ] `data/news.ts` に最低 1 件のエントリ
 - [ ] `data/links.ts` の SNS 4 種が `status: "active"` で実 URL を持つ
@@ -201,7 +206,7 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 |---|---|---|
 | V10-IR-01 | 独自ドメイン取得 + Vercel への紐付け | DNS |
 | V10-IR-02 | Resend 側で新ドメイン SPF/DKIM 設定（DNS 浸透 24h 待ち） | 外部 API |
-| V10-IR-03 | Cloudflare Turnstile に新ドメイン追加登録 | 外部 API |
+| V10-IR-03 | Cloudflare Turnstile Hostname Management に新ドメイン追加登録 | 外部 API |
 | V10-IR-04 | 旧ドメイン `*.vercel.app` から新ドメインへの 301 リダイレクト設定 | DNS |
 | V10-IR-05 | 旧ドメインを 1 週間並行運用（Turnstile / Resend が新ドメインで安定するまで） | 運用 |
 
@@ -233,7 +238,7 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 ## 不可逆要素チェック
 - [ ] このPRは環境変数の追加・変更を含む
-- [ ] このPRはDNS / 外部API設定の変更を含む
+- [ ] このPRはDNS / 外部API設定の変更（Cloudflare Turnstile Hostname Management 含む）を含む
 - [ ] このPRは公開済写真の追加・削除を含む
 - [ ] 上記いずれも含まない（純粋に可逆な変更）
 
@@ -258,7 +263,20 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 - [ ] ENV 追加時：Vercel ダッシュボード（Production / Preview / Development 全環境）+ `.env.example` + `lib/env.ts` Zod スキーマ更新
 - [ ] DNS 変更時：浸透待ち 24h + Resend / Turnstile 側設定 + 旧ドメイン 1 週間並行運用
+- [ ] **Turnstile Hostname 追加時**：Cloudflare ダッシュボード Hostname Management に対象ホスト追加（`vercel.app` ワイルドカード / 独自ドメイン / `localhost`）
 - [ ] 写真公開時：Notion Yes ログ記入 + `consentLogged: true` 反映 + CONTENT_POLICY 整合
+
+### 7.4 ロードマップ更新時の必須プロトコル（2026-05-20 経験より）
+
+ロードマップ docs を更新するときは、**必ず以下を最初に実行**：
+
+```bash
+git fetch origin
+git log origin/main --oneline -20   # main の最新コミットを確認
+git diff --stat <作業ブランチ> origin/main  # 作業ブランチと main の差分を把握
+```
+
+作業ブランチが main 派生で古い場合（main で別 PR がマージされている場合）、ローカルファイルだけ見ると未実装と誤診する。`docs/requirements/` の Feature ID と main 上のファイル存在を必ず照合する。
 
 ---
 
@@ -268,9 +286,12 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 |---|---|---|
 | **D-R1** | Phase 遷移は単一 PR で束ねる | 本ファイル §0 / §3 / §4 / §5 / §6 に反映 |
 | **D-R2** | 不可逆タスクは Phase の頭に集中 | 本ファイル §3.1 / §6.2 に反映 |
-| **D-R3** | Phase 1 launch の "実態" を CLAUDE.md / README.md に明示 | CLAUDE.md / README.md 更新で反映 |
+| **D-R3** | Phase 1 launch の "実態" を CLAUDE.md / README.md に明示 | CLAUDE.md / README.md 更新で反映、2026-05-20 main 反映で更新 |
 | **D-R4** | v0.5 遷移は 4 つの同時着地 | 本ファイル §5.2 に反映 |
 | **D-R5** | `actual_attendance` 遡及記入を v0.2 着手の最初の PR とする | 本ファイル §4.2 に反映 |
+| **D-R6** | **Cloudflare Turnstile Hostname Management の登録は不可逆タスク**として明文化。Vercel ENV 登録と同等の扱い | 2026-05-20 追記。`vercel.app` ワイルドカード登録完了。v1.0 独自ドメイン取得時に再発火（V10-IR-03） |
+| **D-R7** | **Resend アカウント登録メアドと `CONTACT_EMAIL_TO` は一致させる**（A 案）。サンドボックスモードのドメイン制限を回避するため | 2026-05-20 PR #9 マージ後の動作確認時に発見。`freoli.official@gmail.com` で Resend 再登録済 |
+| **D-R8** | **ロードマップ更新前に `git fetch origin && git log origin/main` で main 最新を必ず確認する** | 2026-05-20 追記。2026-05-19 の現状診断ミス（FEAT-008 を未実装と誤診）を教訓に明文化 |
 
 ---
 
@@ -279,4 +300,5 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 - **更新タイミング**: Phase 遷移完了時 + 月次レビュー時
 - **更新箇所**: §2 実装状況インベントリ（必ず）+ 該当 Phase の出口条件チェック
 - **同期対象**: CLAUDE.md「現在の実装状況と次の TODO」/ README.md「🗺️ Roadmap」セクション
+- **必須プロトコル**: §7.4 に従い `git fetch origin && git log origin/main` で main の最新を確認してから更新を始める
 - **議論が必要な変更時**: `docs/discussions/議論ログ_*.md` を新たに残す（本ロードマップの根拠を辿れるように）

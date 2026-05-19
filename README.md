@@ -297,7 +297,7 @@ git push origin main
 | **v0.5** | 楽曲リリース | サブスク Embed / Hero コピー刷新 / News / Spotify ページ（4 同時着地） | ⚪ 外部依存待ち |
 | **v1.0** | サーキット出演 or 動員 100 人 | 独自ドメイン / 301 / プレスキット / メーリングリスト | ⚪ 外部依存待ち |
 
-### 📍 実装状況スナップショット（2026-05-19 時点）
+### 📍 実装状況スナップショット（2026-05-20 時点、origin/main 反映後）
 
 **凡例**: 🟢 完了 / 🟡 部分実装 / 🔴 未着手・破綻 / ⚪ 計画通り未着手
 
@@ -308,33 +308,41 @@ git push origin main
 | FEAT-003 Members | 🟡 | あのむ以外 3 名の bio・写真・承諾未完 |
 | FEAT-004 PhotoGallery | ⚪ | v0.2 で着手 |
 | FEAT-005 SNSBar | 🟡 | 全 SNS URL が `null` |
-| FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（grayed out） |
+| FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（grayed out。2026 年現在のため "2025 年配信予定" 文言は見直し検討要） |
 | FEAT-007 News | 🟡 | `data/news.ts` が空配列 |
-| **FEAT-008 ContactForm** | 🔴 | **`app/api/contact/route.ts` 未配置**。送信は `console.log` のみ |
-| **FEAT-009 Privacy** | 🔴 | **`app/privacy/page.tsx` 未配置** |
+| **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
+| **FEAT-009 Privacy** | 🔴 | **`app/privacy/page.tsx` 未配置**。`ContactForm.tsx` の /privacy リンクも未追加（CF-06 未充足） |
 | FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義は実装済） |
-| FEAT-011 DeployGuard | 🟢 | hook + `lib/env.ts` 配置済 |
+| FEAT-011 DeployGuard | 🟢 | hook + `lib/env.ts` (serverEnv) 配置済 |
 | **FEAT-012 ContentPolicy** | 🔴 | **`CONTENT_POLICY.md` 未配置** |
+
+外部サービス設定：
+
+| 項目 | 状態 |
+|---|---|
+| Vercel Environment Variables | 🟢 設定済（Production + Preview + Development） |
+| Cloudflare Turnstile Hostname Management | 🟢 `vercel.app` ワイルドカード登録済 |
+| Resend アカウント | 🟢 `freoli.official@gmail.com` で登録（A 案、サンドボックス制限解消） |
 
 ### 🎯 次に着手すべき TODO（Phase 1 残）
 
-**🔴 最優先 — Phase 1 launch 完了に必須**
+**🔴 最優先 — Phase 1 launch 完了に必須（1 PR で束ねる）**
 
-1. **FEAT-008 API ルート実装** — `app/api/contact/route.ts` 新設（Resend SDK + Turnstile siteverify + Zod 検証 + 503 fallback）+ `ContactForm.tsx` の Turnstile 実トークン統合
-2. **FEAT-009 Privacy ページ配置** — `app/privacy/page.tsx` 新設
-3. **FEAT-012 CONTENT_POLICY.md 配置** — リポジトリ直下に作成
-4. **Vercel Environment Variables 本番設定** — `RESEND_API_KEY` / `TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` / `CONTACT_EMAIL_TO`（不可逆タスク、Tech Owner が個別実行）
+1. **FEAT-009 Privacy ページ配置** — `app/privacy/page.tsx` 新設（v3 §付録 B 素案を起点）
+2. **FEAT-012 CONTENT_POLICY.md 配置** — リポジトリ直下に v3 §付録 A 素案を起点に作成
+3. **ContactForm に `/privacy` リンク追加** — 送信前同意文として `components/sections/ContactForm.tsx` に組み込む（CF-06 充足）
 
-> 1〜3 は **1 PR で束ねる**（Phase as Single PR 原則）。
+> 1〜3 は **1 PR で束ねる**（Phase as Single PR 原則）。すべて可逆タスク。
 
 **🟡 並行可 — コンテンツ拡充**
 
-5. Hero キャッチコピー 30〜80 字確定
-6. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
-7. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
-8. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
-9. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
-10. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
+4. Hero キャッチコピー 30〜80 字確定
+5. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
+6. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
+7. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
+8. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
+9. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
+10. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
 
 ### 🛡️ 設計原則（議論ログ Turn 5）
 
