@@ -290,9 +290,7 @@ git push origin main
 
 ### Phase 全景
 
-| Phase | トリガー | 主な内容 | 状態 |
-|---|---|---|---|
-| **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、7/11 ライブ集客装置 | 🟡 **残タスクあり**（下記参照） |
+| **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、7/11 ライブ集客装置 | 🟡 機能スコープ完遂、コンテンツ拡充タスクのみ残 |
 | **v0.2** | Phase 1 完了 + 7/11 ライブ実測値 | PhotoGallery / PastLives / 動員数記録 | ⚪ 未着手 |
 | **v0.5** | 楽曲リリース | サブスク Embed / Hero コピー刷新 / News / Spotify ページ（4 同時着地） | ⚪ 外部依存待ち |
 | **v1.0** | サーキット出演 or 動員 100 人 | 独自ドメイン / 301 / プレスキット / メーリングリスト | ⚪ 外部依存待ち |
@@ -311,10 +309,10 @@ git push origin main
 | FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（grayed out。2026 年現在のため "2025 年配信予定" 文言は見直し検討要） |
 | FEAT-007 News | 🟡 | `data/news.ts` が空配列 |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
-| **FEAT-009 Privacy** | 🔴 | **`app/privacy/page.tsx` 未配置**。`ContactForm.tsx` の /privacy リンクも未追加（CF-06 未充足） |
+| **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済 + `ContactForm.tsx` 送信前同意文に `/privacy` リンク追加済（CF-06 充足） |
 | FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義は実装済） |
 | FEAT-011 DeployGuard | 🟢 | hook + `lib/env.ts` (serverEnv) 配置済 |
-| **FEAT-012 ContentPolicy** | 🔴 | **`CONTENT_POLICY.md` 未配置** |
+| **FEAT-012 ContentPolicy** | 🟢 | `CONTENT_POLICY.md` リポジトリ直下に配置済（v3 §付録 A ベース、10 章構成） |
 
 外部サービス設定：
 
@@ -326,23 +324,15 @@ git push origin main
 
 ### 🎯 次に着手すべき TODO（Phase 1 残）
 
-**🔴 最優先 — Phase 1 launch 完了に必須（1 PR で束ねる）**
+**🟡 コンテンツ拡充（並行可、優先度順）**
 
-1. **FEAT-009 Privacy ページ配置** — `app/privacy/page.tsx` 新設（v3 §付録 B 素案を起点）
-2. **FEAT-012 CONTENT_POLICY.md 配置** — リポジトリ直下に v3 §付録 A 素案を起点に作成
-3. **ContactForm に `/privacy` リンク追加** — 送信前同意文として `components/sections/ContactForm.tsx` に組み込む（CF-06 充足）
-
-> 1〜3 は **1 PR で束ねる**（Phase as Single PR 原則）。すべて可逆タスク。
-
-**🟡 並行可 — コンテンツ拡充**
-
-4. Hero キャッチコピー 30〜80 字確定
-5. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
-6. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
-7. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
-8. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
-9. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
-10. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
+1. Hero キャッチコピー 30〜80 字確定（FEAT-001）
+2. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
+3. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
+4. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
+5. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
+6. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
+7. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
 
 ### 🛡️ 設計原則（議論ログ Turn 5）
 

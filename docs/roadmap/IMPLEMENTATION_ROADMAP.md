@@ -41,8 +41,8 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 2025/5/31 想定      〜 2025/7/11          2025 年内             2027 初頭
 
 [現在地: 2026-05-20]
-  ├ Phase 1 大半完了（FEAT-008 動作確認済、A 案で Resend 再登録）
-  ├ FEAT-009 / FEAT-012 のみ残（次の単一 PR で完遂）
+  ├ Phase 1 機能スコープ完遂（FEAT-009 / FEAT-012 / CF-06 を本 PR で着地）
+  ├ 残はコンテンツ拡充タスク（PR-Content / PR-Members）
   ├ v0.2 着手前
   └ v0.5 / v1.0 は外部トリガー待ち
 
@@ -74,10 +74,10 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 | **FEAT-006 Subscriptions** | 🟢 | `SubscribeBar.tsx`、"2025 年配信予定" ラベル + grayed out 表示 | v0.1 仕様達成。v0.5 で Embed 化へ。**ただし日付 2026 年現在のため "2025 年配信予定" 文言の見直し検討要**（議論ログ Turn 2 みさき指摘）。 |
 | **FEAT-007 News** | 🟡 | `NewsList.tsx`、空配列フォールバック "ニュースは準備中です。" 表示 | `data/news.ts` が空配列。**7/11 ライブ告知の初回投稿**（v3 中優先度 #3）が必要。NW-03 月 1 回更新ルールの初回発火。 |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成**。`app/api/contact/route.ts` + `lib/turnstile.ts` + `lib/resend.ts` 分割、`@marsidev/react-turnstile` 統合、Zod 検証 + honeypot + 502 fallback。**2026-05-20 動作確認済**（A 案で `freoli.official@gmail.com` Resend 再登録 → preview URL でフォーム送信成功 → `freoli.official@gmail.com` Gmail 着信確認） | — |
-| **FEAT-009 Privacy** | 🔴 | `app/privacy/page.tsx` **未配置** | v3 §付録 B 素案を起点に作成。**CF-06（フォームから /privacy へのリンク）も未充足** — 現 ContactForm.tsx に `/privacy` リンクが無い。Privacy ページ配置と同 PR で ContactForm にリンク追加が必要。 |
+| **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済（v3 §付録 B 素案ベース、9 セクション構成）。**CF-06 充足** — `ContactForm.tsx` の送信ボタン直前に「送信することで、プライバシーポリシーに同意したものとみなされます」+ `/privacy` リンク追加済 | — |
 | **FEAT-010 PastLives** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。型定義 `actual_attendance: number \| null` は `data/lives.ts` に既に実装済（D-O1 / D-F2 反映済）。 |
 | **FEAT-011 DeployGuard** | 🟢 | `.claude/hooks/prevent-destructive-command.js` 配置済、`lib/env.ts` の `serverEnv()` 関数化で fail-fast、`.env.local` は `.gitignore` 対象 | — |
-| **FEAT-012 ContentPolicy** | 🔴 | `CONTENT_POLICY.md` **未配置**（README から参照されているが実体ファイルなし） | v3 §付録 A 素案を起点にリポジトリ直下配置。CAP-004 運用の信頼源。 |
+| **FEAT-012 ContentPolicy** | 🟢 | `CONTENT_POLICY.md` リポジトリ直下に配置済（v3 §付録 A 素案ベース、10 章構成）。CAP-004 運用の信頼源として機能 | — |
 
 ### 2.2 データファイル × 実装状況
 
@@ -103,7 +103,7 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 ## 3. Phase 1 残タスク（最優先）
 
-> **方針**: 議論ログ D-R1 に従い、可能な限り **1 PR で束ねる**。FEAT-009 + FEAT-012 + ContactForm の /privacy リンク追加を 1 PR にまとめるのが最短。
+> **方針**: 議論ログ D-R1 に従い、可能な限り **1 PR で束ねる**。**PR-Privacy（FEAT-009 + FEAT-012 + CF-06）は本ブランチで完了** — 残はコンテンツ拡充タスクのみ。
 
 ### 3.1 不可逆タスク（Phase の頭に配置）
 
@@ -118,9 +118,9 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 | ID | タスク | 関連 Feature / EARS | 推定 PR |
 |---|---|---|---|
-| P1-RV-A1 | `app/privacy/page.tsx` 配置（v3 §付録 B 素案ベース） | FEAT-009 / F5.5 / CF-06 | PR-Privacy |
-| P1-RV-A2 | `CONTENT_POLICY.md` をリポジトリ直下に配置（v3 §付録 A 素案ベース） | FEAT-012 / F5.1 / F5.2 | PR-Privacy |
-| P1-RV-A3 | `ContactForm.tsx` に `/privacy` ページへのリンクを追加（送信前同意文として） | FEAT-008 / CF-06 | PR-Privacy |
+| ~~P1-RV-A1~~ | ~~`app/privacy/page.tsx` 配置~~ **(完了)** | FEAT-009 / F5.5 / CF-06 | PR-Privacy |
+| ~~P1-RV-A2~~ | ~~`CONTENT_POLICY.md` リポジトリ直下配置~~ **(完了)** | FEAT-012 / F5.1 / F5.2 | PR-Privacy |
+| ~~P1-RV-A3~~ | ~~`ContactForm.tsx` に `/privacy` リンク追加~~ **(完了)** | FEAT-008 / CF-06 | PR-Privacy |
 | P1-RV-B1 | Hero キャッチコピー 30〜80 字確定（"心が先に動く" Vision 整合） | FEAT-001 / HE-03 | PR-Content |
 | P1-RV-B2 | Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + `photoPath` + `consentLogged: true` 反映（被写体承諾の Notion Yes ログ整備が前提） | FEAT-003 / U-09 | PR-Members |
 | P1-RV-B3 | 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加 | FEAT-007 / NW-04 | PR-Content |
@@ -131,7 +131,7 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 ### 3.3 Phase 1 完了判定（出口条件）
 
-- [ ] P1-RV-A1〜A3（PR-Privacy）が main マージ済 → ContactForm から `/privacy` 到達可能 + CONTENT_POLICY.md がリポジトリ直下に存在
+- [x] P1-RV-A1〜A3（PR-Privacy）配置完了 → ContactForm から `/privacy` 到達可能 + CONTENT_POLICY.md がリポジトリ直下に存在（main マージは本 PR 経由）
 - [x] フォーム実送信が成功し `freoli.official@gmail.com` に着信確認（2026-05-20 動作確認済）
 - [ ] Members 4 名全員 `consentLogged: true` か、未承諾は `photoPath: null` でシルエットフォールバック表示
 - [ ] `data/news.ts` に最低 1 件のエントリ

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { ContactInquirySchema, type ContactInquiry } from "@/lib/contact-schema";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +27,7 @@ type FormState = {
   category: ContactInquiry["category"];
   body: string;
   website: string;
+  agreeToPrivacy: boolean;
 };
 
 const initialState: FormState = {
@@ -34,6 +36,7 @@ const initialState: FormState = {
   category: "出演依頼",
   body: "",
   website: "",
+  agreeToPrivacy: false,
 };
 
 type FieldErrors = Partial<Record<keyof ContactInquiry, string[]>>;
@@ -238,11 +241,45 @@ export function ContactForm() {
             </div>
           ) : null}
 
+          <div>
+            <label
+              htmlFor="contact-agree-privacy"
+              className="flex items-start gap-3 cursor-pointer font-jp text-sm text-zinc-300"
+            >
+              <input
+                id="contact-agree-privacy"
+                type="checkbox"
+                checked={form.agreeToPrivacy}
+                onChange={(e) => update("agreeToPrivacy", e.target.checked)}
+                required
+                aria-invalid={errors.agreeToPrivacy ? true : undefined}
+                aria-describedby={
+                  errors.agreeToPrivacy ? "contact-agree-privacy-error" : undefined
+                }
+                className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-cyan-400 bg-zinc-900 border border-zinc-800"
+              />
+              <span>
+                <Link
+                  href="/privacy"
+                  className="underline text-cyan-400 hover:text-cyan-300"
+                >
+                  プライバシーポリシー
+                </Link>
+                に同意する
+              </span>
+            </label>
+            {errors.agreeToPrivacy?.[0] ? (
+              <p id="contact-agree-privacy-error" className="text-sm text-red-400 mt-1">
+                {errors.agreeToPrivacy[0]}
+              </p>
+            ) : null}
+          </div>
+
           <Button
             type="submit"
             variant="primary"
             className="self-start"
-            disabled={submitting || !token}
+            disabled={submitting || !token || !form.agreeToPrivacy}
           >
             {submitting ? "送信中..." : "送信する"}
           </Button>
