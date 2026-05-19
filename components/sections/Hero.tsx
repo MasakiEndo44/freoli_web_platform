@@ -1,15 +1,18 @@
+import Image from "next/image";
+
 import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
     <header className="relative w-full bg-black overflow-hidden h-[524px] lg:h-[620px]">
-      {/*
-        写真未配置時のフォールバック：spec §1.2 の sky→cyan グラデーション wash と
-        下部ダークフェードを重ねて Hero を成立させる。写真は v0.1 後半で
-        next/image を以下の <div className="absolute inset-0"> 直前に差し込む想定。
-        例：<Image src={photoPath} alt="" fill priority className="object-cover" />
-      */}
-      <div className="absolute inset-0 bg-zinc-950" aria-hidden="true" />
+      <Image
+        src="/images/band/freoli_1.JPEG"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
       <div
         className="absolute inset-0 bg-[linear-gradient(148deg,rgba(56,189,248,0.22)_0%,rgba(34,211,238,0.14)_40%,transparent_66%)] lg:bg-[linear-gradient(148deg,rgba(56,189,248,0.20)_0%,rgba(34,211,238,0.12)_42%,transparent_68%)]"
         aria-hidden="true"
