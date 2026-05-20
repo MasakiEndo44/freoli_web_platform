@@ -38,6 +38,9 @@ export function Hero() {
         <h1 className="font-inter font-extrabold text-[64px] md:text-[116px] tracking-[-0.03em] md:tracking-[-0.036em] leading-[0.92] md:leading-[0.88] text-zinc-50 mb-[11px] lg:mb-[18px]">
           FREOLI
         </h1>
+        <p className="font-jp text-sm md:text-base lg:text-lg text-zinc-200 leading-relaxed mb-4 lg:mb-5 max-w-[28rem] lg:max-w-2xl">
+          暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。
+        </p>
         <div className="flex flex-col lg:flex-row lg:items-center lg:gap-9">
           <p className="font-jp font-medium text-xs md:text-[15px] tracking-[0.12em] md:tracking-[0.10em] text-sky-400 mb-6 lg:mb-0 leading-none">
             東京発、4人組インディーロック

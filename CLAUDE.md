@@ -7,19 +7,19 @@
 
 ## 📍 現在の実装状況（2026-05-20 時点、origin/main 反映後）
 
-要件定義書（`docs/requirements/`）では 2025/5/31 を v0.1 launch 想定としているが、**実態は Phase 1 機能スコープ完遂**（FEAT-009 / FEAT-012 / CF-06 を 1 PR で着地）。残はコンテンツ拡充タスクのみ。FEAT-008 ContactForm API は PR #9 で実装済 + 2026-05-20 動作確認済（A 案で Resend を `freoli.official@gmail.com` で再登録、フォーム送信 → Gmail 着信を確認）。詳細は [`docs/roadmap/IMPLEMENTATION_ROADMAP.md`](docs/roadmap/IMPLEMENTATION_ROADMAP.md)、議論経緯は [`docs/discussions/議論ログ_実装ロードマップ.md`](docs/discussions/議論ログ_実装ロードマップ.md)。
+要件定義書（`docs/requirements/`）では 2025/5/31 を v0.1 launch 想定としているが、**実態は Phase 1 機能スコープ + 主要コンテンツが揃った状態**。Hero キャッチコピー確定、Members 4 名 photo + consent 揃い、NextLive 差し替え（2026-07-11 WAVER）、初回 News 投稿、SubscribeBar 文言更新済。残は本決定 bio / X 開設 / WAVER 公演詳細のみ。FEAT-008 ContactForm API は PR #9 で実装済 + 2026-05-20 動作確認済（A 案で Resend を `freoli.official@gmail.com` で再登録、フォーム送信 → Gmail 着信を確認）。詳細は [`docs/roadmap/IMPLEMENTATION_ROADMAP.md`](docs/roadmap/IMPLEMENTATION_ROADMAP.md)、議論経緯は [`docs/discussions/議論ログ_実装ロードマップ.md`](docs/discussions/議論ログ_実装ロードマップ.md)。
 
 **凡例**: 🟢 完了 / 🟡 部分実装 / 🔴 未着手・破綻 / ⚪ 計画通り未着手（Phase 2 以降）
 
 | Feature | 状態 | 主なギャップ |
 |---|---|---|
-| FEAT-001 Hero | 🟡 | キャッチコピー 30〜80 字未確定（v3 中優先度 #1） |
-| FEAT-002 NextLive | 🟢 | — |
-| FEAT-003 Members | 🟡 | あのむ以外 3 名の bio・写真・承諾未完 |
+| FEAT-001 Hero | 🟢 | キャッチコピー確定（「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」） |
+| FEAT-002 NextLive | 🟢 | 2026-07-11 WAVER 公演 + `venueUrl` / `venuePhone` 反映済 |
+| FEAT-003 Members | 🟡 | 4 名全員 `photoPath` + `consentLogged: true` 揃った。ただし anomu 以外 3 名は bio が「（仮）」のまま → 本決定文待ち |
 | FEAT-004 PhotoGallery | ⚪ | v0.2 で着手 |
-| FEAT-005 SNSBar | 🟡 | 全 SNS URL が `null` |
-| FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（"2025 年配信予定" 文言は 2026 年現在のため見直し検討要） |
-| FEAT-007 News | 🟡 | `data/news.ts` が空配列 |
+| FEAT-005 SNSBar | 🟡 | Instagram / YouTube / TikTok / Apple Music は `active`。X は未開設（`null` / `coming-2025`）のまま、Spotify は v0.5 予定通り |
+| FEAT-006 Subscriptions | 🟢 | バッジ `Coming Soon...` 化、年表記なしに刷新済 |
+| FEAT-007 News | 🟢 | 初回「公式サイト公開」投稿あり（2026-05-20） |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
 | **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済 + `ContactForm.tsx` の送信前同意文に `/privacy` リンク追加済（CF-06 充足） |
 | FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義 `actual_attendance` は実装済） |
@@ -38,19 +38,20 @@
 
 ## 🎯 次に着手すべき TODO（Phase 1 残）
 
-### 🟡 コンテンツ拡充（並行可、優先度順）
+### 🟡 残作業（優先度順）
 
-1. Hero キャッチコピー 30〜80 字確定（FEAT-001、"心が先に動く" Vision V-7 整合）
-2. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
-3. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
-4. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
-5. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加（v3 中優先度 #6）
-6. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
-7. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
+1. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の **本決定 bio**（現在は要件定義書付録D ベースの仮テキスト）
+2. X アカウント開設後に `data/links.ts` の X を `url` 設定 + `status: "active"` 切替
+3. 2026/7/11 WAVER 公演の `doorsOpenAt` / `showStartAt` / `ticketPrice` / `ticketUrl` 確定後に反映（現在 `undefined`）
+
+### ⚪ v0.5 以降
+
+- Spotify URL は楽曲リリース時に設定（v0.5）
+- 楽曲リリース確定後に Hero コピー / SubscribeBar の文言を再点検
+- FEAT-004 PhotoGallery / FEAT-010 PastLives 実装は v0.2 で着手
 
 ### ⚪ v0.2 以降
 
-- FEAT-004 PhotoGallery / FEAT-010 PastLives 実装は **Phase 1 完了後** に v0.2 PR として束ねる
 - v0.5 / v1.0 は外部トリガー駆動（楽曲リリース / サーキット出演オファー）
 
 ---

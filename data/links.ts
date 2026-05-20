@@ -9,20 +9,20 @@ export const links: SocialLink[] = [
   {
     platform: "instagram",
     label: "Instagram",
-    url: null,
-    status: "coming-2025",
+    url: "https://www.instagram.com/freoli_official?igsh=Nm5kbHRlaGp6cHUy&utm_source=qr",
+    status: "active",
   },
   {
     platform: "youtube",
     label: "YouTube",
-    url: null,
-    status: "coming-2025",
+    url: "https://youtube.com/@freoli_official?si=2IgxARtJy46GXgWX",
+    status: "active",
   },
   {
     platform: "tiktok",
     label: "TikTok",
-    url: null,
-    status: "coming-2025",
+    url: "https://www.tiktok.com/@freoli_official?_r=1&_t=ZS-96VXP7xgeTl",
+    status: "active",
   },
   {
     platform: "x",
@@ -39,7 +39,7 @@ export const links: SocialLink[] = [
   {
     platform: "apple-music",
     label: "Apple Music",
-    url: null,
-    status: "coming-2025",
+    url: "https://music.apple.com/jp/artist/anomuder/1589759263",
+    status: "active",
   },
 ];
