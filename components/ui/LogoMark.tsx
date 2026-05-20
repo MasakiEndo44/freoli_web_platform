@@ -23,7 +23,7 @@ export function LogoMark({
         alt={alt}
         width={1536}
         height={953}
-        className="h-12 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+        className="h-[120px] md:h-[160px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
       />
     </Link>
   );
