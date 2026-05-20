@@ -43,7 +43,8 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 [現在地: 2026-05-20]
   ├ Phase 1 機能スコープ + 主要コンテンツ完遂
   ├ launch 可能状態（残: 本決定 bio / X 開設 / WAVER 詳細）
-  ├ v0.2 着手前
+  ├ v0.2 スケルトン着地済（FEAT-004 / FEAT-010 コンポーネント配置 + 空状態フォールバック）
+  ├ v0.2 完了は 7/11 ライブ実測値 + 被写体 Yes 取得後の content PR で発火
   └ v0.5 / v1.0 は外部トリガー待ち
 
 進行方向 →→→
@@ -69,13 +70,13 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 | **FEAT-001 Hero** | 🟢 | `components/sections/Hero.tsx`、`/images/band/freoli_1.JPEG` 使用、キャッチコピー「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」確定 | — |
 | **FEAT-002 NextLive** | 🟢 | `LivesSection.tsx`、2026-07-11 WAVER 公演 + `venueUrl: https://waverwaver.net/` + `venuePhone: 03-6804-0094` 反映、F1.5 縮退 UI + F1.2 フォールバック実装済 | `doorsOpenAt` / `showStartAt` / `ticketPrice` / `ticketUrl` は確定後反映 |
 | **FEAT-003 Members** | 🟡 | `MembersSection.tsx`、楽器順ソート、シルエットフォールバック実装、4 名全員 `photoPath` + `consentLogged: true` 揃った | anomu 以外 3 名の bio は要件定義書付録D ベースの**仮テキスト**（先頭に「（仮）」表記）。本決定文待ち |
-| **FEAT-004 PhotoGallery** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。被写体 Yes ログ照合フロー必須。 |
+| **FEAT-004 PhotoGallery** | 🟡 | `components/sections/PhotoGallery.tsx` + `data/photos.ts`（型のみ + 空配列）配置済。`consentLogged && photographer` 両充足のみ表示、空配列時は `null` 返却で非表示。`next/image` の WebP / レスポンシブ最適化済 | 被写体 Yes 取得済の 3〜5 枚を `data/photos.ts` に追加するだけで content PR が完結 |
 | **FEAT-005 SNSBar** | 🟡 | `SNSBar.tsx`、grayed out 状態 UI 実装済 | Instagram / YouTube / TikTok / Apple Music は `active`。X は `coming-2025`（未開設）、Spotify は v0.5 リリース時設定予定 |
 | **FEAT-006 Subscriptions** | 🟢 | `SubscribeBar.tsx`、バッジ `Coming Soon...` + 説明文「楽曲は配信準備中です」 + grayed out 表示 | v0.5 で Embed 化へ |
 | **FEAT-007 News** | 🟢 | `NewsList.tsx` + 初回投稿（2026-05-20 公式サイト公開）あり | NW-03 月 1 回更新ルールに従い継続運用 |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成**。`app/api/contact/route.ts` + `lib/turnstile.ts` + `lib/resend.ts` 分割、`@marsidev/react-turnstile` 統合、Zod 検証 + honeypot + 502 fallback。**2026-05-20 動作確認済**（A 案で `freoli.official@gmail.com` Resend 再登録 → preview URL でフォーム送信成功 → `freoli.official@gmail.com` Gmail 着信確認） | — |
 | **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済（v3 §付録 B 素案ベース、9 セクション構成）。**CF-06 充足** — `ContactForm.tsx` の送信ボタン直前に「送信することで、プライバシーポリシーに同意したものとみなされます」+ `/privacy` リンク追加済 | — |
-| **FEAT-010 PastLives** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。型定義 `actual_attendance: number \| null` は `data/lives.ts` に既に実装済（D-O1 / D-F2 反映済）。 |
+| **FEAT-010 PastLives** | 🟡 | `components/sections/PastLives.tsx` + `lib/lives-utils.ts` の `partitionLives()` 配置済。`LivesSection` も props 経由（`nextLive`）に改修し NL-03（日付経過で NextLive → PastLives 自動移行）充足。`organizer` バッジ + `actual_attendance` 任意表示対応。過去公演 0 件時は `null` 返却で非表示 | 過去公演を `data/lives.ts` に追加するだけで表示が発火（7/11 WAVER 後の content PR 想定） |
 | **FEAT-011 DeployGuard** | 🟢 | `.claude/hooks/prevent-destructive-command.js` 配置済、`lib/env.ts` の `serverEnv()` 関数化で fail-fast、`.env.local` は `.gitignore` 対象 | — |
 | **FEAT-012 ContentPolicy** | 🟢 | `CONTENT_POLICY.md` リポジトリ直下に配置済（v3 §付録 A 素案ベース、10 章構成）。CAP-004 運用の信頼源として機能 | — |
 
@@ -145,17 +146,19 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 ### 4.1 入口条件
 
 - Phase 1 完了出口条件 §3.3 すべて満たす
-- 7/11 Blue Sheep ライブ実施済 + 動員数実測値取得済
+- 7/11 WAVER ライブ実施済 + 動員数実測値取得済
 - Notion Yes ログに被写体 4 名全員の Yes 記録あり
+
+> **スケルトン先行（2026-05-20 着地）**: 入口条件のうち外部条件（ライブ実施・写真取得）が未充足だったため、コンポーネント・ヘルパー・データ型を先行配置するスケルトン PR を切り出して着地。`actual_attendance` 記入と `data/photos.ts` への画像追加だけで表示が発火する状態。詳細は §4.2.
 
 ### 4.2 着地する変更（1 PR で束ねる目標）
 
-| 同時着地が必要なもの | Feature |
-|---|---|
-| `actual_attendance` への 7/11 実測値遡及記入 + 過去公演がある場合は全件 | FEAT-002 / FEAT-010 / D-O1 |
-| `LivesSection.tsx` に過去公演表示セクション追加（直近 5〜10 件、動員数併記） | FEAT-010 |
-| バンド写真ギャラリーコンポーネント新設 + Members セクション直下に配置 | FEAT-004 |
-| ライブ写真の被写体合意確認（出演者・観客プライバシー）| FEAT-004 + CAP-004 |
+| 同時着地が必要なもの | Feature | スケルトン段階での状態 |
+|---|---|---|
+| `actual_attendance` への 7/11 実測値遡及記入 + 過去公演がある場合は全件 | FEAT-002 / FEAT-010 / D-O1 | コード受け側完成、データ未投入 |
+| 過去公演表示セクション（直近 5〜10 件、動員数併記） | FEAT-010 | `PastLives.tsx` 配置済、`partitionLives()` で日付分割、空配列時非表示 |
+| バンド写真ギャラリーコンポーネント新設 + Members セクション直下に配置 | FEAT-004 | `PhotoGallery.tsx` + `data/photos.ts` 配置済、Members 直下統合済、空配列時非表示 |
+| ライブ写真の被写体合意確認（出演者・観客プライバシー）| FEAT-004 + CAP-004 | `consentLogged && photographer` 両充足のみ表示、ガード実装済 |
 
 ### 4.3 v0.2 完了判定（出口条件）
 

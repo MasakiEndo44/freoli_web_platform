@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <header className="relative w-full overflow-hidden h-[524px] lg:h-[620px]">
+    <header
+      data-hero
+      className="relative w-full overflow-hidden h-[524px] lg:h-[620px]"
+    >
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative h-full aspect-[2/3]">
           <Image

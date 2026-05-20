@@ -291,7 +291,7 @@ git push origin main
 ### Phase 全景
 
 | **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、2026-07-11 WAVER ライブ集客装置 | 🟢 launch 可能状態（本決定 bio / X 開設等は逐次） |
-| **v0.2** | Phase 1 完了 + 7/11 ライブ実測値 | PhotoGallery / PastLives / 動員数記録 | ⚪ 未着手 |
+| **v0.2** | Phase 1 完了 + 7/11 ライブ実測値 | PhotoGallery / PastLives / 動員数記録 | 🟡 スケルトン着地済（コンポーネント + 空状態フォールバック）。データ投入待ち |
 | **v0.5** | 楽曲リリース | サブスク Embed / Hero コピー刷新 / News / Spotify ページ（4 同時着地） | ⚪ 外部依存待ち |
 | **v1.0** | サーキット出演 or 動員 100 人 | 独自ドメイン / 301 / プレスキット / メーリングリスト | ⚪ 外部依存待ち |
 
@@ -304,13 +304,13 @@ git push origin main
 | FEAT-001 Hero | 🟢 | キャッチコピー確定（「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」） |
 | FEAT-002 NextLive | 🟢 | 2026-07-11 WAVER 公演 + `venueUrl` / `venuePhone` 反映済 |
 | FEAT-003 Members | 🟡 | 4 名全員 `photoPath` + `consentLogged: true` 揃った。anomu 以外 3 名は bio が「（仮）」 → 本決定文待ち |
-| FEAT-004 PhotoGallery | ⚪ | v0.2 で着手 |
+| FEAT-004 PhotoGallery | 🟡 | スケルトン実装済（`PhotoGallery.tsx` + `data/photos.ts`、`consentLogged && photographer` で filter、空配列時は非表示）。3〜5 枚追加で表示発火 |
 | FEAT-005 SNSBar | 🟡 | Instagram / YouTube / TikTok / Apple Music は `active`。X 未開設・Spotify は v0.5 予定通り |
 | FEAT-006 Subscriptions | 🟢 | バッジ `Coming Soon...` 化、年表記なしに刷新済 |
 | FEAT-007 News | 🟢 | 初回「公式サイト公開」投稿あり（2026-05-20） |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
 | **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済 + `ContactForm.tsx` 送信前同意文に `/privacy` リンク追加済（CF-06 充足） |
-| FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義は実装済） |
+| FEAT-010 PastLives | 🟡 | スケルトン実装済（`PastLives.tsx` + `lib/lives-utils.ts` の `partitionLives`、過去 0 件時は非表示、`organizer` バッジ + `actual_attendance` 任意表示、NL-03 充足）。過去公演追加で表示発火 |
 | FEAT-011 DeployGuard | 🟢 | hook + `lib/env.ts` (serverEnv) 配置済 |
 | **FEAT-012 ContentPolicy** | 🟢 | `CONTENT_POLICY.md` リポジトリ直下に配置済（v3 §付録 A ベース、10 章構成） |
 
@@ -324,11 +324,16 @@ git push origin main
 
 ### 🎯 次に着手すべき TODO（Phase 1 残）
 
-**🟡 残作業（優先度順）**
+**🟡 Phase 1 残作業（優先度順）**
 
 1. Members 残 3 名の **本決定 bio**（現在は要件定義書付録D ベースの仮テキスト）
 2. X アカウント開設後に `data/links.ts` の X を `url` 設定 + `status: "active"` 切替
 3. 2026/7/11 WAVER 公演の `doorsOpenAt` / `showStartAt` / `ticketPrice` / `ticketUrl` 確定後に反映
+
+**🟡 v0.2 残（スケルトン後のコンテンツ投入）**
+
+1. 2026/7/11 WAVER 公演実施後に `actual_attendance` を `data/lives.ts` へ記入（→ PastLives 表示発火）
+2. 被写体 Yes 取得済の 3〜5 枚を `data/photos.ts` に追加（→ PhotoGallery 表示発火）
 
 ### 🛡️ 設計原則（議論ログ Turn 5）
 

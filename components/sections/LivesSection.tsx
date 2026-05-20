@@ -1,4 +1,4 @@
-import { lives, type LiveEvent } from "@/data/lives";
+import type { LiveEvent } from "@/data/lives";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
@@ -130,9 +130,7 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
   );
 }
 
-export function LivesSection() {
-  const next = lives[0];
-
+export function LivesSection({ nextLive }: { nextLive: LiveEvent | undefined }) {
   return (
     <section
       id="next-live"
@@ -142,8 +140,8 @@ export function LivesSection() {
         <Heading variant="eyebrow" className="block mb-11">
           — NEXT LIVE
         </Heading>
-        {next ? (
-          <NextLiveCard live={next} />
+        {nextLive ? (
+          <NextLiveCard live={nextLive} />
         ) : (
           <p className="font-jp text-base text-zinc-400">
             次回ライブは調整中です。SNS でお知らせします。
