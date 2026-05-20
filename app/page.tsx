@@ -7,6 +7,7 @@ import { PhotoGallery } from "@/components/sections/PhotoGallery";
 import { SubscribeBar } from "@/components/sections/SubscribeBar";
 import { NewsList } from "@/components/sections/NewsList";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { StickyLogoMark } from "@/components/ui/StickyLogoMark";
 import { lives } from "@/data/lives";
 import { photos } from "@/data/photos";
 import { partitionLives } from "@/lib/lives-utils";
@@ -19,6 +20,7 @@ export default function HomePage() {
       {/* 非交渉 UX シーケンス（AGENTS.md §1 / 要件定義書 F2.1 / engineering.md §4.2）：
           1.Hero → 2.SNSBar → 3.NextLive → 4.PastLives → 5.Members → 6.PhotoGallery
           → 7.Subscribe → 8.News → 9.ContactForm */}
+      <StickyLogoMark />
       <Hero />
       <SNSBar />
       <LivesSection nextLive={upcoming[0]} />

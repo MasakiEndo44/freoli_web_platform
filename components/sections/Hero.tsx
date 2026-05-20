@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 import { Button } from "@/components/ui/Button";
-import { LogoMark } from "@/components/ui/LogoMark";
 
 export function Hero() {
   return (
-    <header className="relative w-full overflow-hidden h-[524px] lg:h-[620px]">
-      <LogoMark className="absolute top-3 left-3 md:top-4 md:left-4 z-20" />
+    <header
+      data-hero
+      className="relative w-full overflow-hidden h-[524px] lg:h-[620px]"
+    >
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative h-full aspect-[2/3]">
           <Image
