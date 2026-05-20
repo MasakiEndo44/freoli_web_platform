@@ -290,7 +290,7 @@ git push origin main
 
 ### Phase 全景
 
-| **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、7/11 ライブ集客装置 | 🟡 機能スコープ完遂、コンテンツ拡充タスクのみ残 |
+| **Phase 1 (v0.1)** | 要件定義 v3 合意 | 最小構成 launch、2026-07-11 WAVER ライブ集客装置 | 🟢 launch 可能状態（本決定 bio / X 開設等は逐次） |
 | **v0.2** | Phase 1 完了 + 7/11 ライブ実測値 | PhotoGallery / PastLives / 動員数記録 | ⚪ 未着手 |
 | **v0.5** | 楽曲リリース | サブスク Embed / Hero コピー刷新 / News / Spotify ページ（4 同時着地） | ⚪ 外部依存待ち |
 | **v1.0** | サーキット出演 or 動員 100 人 | 独自ドメイン / 301 / プレスキット / メーリングリスト | ⚪ 外部依存待ち |
@@ -301,13 +301,13 @@ git push origin main
 
 | Feature | 状態 | 主なギャップ |
 |---|---|---|
-| FEAT-001 Hero | 🟡 | キャッチコピー 30〜80 字未確定 |
-| FEAT-002 NextLive | 🟢 | — |
-| FEAT-003 Members | 🟡 | あのむ以外 3 名の bio・写真・承諾未完 |
+| FEAT-001 Hero | 🟢 | キャッチコピー確定（「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」） |
+| FEAT-002 NextLive | 🟢 | 2026-07-11 WAVER 公演 + `venueUrl` / `venuePhone` 反映済 |
+| FEAT-003 Members | 🟡 | 4 名全員 `photoPath` + `consentLogged: true` 揃った。anomu 以外 3 名は bio が「（仮）」 → 本決定文待ち |
 | FEAT-004 PhotoGallery | ⚪ | v0.2 で着手 |
-| FEAT-005 SNSBar | 🟡 | 全 SNS URL が `null` |
-| FEAT-006 Subscriptions | 🟢 | v0.1 仕様達成（grayed out。2026 年現在のため "2025 年配信予定" 文言は見直し検討要） |
-| FEAT-007 News | 🟡 | `data/news.ts` が空配列 |
+| FEAT-005 SNSBar | 🟡 | Instagram / YouTube / TikTok / Apple Music は `active`。X 未開設・Spotify は v0.5 予定通り |
+| FEAT-006 Subscriptions | 🟢 | バッジ `Coming Soon...` 化、年表記なしに刷新済 |
+| FEAT-007 News | 🟢 | 初回「公式サイト公開」投稿あり（2026-05-20） |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成、2026-05-20 動作確認済** |
 | **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済 + `ContactForm.tsx` 送信前同意文に `/privacy` リンク追加済（CF-06 充足） |
 | FEAT-010 PastLives | ⚪ | v0.2 で着手（型定義は実装済） |
@@ -324,15 +324,11 @@ git push origin main
 
 ### 🎯 次に着手すべき TODO（Phase 1 残）
 
-**🟡 コンテンツ拡充（並行可、優先度順）**
+**🟡 残作業（優先度順）**
 
-1. Hero キャッチコピー 30〜80 字確定（FEAT-001）
-2. Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + 写真 + `consentLogged: true`（被写体承諾の Notion Yes ログ整備が前提）
-3. 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加
-4. `data/links.ts` の SNS 4 種 URL 入力 + `status: "active"` 切替
-5. Blue Sheep 公演に `venueUrl` or `venuePhone` 追加
-6. 7/11 Blue Sheep の `actual_attendance` 遡及記入（実測値取得後）
-7. "2025 年配信予定" 文言の見直し（FEAT-006、現時点 2026 年）
+1. Members 残 3 名の **本決定 bio**（現在は要件定義書付録D ベースの仮テキスト）
+2. X アカウント開設後に `data/links.ts` の X を `url` 設定 + `status: "active"` 切替
+3. 2026/7/11 WAVER 公演の `doorsOpenAt` / `showStartAt` / `ticketPrice` / `ticketUrl` 確定後に反映
 
 ### 🛡️ 設計原則（議論ログ Turn 5）
 

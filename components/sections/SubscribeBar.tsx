@@ -16,7 +16,7 @@ export function SubscribeBar() {
         Subscribe
       </Heading>
       <p className="font-jp text-sm text-zinc-400 mb-6">
-        楽曲は 2025 年配信予定です。配信開始時に各サブスクへリンクします。
+        楽曲は配信準備中です。配信開始時に各サブスクへリンクします。
       </p>
       <div className="flex flex-col md:flex-row gap-4">
         {services.map((s) => (
@@ -24,12 +24,12 @@ export function SubscribeBar() {
             key={s.key}
             role="link"
             aria-disabled="true"
-            aria-label={`${s.label}（2025 年配信予定）`}
+            aria-label={`${s.label}（Coming Soon）`}
             className="inline-flex items-center justify-between gap-4 min-h-[44px] px-6 py-3 bg-zinc-900 border border-zinc-800 rounded-md opacity-50 cursor-not-allowed font-inter font-semibold text-base text-zinc-50"
           >
             <span>{s.label}</span>
             <span className="font-inter text-[10px] tracking-[0.16em] text-cyan-400 uppercase">
-              2025 年配信予定
+              Coming Soon...
             </span>
           </div>
         ))}

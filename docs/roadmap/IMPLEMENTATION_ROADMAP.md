@@ -41,8 +41,8 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 2025/5/31 想定      〜 2025/7/11          2025 年内             2027 初頭
 
 [現在地: 2026-05-20]
-  ├ Phase 1 機能スコープ完遂（FEAT-009 / FEAT-012 / CF-06 を本 PR で着地）
-  ├ 残はコンテンツ拡充タスク（PR-Content / PR-Members）
+  ├ Phase 1 機能スコープ + 主要コンテンツ完遂
+  ├ launch 可能状態（残: 本決定 bio / X 開設 / WAVER 詳細）
   ├ v0.2 着手前
   └ v0.5 / v1.0 は外部トリガー待ち
 
@@ -66,13 +66,13 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 | Feature | 状態 | 実装の中身 | ギャップ |
 |---|---|---|---|
-| **FEAT-001 Hero** | 🟡 | `components/sections/Hero.tsx`、`/images/band/freoli_1.JPEG` 使用、コピー "東京発、4人組インディーロック" | キャッチコピー 30〜80 字を確定する（v3 中優先度 #1）。"心が先に動く" の Vision V-7 と整合する文面が未確定。 |
-| **FEAT-002 NextLive** | 🟢 | `LivesSection.tsx`、Blue Sheep 表示、F1.5 縮退 UI + F1.2 フォールバック実装済 | — |
-| **FEAT-003 Members** | 🟡 | `MembersSection.tsx`、楽器順ソート、シルエットフォールバック実装、4 名定義 | あのむ以外 3 名（ゆうすけ / ひろむ / aberyo）の bio が「（仮）」、`photoPath: null`、`consentLogged: false`。**Members 残 3 名タスク**。 |
+| **FEAT-001 Hero** | 🟢 | `components/sections/Hero.tsx`、`/images/band/freoli_1.JPEG` 使用、キャッチコピー「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」確定 | — |
+| **FEAT-002 NextLive** | 🟢 | `LivesSection.tsx`、2026-07-11 WAVER 公演 + `venueUrl: https://waverwaver.net/` + `venuePhone: 03-6804-0094` 反映、F1.5 縮退 UI + F1.2 フォールバック実装済 | `doorsOpenAt` / `showStartAt` / `ticketPrice` / `ticketUrl` は確定後反映 |
+| **FEAT-003 Members** | 🟡 | `MembersSection.tsx`、楽器順ソート、シルエットフォールバック実装、4 名全員 `photoPath` + `consentLogged: true` 揃った | anomu 以外 3 名の bio は要件定義書付録D ベースの**仮テキスト**（先頭に「（仮）」表記）。本決定文待ち |
 | **FEAT-004 PhotoGallery** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。被写体 Yes ログ照合フロー必須。 |
-| **FEAT-005 SNSBar** | 🟡 | `SNSBar.tsx`、grayed out 状態 UI 実装済 | `data/links.ts` の Instagram / YouTube / TikTok / X の URL が全て `null`。**SNS URL 入力タスク**。 |
-| **FEAT-006 Subscriptions** | 🟢 | `SubscribeBar.tsx`、"2025 年配信予定" ラベル + grayed out 表示 | v0.1 仕様達成。v0.5 で Embed 化へ。**ただし日付 2026 年現在のため "2025 年配信予定" 文言の見直し検討要**（議論ログ Turn 2 みさき指摘）。 |
-| **FEAT-007 News** | 🟡 | `NewsList.tsx`、空配列フォールバック "ニュースは準備中です。" 表示 | `data/news.ts` が空配列。**7/11 ライブ告知の初回投稿**（v3 中優先度 #3）が必要。NW-03 月 1 回更新ルールの初回発火。 |
+| **FEAT-005 SNSBar** | 🟡 | `SNSBar.tsx`、grayed out 状態 UI 実装済 | Instagram / YouTube / TikTok / Apple Music は `active`。X は `coming-2025`（未開設）、Spotify は v0.5 リリース時設定予定 |
+| **FEAT-006 Subscriptions** | 🟢 | `SubscribeBar.tsx`、バッジ `Coming Soon...` + 説明文「楽曲は配信準備中です」 + grayed out 表示 | v0.5 で Embed 化へ |
+| **FEAT-007 News** | 🟢 | `NewsList.tsx` + 初回投稿（2026-05-20 公式サイト公開）あり | NW-03 月 1 回更新ルールに従い継続運用 |
 | **FEAT-008 ContactForm** | 🟢 | **PR #9 で完成**。`app/api/contact/route.ts` + `lib/turnstile.ts` + `lib/resend.ts` 分割、`@marsidev/react-turnstile` 統合、Zod 検証 + honeypot + 502 fallback。**2026-05-20 動作確認済**（A 案で `freoli.official@gmail.com` Resend 再登録 → preview URL でフォーム送信成功 → `freoli.official@gmail.com` Gmail 着信確認） | — |
 | **FEAT-009 Privacy** | 🟢 | `app/privacy/page.tsx` 配置済（v3 §付録 B 素案ベース、9 セクション構成）。**CF-06 充足** — `ContactForm.tsx` の送信ボタン直前に「送信することで、プライバシーポリシーに同意したものとみなされます」+ `/privacy` リンク追加済 | — |
 | **FEAT-010 PastLives** | ⚪ | 未実装 | Phase 2 (v0.2) で着手予定。型定義 `actual_attendance: number \| null` は `data/lives.ts` に既に実装済（D-O1 / D-F2 反映済）。 |
@@ -83,10 +83,10 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 
 | ファイル | 状態 | 課題 |
 |---|---|---|
-| `data/lives.ts` | 🟡 | Blue Sheep 1 件のみ。`venueUrl` / `venuePhone` / `ticketUrl` 全て `undefined`。`actual_attendance: null`。**実測値遡及記入** + Blue Sheep の電話番号 or 公式 URL（v3 中優先度 #6）。 |
-| `data/members.ts` | 🟡 | 4 名定義済、あのむのみ `consentLogged: true` + `photoPath` 設定済。他 3 名未完。 |
-| `data/news.ts` | 🔴 | 空配列。初回投稿待ち。 |
-| `data/links.ts` | 🔴 | 全 6 件が `url: null` + `status: "coming-2025"`。SNS 実 URL 入力必須（status `"active"` 切替も）。 |
+| `data/lives.ts` | 🟢 | 2026-07-11 WAVER 公演 1 件、`venueUrl` + `venuePhone` 反映済。時間・チケット情報は確定後反映 |
+| `data/members.ts` | 🟡 | 4 名全員 `photoPath` + `consentLogged: true`。anomu 以外 3 名の bio は仮テキスト |
+| `data/news.ts` | 🟢 | 初回「公式サイト公開」投稿あり（2026-05-20） |
+| `data/links.ts` | 🟡 | Instagram / YouTube / TikTok / Apple Music は `active`。X は `coming-2025`、Spotify は v0.5 |
 
 ### 2.3 環境変数 × 外部サービス設定
 
@@ -121,21 +121,21 @@ Phase 1 (v0.1)            v0.2                v0.5                  v1.0
 | ~~P1-RV-A1~~ | ~~`app/privacy/page.tsx` 配置~~ **(完了)** | FEAT-009 / F5.5 / CF-06 | PR-Privacy |
 | ~~P1-RV-A2~~ | ~~`CONTENT_POLICY.md` リポジトリ直下配置~~ **(完了)** | FEAT-012 / F5.1 / F5.2 | PR-Privacy |
 | ~~P1-RV-A3~~ | ~~`ContactForm.tsx` に `/privacy` リンク追加~~ **(完了)** | FEAT-008 / CF-06 | PR-Privacy |
-| P1-RV-B1 | Hero キャッチコピー 30〜80 字確定（"心が先に動く" Vision 整合） | FEAT-001 / HE-03 | PR-Content |
-| P1-RV-B2 | Members 残 3 名（ゆうすけ / ひろむ / aberyo）の bio + `photoPath` + `consentLogged: true` 反映（被写体承諾の Notion Yes ログ整備が前提） | FEAT-003 / U-09 | PR-Members |
-| P1-RV-B3 | 初回 News 投稿（7/11 Blue Sheep ライブ告知）を `data/news.ts` に追加 | FEAT-007 / NW-04 | PR-Content |
-| P1-RV-B4 | `data/links.ts` の SNS 4 種（Instagram / YouTube / TikTok / X）の URL 入力 + `status: "active"` 切替 | FEAT-005 | PR-Content |
-| P1-RV-B5 | `data/lives.ts` の Blue Sheep 公演に `venueUrl` or `venuePhone`（v3 中優先度 #6） | FEAT-002 / NL-02 | PR-Content |
-| P1-RV-B6 | 7/11 Blue Sheep 公演の `actual_attendance` 遡及記入（実測値が取得できれば） | FEAT-002 / FEAT-010 / D-O1 | PR-D（v0.2 着手の最初の PR と統合可） |
-| P1-RV-B7 | "2025 年配信予定" 文言の見直し（議論ログ Turn 2 みさき指摘、現時点 2026 年） | FEAT-006 / ST-01 | PR-Content |
+| ~~P1-RV-B1~~ | ~~Hero キャッチコピー 30〜80 字確定~~ **(完了)**「暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。」 | FEAT-001 / HE-03 | PR-Content |
+| P1-RV-B2 | Members 残 3 名の **本決定 bio**（現状は要件定義書付録D ベースの仮テキスト）。`photoPath` + `consentLogged: true` は反映済 | FEAT-003 / U-09 | （随時） |
+| ~~P1-RV-B3~~ | ~~初回 News 投稿~~ **(完了)**「FREOLI 公式サイトを公開しました」（2026-05-20） | FEAT-007 / NW-04 | PR-Content |
+| ~~P1-RV-B4~~ | ~~Instagram / YouTube / TikTok の URL 入力 + `status: "active"` 切替~~ **(完了)** + Apple Music も `active`。**X は未開設のため保留** | FEAT-005 | PR-Content |
+| ~~P1-RV-B5~~ | ~~`data/lives.ts` の公演に `venueUrl` + `venuePhone`~~ **(完了)** WAVER 公式 / 電話 反映 | FEAT-002 / NL-02 | PR-Content |
+| P1-RV-B6 | 2026-07-11 WAVER 公演の `actual_attendance` 記入（ライブ後） | FEAT-002 / FEAT-010 / D-O1 | PR-D（v0.2 着手の最初の PR と統合可） |
+| ~~P1-RV-B7~~ | ~~"2025 年配信予定" 文言の見直し~~ **(完了)** バッジ `Coming Soon...` 化、年表記なし | FEAT-006 / ST-01 | PR-Content |
 
 ### 3.3 Phase 1 完了判定（出口条件）
 
-- [x] P1-RV-A1〜A3（PR-Privacy）配置完了 → ContactForm から `/privacy` 到達可能 + CONTENT_POLICY.md がリポジトリ直下に存在（main マージは本 PR 経由）
+- [x] P1-RV-A1〜A3（PR-Privacy）配置完了 → ContactForm から `/privacy` 到達可能 + CONTENT_POLICY.md がリポジトリ直下に存在（main マージ済）
 - [x] フォーム実送信が成功し `freoli.official@gmail.com` に着信確認（2026-05-20 動作確認済）
-- [ ] Members 4 名全員 `consentLogged: true` か、未承諾は `photoPath: null` でシルエットフォールバック表示
-- [ ] `data/news.ts` に最低 1 件のエントリ
-- [ ] `data/links.ts` の SNS 4 種が `status: "active"` で実 URL を持つ
+- [x] Members 4 名全員 `consentLogged: true` + `photoPath` 設定済（bio は anomu のみ本決定、他 3 名は仮）
+- [x] `data/news.ts` に最低 1 件のエントリ（2026-05-20 公式サイト公開）
+- [x] `data/links.ts` の主要 SNS が `status: "active"` で実 URL を持つ（X は未開設のため例外、Spotify は v0.5）
 - [ ] Lighthouse モバイルで LCP 2.5 秒以内 / CLS 0.1 以下（U-01 / U-03）
 
 ---
