@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export type LogoMarkProps = {
@@ -7,7 +8,7 @@ export type LogoMarkProps = {
 };
 
 export function LogoMark({
-  src = "/images/assets/freoli_logo.svg",
+  src = "/images/assets/freoli_logo.png",
   alt = "FREOLI ロゴ",
   className = "",
 }: LogoMarkProps) {
@@ -15,13 +16,14 @@ export function LogoMark({
     <Link
       href="/"
       aria-label="FREOLI ホーム"
-      className={`group inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 ${className}`.trim()}
+      className={`group inline-block ${className}`.trim()}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={src}
         alt={alt}
-        className="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105"
+        width={1536}
+        height={953}
+        className="h-12 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
       />
     </Link>
   );
