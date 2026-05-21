@@ -45,7 +45,7 @@ export function Hero() {
             width={1486}
             height={354}
             priority
-            className="h-[56px] md:h-[92px] lg:h-[104px] w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]"
+            className="h-[37px] md:h-[61px] lg:h-[69px] w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]"
           />
         </h1>
         <p className="font-jp text-sm md:text-base lg:text-lg text-zinc-200 leading-relaxed mb-4 lg:mb-5 max-w-[28rem] lg:max-w-2xl">
