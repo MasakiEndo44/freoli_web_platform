@@ -18,7 +18,7 @@ export const lives: LiveEvent[] = [
   {
     id: "2026-07-11-waver",
     date: "2026-07-11",
-    venue: "WAVER",
+    venue: "Booking Live",
     venueUrl: "https://waverwaver.net/",
     venuePhone: "03-6804-0094",
     venueMapsQuery: "下北沢 WAVER",
