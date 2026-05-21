@@ -22,11 +22,8 @@ export function NewsList() {
 
   return (
     <SectionContainer id="news" className="bg-black/85">
-      <Heading variant="eyebrow" className="block mb-3">
-        — NEWS
-      </Heading>
       <Heading variant="h2" className="mb-10">
-        ニュース
+        NEWS
       </Heading>
       {sorted.length === 0 ? (
         <p className="text-zinc-400 text-center font-jp">

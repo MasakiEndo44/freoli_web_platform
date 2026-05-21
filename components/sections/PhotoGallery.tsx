@@ -14,11 +14,8 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
 
   return (
     <SectionContainer id="gallery" className="bg-black/85">
-      <Heading variant="eyebrow" className="block mb-3">
-        — GALLERY
-      </Heading>
       <Heading variant="h2" className="mb-10">
-        ギャラリー
+        GALLERY
       </Heading>
       <ul className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
         {visible.map((photo) => (

@@ -103,11 +103,8 @@ export function MembersSection() {
 
   return (
     <SectionContainer id="members" className="bg-black/85">
-      <Heading variant="eyebrow" className="block mb-3">
-        — MEMBERS
-      </Heading>
       <Heading variant="h2" className="mb-10">
-        メンバー
+        MEMBERS
       </Heading>
       <ul className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
         {sorted.map((member) => (

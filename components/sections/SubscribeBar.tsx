@@ -9,11 +9,8 @@ const services = [
 export function SubscribeBar() {
   return (
     <SectionContainer id="subscribe" className="bg-zinc-950">
-      <Heading variant="eyebrow" className="block mb-3">
-        — LISTEN
-      </Heading>
       <Heading variant="h2" className="mb-8">
-        Subscribe
+        LISTEN
       </Heading>
       <p className="font-jp text-sm text-zinc-400 mb-6">
         楽曲は配信準備中です。配信開始時に各サブスクへリンクします。
