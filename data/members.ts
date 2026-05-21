@@ -41,7 +41,7 @@ export const members: Member[] = [
     displayName: "aberyo",
     partLabel: "Dr.",
     partOrder: 4,
-    photoPath: "/images/members/aberyo_1.jpg",
+    photoPath: "/images/members/aberyo_2.jpg",
     bio: "筋肉担当",
     consentLogged: true,
   },

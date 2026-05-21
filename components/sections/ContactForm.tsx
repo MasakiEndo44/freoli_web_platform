@@ -110,11 +110,8 @@ export function ContactForm() {
 
   return (
     <SectionContainer id="contact" className="bg-zinc-950">
-      <Heading variant="eyebrow" className="block mb-3">
-        — CONTACT
-      </Heading>
       <Heading variant="h2" className="mb-8">
-        お問い合わせ
+        CONTACT
       </Heading>
 
       {status.kind === "success" ? (
@@ -125,7 +122,7 @@ export function ContactForm() {
         >
           <p className="font-bold text-zinc-50 mb-2">送信ありがとうございました</p>
           <p className="text-sm text-zinc-400">
-            内容を確認のうえ、24 時間以内に返信いたします。
+            内容を確認のうえ、担当者が返信いたします。
           </p>
         </div>
       ) : (
