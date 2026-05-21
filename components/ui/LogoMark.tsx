@@ -21,9 +21,9 @@ export function LogoMark({
       <Image
         src={src}
         alt={alt}
-        width={1536}
-        height={953}
-        className="h-[120px] md:h-[160px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+        width={1486}
+        height={354}
+        className="h-[40px] md:h-[53px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
       />
     </Link>
   );

@@ -137,8 +137,8 @@ export function LivesSection({ nextLive }: { nextLive: LiveEvent | undefined }) 
       className="bg-black/85 px-[22px] py-10 md:px-16 md:pt-[52px] md:pb-14"
     >
       <div className="max-w-6xl mx-auto">
-        <Heading variant="eyebrow" className="block mb-11">
-          — NEXT LIVE
+        <Heading variant="h2" className="mb-10">
+          NEXT LIVE
         </Heading>
         {nextLive ? (
           <NextLiveCard live={nextLive} />

@@ -38,11 +38,8 @@ export function PastLives({ pastLives }: { pastLives: LiveEvent[] }) {
 
   return (
     <SectionContainer id="past-lives" className="bg-black/85">
-      <Heading variant="eyebrow" className="block mb-3">
-        — PAST LIVES
-      </Heading>
       <Heading variant="h2" className="mb-10">
-        過去のライブ
+        PAST LIVES
       </Heading>
       <ul className="space-y-4">
         {visible.map((live) => {

@@ -38,8 +38,15 @@ export function Hero() {
       />
 
       <div className="absolute bottom-0 left-0 right-0 px-[22px] pb-[30px] lg:px-16 lg:pb-14">
-        <h1 className="font-inter font-extrabold text-[64px] md:text-[116px] tracking-[-0.03em] md:tracking-[-0.036em] leading-[0.92] md:leading-[0.88] text-zinc-50 mb-[11px] lg:mb-[18px]">
-          FREOLI
+        <h1 className="mb-[11px] lg:mb-[18px]">
+          <Image
+            src="/images/assets/freoli_logo.png"
+            alt="FREOLI"
+            width={1486}
+            height={354}
+            priority
+            className="h-[37px] md:h-[61px] lg:h-[69px] w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]"
+          />
         </h1>
         <p className="font-jp text-sm md:text-base lg:text-lg text-zinc-200 leading-relaxed mb-4 lg:mb-5 max-w-[28rem] lg:max-w-2xl">
           暗がりに沈んだ原風景を、音が光に変えて差し出す。東京の四人組。
