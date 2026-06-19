@@ -33,7 +33,7 @@ export const members: Member[] = [
     partLabel: "Ba./Cho.",
     partOrder: 3,
     photoPath: "/images/members/hiromu_1.jpg",
-    bio: "人事担当",
+    bio: "オシャレ担当",
     consentLogged: true,
   },
   {
