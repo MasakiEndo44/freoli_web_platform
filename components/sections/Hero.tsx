@@ -6,38 +6,36 @@ export function Hero() {
   return (
     <header
       data-hero
-      className="relative w-full overflow-hidden h-[524px] lg:h-[620px]"
+      className="relative w-full overflow-hidden bg-black md:h-[620px] lg:h-[680px]"
     >
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-full aspect-[2/3]">
-          <Image
-            src="/images/band/freoli_1.JPEG"
-            alt=""
-            fill
-            priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
-          />
-          <div
-            className="absolute inset-y-0 left-0 w-6 lg:w-20 bg-gradient-to-r from-black/85 to-transparent"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-y-0 right-0 w-6 lg:w-20 bg-gradient-to-l from-black/85 to-transparent"
-            aria-hidden="true"
-          />
-        </div>
+      <div className="relative aspect-[3/2] w-full bg-black md:absolute md:inset-0 md:aspect-auto">
+        <Image
+          src="/images/band/freoli_live_20260327.JPG"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.03)_0%,rgba(0,0,0,0.20)_100%)] md:hidden"
+          aria-hidden="true"
+        />
       </div>
       <div
-        className="absolute inset-0 bg-[linear-gradient(148deg,rgba(56,189,248,0.22)_0%,rgba(34,211,238,0.14)_40%,transparent_66%)] lg:bg-[linear-gradient(148deg,rgba(56,189,248,0.20)_0%,rgba(34,211,238,0.12)_42%,transparent_68%)]"
+        className="hidden md:block absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.34)_34%,rgba(0,0,0,0.08)_68%,rgba(0,0,0,0.24)_100%)]"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_18%,rgba(0,0,0,0.55)_60%,rgba(0,0,0,0.85)_100%)] lg:bg-[linear-gradient(to_bottom,transparent_22%,rgba(0,0,0,0.42)_55%,rgba(0,0,0,0.85)_100%)]"
+        className="hidden md:block absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.15)_0%,transparent_24%,rgba(0,0,0,0.40)_58%,rgba(0,0,0,0.92)_100%)]"
+        aria-hidden="true"
+      />
+      <div
+        className="hidden md:block absolute inset-0 bg-[radial-gradient(circle_at_62%_18%,rgba(56,189,248,0.20)_0%,transparent_30%),radial-gradient(circle_at_18%_24%,rgba(34,211,238,0.18)_0%,transparent_28%)]"
         aria-hidden="true"
       />
 
-      <div className="absolute bottom-0 left-0 right-0 px-[22px] pb-[30px] lg:px-16 lg:pb-14">
+      <div className="relative px-[22px] pt-7 pb-[30px] md:absolute md:bottom-0 md:left-0 md:right-0 md:px-10 md:pt-0 lg:px-16 lg:pb-14">
         <h1 className="mb-[11px] lg:mb-[18px]">
           <Image
             src="/images/assets/freoli_logo.png"
