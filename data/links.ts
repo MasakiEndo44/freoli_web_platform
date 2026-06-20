@@ -27,7 +27,7 @@ export const links: SocialLink[] = [
   {
     platform: "x",
     label: "X",
-    url: null,
+    url: "https://x.com/freoli_band",
     status: "coming-2025",
   },
   {
