@@ -15,8 +15,8 @@ const LAST_UPDATED = "2026-05-20";
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-50">
-      <SectionContainer className="bg-zinc-950">
+    <main className="min-h-screen text-zinc-50">
+      <SectionContainer className="bg-black/85">
         <Heading variant="eyebrow" className="block mb-3">
           — PRIVACY POLICY
         </Heading>

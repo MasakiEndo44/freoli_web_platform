@@ -4,7 +4,7 @@ import { featuredRelease } from "@/data/releases";
 
 export function SubscribeBar() {
   return (
-    <SectionContainer id="subscribe" className="bg-zinc-950">
+    <SectionContainer id="subscribe" className="bg-black/85">
       <Heading variant="h2" className="mb-8">
         LISTEN
       </Heading>

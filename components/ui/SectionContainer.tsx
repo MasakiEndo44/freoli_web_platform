@@ -14,10 +14,12 @@ export function SectionContainer({
   return (
     <section
       id={id}
-      className={`max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 ${className}`.trim()}
+      className={`w-full ${className}`.trim()}
       {...rest}
     >
-      {children}
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        {children}
+      </div>
     </section>
   );
 }
