@@ -74,7 +74,7 @@ export function SNSBar() {
   return (
     <nav
       aria-label="SNS リンク"
-      className="bg-zinc-950 border-t border-b border-zinc-800"
+      className="bg-black/85 border-t border-b border-zinc-800"
     >
       <ul className="flex justify-center items-center gap-6 md:gap-[52px] px-5 py-[14px] md:px-16 md:py-[18px]">
         {snsLinks.map((link) => {

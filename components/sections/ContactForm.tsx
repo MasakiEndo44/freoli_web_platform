@@ -109,7 +109,7 @@ export function ContactForm() {
   const submitting = status.kind === "submitting";
 
   return (
-    <SectionContainer id="contact" className="bg-zinc-950">
+    <SectionContainer id="contact" className="bg-black/85">
       <Heading variant="h2" className="mb-8">
         CONTACT
       </Heading>
