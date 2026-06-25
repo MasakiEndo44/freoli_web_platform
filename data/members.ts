@@ -15,7 +15,7 @@ export const members: Member[] = [
     partLabel: "Gt./Vo.",
     partOrder: 1,
     photoPath: "/images/members/yusuke_1.jpg",
-    bio: "作詞担当",
+    bio: "柄シャツ担当",
     consentLogged: true,
   },
   {
@@ -24,7 +24,7 @@ export const members: Member[] = [
     partLabel: "Gt./Cho.",
     partOrder: 2,
     photoPath: "/images/members/anomu_1.JPEG",
-    bio: "作曲担当",
+    bio: "黒ジャケット担当",
     consentLogged: true,
   },
   {
@@ -33,7 +33,7 @@ export const members: Member[] = [
     partLabel: "Ba./Cho.",
     partOrder: 3,
     photoPath: "/images/members/hiromu_1.jpg",
-    bio: "オシャレ担当",
+    bio: "トラックパンツ担当",
     consentLogged: true,
   },
   {
@@ -42,7 +42,7 @@ export const members: Member[] = [
     partLabel: "Dr.",
     partOrder: 4,
     photoPath: "/images/members/aberyo_2.jpg",
-    bio: "筋肉担当",
+    bio: "タンクトップ担当",
     consentLogged: true,
   },
 ];
