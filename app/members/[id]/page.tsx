@@ -75,7 +75,7 @@ export default function MemberDetailPage({
 
           </div>
 
-          <figure className="mx-auto w-full max-w-[calc(100vw-32px)] md:max-w-[440px] lg:mx-0">
+          <figure className="order-first mx-auto w-full max-w-[calc(100vw-32px)] md:max-w-[440px] lg:order-none lg:mx-0">
             <div className="relative aspect-square overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
               {member.photoPath ? (
                 <Image
