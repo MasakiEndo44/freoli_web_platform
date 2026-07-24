@@ -17,7 +17,7 @@ export function SectionContainer({
       className={`w-full ${className}`.trim()}
       {...rest}
     >
-      <div className="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-8 py-16 md:py-24">
         {children}
       </div>
     </section>

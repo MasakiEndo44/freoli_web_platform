@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { members, type Member } from "@/data/members";
 import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
@@ -109,32 +110,41 @@ export function MembersSection() {
       <ul className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
         {sorted.map((member) => (
           <li key={member.id}>
-            <Card className="h-full flex flex-col gap-4">
-              <div className="relative aspect-square bg-zinc-950 border border-zinc-800 rounded-md flex items-center justify-center overflow-hidden">
-                {member.photoPath === null ? (
-                  silhouetteFor(member)
-                ) : (
-                  <Image
-                    src={member.photoPath}
-                    alt={`${member.displayName}（${member.partLabel}）のポートレート`}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, 100vw"
-                    className="object-cover"
-                  />
-                )}
-              </div>
-              <div>
-                <div className="font-jp font-bold text-xl text-zinc-50">
-                  {member.displayName}
+            <Link
+              href={`/members/${member.id}`}
+              aria-label={`${member.displayName} のプロフィールを見る`}
+              className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            >
+              <Card variant="hoverable" className="h-full flex flex-col gap-4">
+                <div className="relative aspect-square bg-zinc-950 border border-zinc-800 rounded-md flex items-center justify-center overflow-hidden">
+                  {member.photoPath === null ? (
+                    silhouetteFor(member)
+                  ) : (
+                    <Image
+                      src={member.photoPath}
+                      alt={`${member.displayName}（${member.partLabel}）のポートレート`}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, 100vw"
+                      className="object-contain sm:object-cover"
+                    />
+                  )}
                 </div>
-                <div className="font-inter text-sm text-cyan-400 mt-1">
-                  {member.partLabel}
+                <div>
+                  <div className="font-jp font-bold text-xl text-zinc-50">
+                    {member.displayName}
+                  </div>
+                  <div className="font-inter text-sm text-cyan-400 mt-1">
+                    {member.partLabel}
+                  </div>
+                  <p className="font-jp text-sm text-zinc-400 mt-3 leading-relaxed">
+                    {member.bio}
+                  </p>
+                  <span className="mt-4 inline-flex font-inter text-[10px] font-semibold tracking-[0.22em] text-zinc-400 uppercase underline decoration-zinc-700 underline-offset-[6px] transition-colors group-hover:text-cyan-400 group-hover:decoration-cyan-400/70">
+                    Detail
+                  </span>
                 </div>
-                <p className="font-jp text-sm text-zinc-400 mt-3 leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-            </Card>
+              </Card>
+            </Link>
           </li>
         ))}
       </ul>

@@ -33,7 +33,7 @@ export function NewsList() {
         <ul className="flex flex-col gap-4">
           {sorted.map((entry) => (
             <li key={entry.id}>
-              <Card className="flex flex-col gap-3">
+              <Card className="flex flex-col gap-3 overflow-hidden">
                 <div className="flex flex-wrap items-center gap-3">
                   <time
                     dateTime={entry.date}
@@ -50,10 +50,10 @@ export function NewsList() {
                     </span>
                   ))}
                 </div>
-                <h3 className="font-jp font-semibold text-xl text-zinc-50">
+                <h3 className="min-w-0 break-words font-jp font-semibold text-lg leading-snug text-zinc-50 sm:text-xl">
                   {entry.title}
                 </h3>
-                <p className="font-jp text-sm text-zinc-400 leading-relaxed">
+                <p className="min-w-0 break-words font-jp text-sm text-zinc-400 leading-relaxed">
                   {entry.body}
                 </p>
               </Card>
