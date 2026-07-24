@@ -48,20 +48,39 @@ export default function MemberDetailPage({
 
         <div className="grid w-full max-w-full gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div className="min-w-0 max-w-full overflow-hidden">
-            <Heading variant="eyebrow" className="mb-4">
-              Member Profile
-            </Heading>
-            <h1 className="break-words font-jp text-5xl font-bold leading-none tracking-[-0.02em] text-zinc-50 md:text-7xl">
-              {member.displayName}
-            </h1>
-            <p className="mt-4 font-inter text-lg font-semibold text-cyan-400">
-              {member.partLabel}
-            </p>
-            <p className="mt-2 font-jp text-base text-zinc-400">
-              {member.bio}
-            </p>
+            <div className="lg:block">
+              <figure className="mx-auto mb-8 w-full max-w-[360px] lg:hidden">
+                <div className="relative aspect-square overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
+                  {member.photoPath ? (
+                    <Image
+                      src={member.photoPath}
+                      alt={`${member.displayName}（${member.partLabel}）のポートレート`}
+                      fill
+                      priority
+                      sizes="calc(100vw - 32px)"
+                      className="object-contain"
+                    />
+                  ) : null}
+                </div>
+              </figure>
 
-            <Card className="mt-10 max-w-full overflow-hidden">
+              <div className="min-w-0 max-w-full overflow-hidden">
+                <Heading variant="eyebrow" className="mb-4">
+                  Member Profile
+                </Heading>
+                <h1 className="break-words font-jp text-5xl font-bold leading-none tracking-[-0.02em] text-zinc-50 md:text-7xl">
+                  {member.displayName}
+                </h1>
+                <p className="mt-4 font-inter text-lg font-semibold text-cyan-400">
+                  {member.partLabel}
+                </p>
+                <p className="mt-2 font-jp text-base text-zinc-400">
+                  {member.bio}
+                </p>
+              </div>
+            </div>
+
+            <Card className="mt-8 max-w-full overflow-hidden lg:mt-10">
               <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
                 Profile
               </div>
@@ -75,7 +94,7 @@ export default function MemberDetailPage({
 
           </div>
 
-          <figure className="order-first mx-auto w-full max-w-[calc(100vw-32px)] md:max-w-[440px] lg:order-none lg:mx-0">
+          <figure className="hidden w-full max-w-[440px] lg:block">
             <div className="relative aspect-square overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
               {member.photoPath ? (
                 <Image
