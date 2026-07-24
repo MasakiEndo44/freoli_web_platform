@@ -48,7 +48,22 @@ export default function MemberDetailPage({
 
         <div className="grid w-full max-w-full gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div className="min-w-0 max-w-full overflow-hidden">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(112px,38vw)] items-start gap-4 sm:grid-cols-[minmax(0,1fr)_150px] lg:block">
+            <div className="lg:block">
+              <figure className="mx-auto mb-8 w-full max-w-[360px] lg:hidden">
+                <div className="relative aspect-square overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
+                  {member.photoPath ? (
+                    <Image
+                      src={member.photoPath}
+                      alt={`${member.displayName}（${member.partLabel}）のポートレート`}
+                      fill
+                      priority
+                      sizes="calc(100vw - 32px)"
+                      className="object-contain"
+                    />
+                  ) : null}
+                </div>
+              </figure>
+
               <div className="min-w-0 max-w-full overflow-hidden">
                 <Heading variant="eyebrow" className="mb-4">
                   Member Profile
@@ -63,21 +78,6 @@ export default function MemberDetailPage({
                   {member.bio}
                 </p>
               </div>
-
-              <figure className="w-full max-w-[150px] justify-self-end lg:hidden">
-                <div className="relative aspect-square overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
-                  {member.photoPath ? (
-                    <Image
-                      src={member.photoPath}
-                      alt={`${member.displayName}（${member.partLabel}）のポートレート`}
-                      fill
-                      priority
-                      sizes="38vw"
-                      className="object-contain"
-                    />
-                  ) : null}
-                </div>
-              </figure>
             </div>
 
             <Card className="mt-8 max-w-full overflow-hidden lg:mt-10">
