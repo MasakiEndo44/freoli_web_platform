@@ -22,7 +22,7 @@ export function StickyLogoMark({ targetSelector = "header[data-hero]" }: { targe
   return (
     <div
       aria-hidden={!show}
-      className={`fixed top-3 left-3 md:top-4 md:left-4 z-50 transition-opacity duration-300 ${
+      className={`fixed top-3 left-3 z-50 hidden transition-opacity duration-300 md:block md:top-4 md:left-4 ${
         show ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >

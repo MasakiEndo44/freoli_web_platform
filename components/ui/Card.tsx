@@ -8,7 +8,7 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const base =
-  "bg-zinc-900/80 backdrop-blur-sm border border-zinc-800 rounded-md px-6 py-5";
+  "min-w-0 bg-zinc-900/80 backdrop-blur-sm border border-zinc-800 rounded-md px-4 py-4 sm:px-6 sm:py-5";
 
 const variants: Record<CardVariant, string> = {
   default: "",

@@ -187,9 +187,9 @@ export function LivesSection({ nextLive }: { nextLive: LiveEvent | undefined }) 
   return (
     <section
       id="next-live"
-      className="bg-black/85 px-[22px] py-10 md:px-16 md:pt-[52px] md:pb-14"
+      className="w-full bg-black/85"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-8 py-10 md:pt-[52px] md:pb-14">
         <Heading variant="h2" className="mb-10">
           NEXT LIVE
         </Heading>
