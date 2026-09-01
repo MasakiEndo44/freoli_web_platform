@@ -49,6 +49,11 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
           <div className="mt-1 font-jp text-sm text-zinc-300">
             {live.venue}
           </div>
+          {live.performAt ? (
+            <div className="mt-2 font-jp text-xs font-semibold uppercase tracking-[0.16em] text-cyan-400">
+              FREOLI {live.performAt}から
+            </div>
+          ) : null}
           {others.length > 0 ? (
             <div className="mt-1 break-words font-jp text-xs text-zinc-400">
               対バン: {others.join(" / ")}

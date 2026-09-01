@@ -31,6 +31,7 @@ export const lives: LiveEvent[] = [
     venueMapsQuery: "東京都新宿区新宿5丁目11-13 新宿 SUN FACE",
     doorsOpenAt: "15:00",
     showStartAt: "15:30",
+    performAt: "16:30",
     ticketPrice: 1500,
     ticketNote: "+1Drink（当日）",
     ticketUrl: undefined,

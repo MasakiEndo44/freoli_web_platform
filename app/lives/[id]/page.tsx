@@ -33,6 +33,40 @@ function timeLabel(live: LiveEvent) {
   return live.doorsOpenAt ?? live.showStartAt ?? "未定";
 }
 
+function ReservationCard({
+  live,
+  className = "",
+}: {
+  live: LiveEvent;
+  className?: string;
+}) {
+  if (!live.reservationImagePath) return null;
+
+  return (
+    <Card
+      className={`flex max-w-full flex-col items-center overflow-hidden text-center ${className}`.trim()}
+    >
+      <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
+        Reservation
+      </div>
+      <p className="mt-2 font-jp text-sm leading-relaxed text-zinc-400">
+        申し込みはこちらのQRから。
+      </p>
+      <div className="mt-4 w-full max-w-[260px] overflow-hidden rounded-md border border-zinc-800 bg-white">
+        <div className="relative aspect-[4/5]">
+          <Image
+            src={live.reservationImagePath}
+            alt={live.reservationImageAlt ?? "ライブ申し込み用QRコード"}
+            fill
+            sizes="260px"
+            className="object-contain"
+          />
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 export function generateStaticParams() {
   return lives.map((live) => ({ id: live.id }));
 }
@@ -98,7 +132,7 @@ export default function LiveDetailPage({
               {live.venue}
             </p>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <Card>
                 <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
                   Open / Start
@@ -121,43 +155,27 @@ export default function LiveDetailPage({
                 ) : null}
               </Card>
               {live.performAt ? (
-                <Card>
+                <Card className="sm:col-span-2 xl:col-span-1">
                   <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
                     FREOLI
                   </div>
                   <div className="mt-2 font-inter text-xl font-bold text-cyan-400">
-                    {live.performAt}
+                    {live.performAt}から
                   </div>
                   {live.soundStopAt ? (
                     <div className="mt-1 font-jp text-xs text-zinc-400">
                       音止め {live.soundStopAt}
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="mt-1 font-jp text-xs text-zinc-400">
+                      出演予定
+                    </div>
+                  )}
                 </Card>
               ) : null}
             </div>
 
-            {live.reservationImagePath ? (
-              <Card className="mt-6 flex max-w-full flex-col items-center overflow-hidden text-center">
-                <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
-                  Reservation
-                </div>
-                <p className="mt-2 font-jp text-sm leading-relaxed text-zinc-400">
-                  申し込みはこちらのQRから。
-                </p>
-                <div className="mt-4 w-full max-w-[260px] overflow-hidden rounded-md border border-zinc-800 bg-white">
-                  <div className="relative aspect-[4/5]">
-                    <Image
-                      src={live.reservationImagePath}
-                      alt={live.reservationImageAlt ?? "ライブ申し込み用QRコード"}
-                      fill
-                      sizes="260px"
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </Card>
-            ) : null}
+            <ReservationCard live={live} className="mt-6 lg:hidden" />
 
             {others.length > 0 ? (
               <section className="mt-10">
@@ -178,18 +196,25 @@ export default function LiveDetailPage({
             ) : null}
           </div>
 
-          {live.flyerImagePath ? (
-            <figure className="mx-auto min-w-0 w-full max-w-[min(100%,420px)] lg:mx-0">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
-                <Image
-                  src={live.flyerImagePath}
-                  alt={live.flyerAlt ?? `${live.title ?? live.venue} フライヤー`}
-                  fill
-                  sizes="(min-width: 1024px) 420px, calc(100vw - 24px)"
-                  className="object-contain"
-                />
-              </div>
-            </figure>
+          {live.flyerImagePath || live.reservationImagePath ? (
+            <div className="mx-auto flex min-w-0 w-full max-w-[min(100%,420px)] flex-col gap-5 lg:mx-0">
+              {live.flyerImagePath ? (
+                <figure className="min-w-0 w-full">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
+                    <Image
+                      src={live.flyerImagePath}
+                      alt={
+                        live.flyerAlt ?? `${live.title ?? live.venue} フライヤー`
+                      }
+                      fill
+                      sizes="(min-width: 1024px) 420px, calc(100vw - 24px)"
+                      className="object-contain"
+                    />
+                  </div>
+                </figure>
+              ) : null}
+              <ReservationCard live={live} className="hidden w-full lg:flex" />
+            </div>
           ) : null}
         </div>
       </section>
