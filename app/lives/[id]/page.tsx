@@ -114,7 +114,7 @@ export default function LiveDetailPage({
               Live Detail
             </Heading>
             <div className="mb-7 flex items-end gap-3">
-              <div className="font-inter text-[56px] font-extrabold leading-none tracking-[-0.04em] text-zinc-50 md:text-[76px]">
+              <div className="font-inter text-[58px] font-black leading-none tabular-nums text-zinc-50 md:text-[78px]">
                 {month}.{day}
               </div>
               <div className="pb-1.5">

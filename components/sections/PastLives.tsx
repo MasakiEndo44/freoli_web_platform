@@ -44,7 +44,7 @@ export function PastLives({ pastLives }: { pastLives: LiveEvent[] }) {
                   className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6"
                 >
                   <div className="md:w-40 flex items-end gap-3 shrink-0">
-                    <div className="font-inter font-extrabold text-[40px] tracking-[-0.04em] leading-none text-zinc-50">
+                    <div className="font-inter font-black text-[42px] leading-none tabular-nums text-zinc-50">
                       {month}.{day}
                     </div>
                     <div className="pb-1">

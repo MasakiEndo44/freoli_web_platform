@@ -11,8 +11,9 @@
   body {
     @apply text-zinc-50 antialiased;
     background: transparent;
-    font-family: var(--font-noto-sans-jp), var(--font-inter), system-ui,
+    font-family: var(--font-inter), var(--font-noto-sans-jp), system-ui,
       sans-serif;
+    font-feature-settings: "palt" 1;
     position: relative;
   }
 
