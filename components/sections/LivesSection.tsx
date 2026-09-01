@@ -66,6 +66,7 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
     live.doorsOpenAt && live.showStartAt
       ? `${live.doorsOpenAt} / ${live.showStartAt}`
       : live.doorsOpenAt ?? live.showStartAt ?? "—";
+  const hasReservationImage = Boolean(live.reservationImagePath);
 
   return (
     <div className="grid gap-8 xl:grid-cols-[minmax(220px,300px)_minmax(0,1fr)_minmax(320px,430px)] xl:gap-10 xl:items-stretch">
@@ -88,14 +89,14 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
       </div>
 
       {live.flyerImagePath ? (
-        <figure className="order-2 mx-auto w-full max-w-[420px] sm:max-w-[520px] xl:order-3 xl:mx-0 xl:max-w-none xl:self-start">
+        <figure className="order-2 mx-auto min-w-0 w-full max-w-[min(100%,420px)] sm:max-w-[min(100%,520px)] xl:order-3 xl:mx-0 xl:max-w-none xl:self-start">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
             <Image
               src={live.flyerImagePath}
               alt={live.flyerAlt ?? `${eventTitle} フライヤー`}
               fill
               sizes="(min-width: 1280px) 430px, (min-width: 640px) 520px, calc(100vw - 44px)"
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         </figure>
@@ -122,7 +123,7 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
 
         <Card
           variant="featured"
-          className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-6 flex flex-col gap-4"
         >
           <div className="min-w-0">
             <div className="font-jp text-xs text-zinc-400 mb-1.5">
@@ -131,6 +132,8 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
             <div className="font-jp text-base text-zinc-50">
               {live.ticketUrl
                 ? "公式予約ページから購入できます"
+                : hasReservationImage
+                  ? "QRは詳細ページに掲載中"
                 : "取り置き・予約方法はお問い合わせください"}
             </div>
           </div>
@@ -143,6 +146,26 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
               className="w-full shrink-0 sm:w-auto sm:min-w-[136px]"
             >
               予約する
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <path d="M2 6h8M6 2l4 4-4 4" />
+              </svg>
+            </Button>
+          ) : hasReservationImage ? (
+            <Button
+              href={`/lives/${live.id}`}
+              variant="primary"
+              className="w-full shrink-0 sm:w-auto sm:min-w-[154px]"
+            >
+              QRを見る
               <svg
                 width="12"
                 height="12"
