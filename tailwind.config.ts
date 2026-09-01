@@ -9,12 +9,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         inter: ["var(--font-inter)", "system-ui", "sans-serif"],
-        jp: [
-          "var(--font-noto-sans-jp)",
-          "var(--font-inter)",
-          "system-ui",
-          "sans-serif",
-        ],
+        jp: ["var(--font-jp-serif)"],
       },
     },
   },
