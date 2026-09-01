@@ -138,7 +138,7 @@ export default function LiveDetailPage({
             </div>
 
             {live.reservationImagePath ? (
-              <Card className="mt-6 max-w-full overflow-hidden">
+              <Card className="mt-6 flex max-w-full flex-col items-center overflow-hidden text-center">
                 <div className="font-inter text-[10px] tracking-[0.16em] text-zinc-500 uppercase">
                   Reservation
                 </div>
