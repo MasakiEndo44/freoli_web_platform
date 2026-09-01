@@ -8,6 +8,13 @@ export type NewsEntry = {
 
 export const news: NewsEntry[] = [
   {
+    id: "2026-09-01-pico-pico-party-live",
+    date: "2026-09-01",
+    title: "10/12「PICO PICO PARTY!」出演決定",
+    body: "2026年10月12日(月・祝)、新宿 SUN FACEで開催される picora. presents「PICO PICO PARTY!」にFREOLIの出演が決定しました。詳細と申し込みQRはNEXT LIVEから確認できます。",
+    tags: ["live"],
+  },
+  {
     id: "2026-06-21-original-summit-ii-details",
     date: "2026-06-21",
     title: "7/11「ORIGINAL SUMMIT II」の詳細を公開しました",
