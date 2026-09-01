@@ -114,7 +114,7 @@ export default function LiveDetailPage({
               Live Detail
             </Heading>
             <div className="mb-7 flex items-end gap-3">
-              <div className="font-inter text-[58px] font-black leading-none tabular-nums text-zinc-50 md:text-[78px]">
+              <div className="font-jp text-[58px] font-bold leading-none tabular-nums text-zinc-50 md:text-[78px]">
                 {month}.{day}
               </div>
               <div className="pb-1.5">
@@ -125,7 +125,7 @@ export default function LiveDetailPage({
               </div>
             </div>
 
-            <h1 className="font-jp text-3xl font-bold leading-tight text-zinc-50 md:text-5xl">
+            <h1 className="font-jp text-3xl font-semibold leading-tight text-zinc-50 md:text-5xl">
               {live.title ?? live.venue}
             </h1>
             <p className="mt-4 font-jp text-lg font-semibold text-zinc-300">

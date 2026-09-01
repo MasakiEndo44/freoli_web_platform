@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --font-jp-serif: "Hiragino Mincho ProN", "Yu Mincho", YuMincho,
+      "Noto Serif JP", "Times New Roman", serif;
+  }
+
   html {
     @apply bg-black;
     color-scheme: dark;
@@ -11,8 +16,7 @@
   body {
     @apply text-zinc-50 antialiased;
     background: transparent;
-    font-family: var(--font-inter), var(--font-noto-sans-jp), system-ui,
-      sans-serif;
+    font-family: var(--font-jp-serif);
     font-feature-settings: "palt" 1;
     position: relative;
   }
