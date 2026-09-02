@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { Button } from "@/components/ui/Button";
-
 export function Hero() {
   return (
     <header
@@ -49,30 +47,9 @@ export function Hero() {
         <p className="font-jp text-sm md:text-base lg:text-lg text-zinc-200 leading-relaxed mb-4 lg:mb-5 max-w-[28rem] lg:max-w-2xl">
           夜の温度を残したまま、光の方へ鳴らしていく。
         </p>
-        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-9">
-          <p className="font-jp font-medium text-xs md:text-[15px] tracking-[0.12em] md:tracking-[0.10em] text-sky-400 mb-6 lg:mb-0 leading-none">
-            東京発、4人組インディーロックバンド
-          </p>
-          <Button
-            href="#next-live"
-            variant="primary"
-            className="self-start lg:self-auto px-[22px] py-[11px] md:px-7 md:py-[13px]"
-          >
-            NEXT LIVE
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <path d="M2 6h8M6 2l4 4-4 4" />
-            </svg>
-          </Button>
-        </div>
+        <p className="font-jp font-medium text-xs md:text-[15px] tracking-[0.12em] md:tracking-[0.10em] text-sky-400 leading-none">
+          東京発、4人組インディーロックバンド
+        </p>
       </div>
     </header>
   );
