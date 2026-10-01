@@ -1,6 +1,11 @@
 import { Heading } from "@/components/ui/Heading";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { featuredRelease } from "@/data/releases";
+import { featuredRelease, releases } from "@/data/releases";
+
+function formatReleaseDate(iso: string) {
+  const [year, month, day] = iso.split("-");
+  return `${year}.${month}.${day}`;
+}
 
 export function SubscribeBar() {
   return (
@@ -8,35 +13,73 @@ export function SubscribeBar() {
       <Heading variant="h2" className="mb-8">
         LISTEN
       </Heading>
-      <p className="font-jp text-sm text-zinc-400 mb-6">
+      <p className="mb-6 max-w-2xl font-jp text-sm leading-relaxed text-zinc-400">
         {featuredRelease.description}「{featuredRelease.title}」を各配信サービスで配信中です。
       </p>
-      <a
-        href={featuredRelease.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`${featuredRelease.title} by ${featuredRelease.artist} を聴く`}
-        className="inline-flex items-center justify-between gap-4 min-h-[44px] w-full md:w-auto px-6 py-3 bg-cyan-400 text-zinc-950 border border-cyan-300 rounded-md font-inter font-semibold text-base transition-colors duration-150 hover:bg-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-      >
-        <span>{featuredRelease.title}</span>
-        <span className="inline-flex items-center gap-2 font-inter text-[10px] tracking-[0.16em] uppercase">
-          Listen
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 13 13"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M4.2 2.6h6.2v6.2" />
-            <path d="M10.1 2.9 2.6 10.4" />
-          </svg>
-        </span>
-      </a>
+      <ul className="grid gap-3 md:grid-cols-2">
+        {releases.map((release, index) => {
+          const isFeatured = index === 0;
+
+          return (
+            <li key={release.title} className="min-w-0">
+              <a
+                href={release.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${release.title} by ${release.artist} を聴く`}
+                className={[
+                  "group flex min-h-[132px] min-w-0 flex-col justify-between rounded-md border px-4 py-4 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 sm:px-5",
+                  isFeatured
+                    ? "border-cyan-300 bg-cyan-400 text-zinc-950 hover:bg-cyan-300"
+                    : "border-zinc-800 bg-zinc-900/80 text-zinc-50 hover:border-cyan-400",
+                ].join(" ")}
+              >
+                <span className="flex min-w-0 items-start justify-between gap-4">
+                  <span className="min-w-0">
+                    <span
+                      className={[
+                        "block font-inter text-[10px] font-semibold uppercase tracking-[0.16em]",
+                        isFeatured ? "text-zinc-800" : "text-cyan-400",
+                      ].join(" ")}
+                    >
+                      {release.description}
+                    </span>
+                    <span className="mt-3 block break-words font-jp text-2xl font-semibold leading-tight">
+                      {release.title}
+                    </span>
+                  </span>
+                  <span
+                    className={[
+                      "shrink-0 font-inter text-xs tabular-nums",
+                      isFeatured ? "text-zinc-800" : "text-zinc-500",
+                    ].join(" ")}
+                  >
+                    {formatReleaseDate(release.releasedAt)}
+                  </span>
+                </span>
+                <span className="mt-5 inline-flex items-center gap-2 self-start font-inter text-[10px] font-semibold uppercase tracking-[0.16em]">
+                  Listen
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  >
+                    <path d="M4.2 2.6h6.2v6.2" />
+                    <path d="M10.1 2.9 2.6 10.4" />
+                  </svg>
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     </SectionContainer>
   );
 }
