@@ -41,7 +41,7 @@ export const lives: LiveEvent[] = [
     flyerAlt:
       "picora. presents PICO PICO PARTY! 2026年10月12日 新宿 SUN FACE 出演者発表フライヤー",
     timelineImagePath:
-      "/images/lives/pico-pico-party-2026-10-12-timeline.jpg",
+      "/images/lives/pico-pico-party-2026-10-12-timetable.jpg",
     timelineImageAlt:
       "PICO PICO PARTY! 2026年10月12日 新宿 SUN FACE タイムテーブル",
     reservationImagePath: "/images/lives/pico-pico-party-2026-10-12-qr.jpg",
