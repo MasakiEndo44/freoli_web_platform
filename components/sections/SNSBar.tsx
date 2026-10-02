@@ -74,46 +74,52 @@ export function SNSBar() {
   return (
     <nav
       aria-label="SNS リンク"
-      className="bg-black/85 border-t border-b border-zinc-800"
+      className="border-y border-zinc-800 bg-black/85"
     >
-      <ul className="flex justify-center items-center gap-6 md:gap-[52px] px-5 py-[14px] md:px-16 md:py-[18px]">
-        {snsLinks.map((link) => {
-          const icon = icons[link.platform as SnsPlatform];
-          const isActive = link.url !== null && link.status === "active";
-          if (!isActive) {
+      <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 md:px-8">
+        <ul className="grid grid-cols-4 items-center gap-1 py-7 sm:gap-4 md:py-10">
+          {snsLinks.map((link) => {
+            const icon = icons[link.platform as SnsPlatform];
+            const isActive = link.url !== null && link.status === "active";
+            if (!isActive) {
+              return (
+                <li key={link.platform}>
+                  <span
+                    aria-disabled="true"
+                    aria-label={`${link.label}（準備中）`}
+                    className="flex min-h-16 min-w-0 cursor-not-allowed flex-col items-center justify-center gap-2 text-zinc-600"
+                  >
+                    <span className="[&_svg]:h-7 [&_svg]:w-7 md:[&_svg]:h-9 md:[&_svg]:w-9">
+                      {icon}
+                    </span>
+                    <span className="min-w-0 truncate font-inter text-[11px] tracking-[0.04em] text-zinc-500 sm:text-sm md:text-lg">
+                      {link.label}
+                    </span>
+                  </span>
+                </li>
+              );
+            }
             return (
               <li key={link.platform}>
-                <span
-                  aria-disabled="true"
-                  aria-label={`${link.label}（準備中）`}
-                  className="min-h-11 min-w-11 p-3 flex flex-col items-center justify-center gap-1 text-zinc-600 cursor-not-allowed"
+                <a
+                  href={link.url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="flex min-h-16 min-w-0 flex-col items-center justify-center gap-2 text-zinc-400 transition-colors duration-150 hover:text-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
                 >
-                  {icon}
-                  <span className="hidden md:inline font-inter text-[9px] tracking-[0.04em] text-zinc-400">
+                  <span className="[&_svg]:h-7 [&_svg]:w-7 md:[&_svg]:h-9 md:[&_svg]:w-9">
+                    {icon}
+                  </span>
+                  <span className="min-w-0 truncate font-inter text-[11px] tracking-[0.04em] text-zinc-400 sm:text-sm md:text-lg">
                     {link.label}
                   </span>
-                </span>
+                </a>
               </li>
             );
-          }
-          return (
-            <li key={link.platform}>
-              <a
-                href={link.url ?? "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-                className="min-h-11 min-w-11 p-3 flex flex-col items-center justify-center gap-1 text-zinc-400 hover:text-cyan-400 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-              >
-                {icon}
-                <span className="hidden md:inline font-inter text-[9px] tracking-[0.04em] text-zinc-400">
-                  {link.label}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+          })}
+        </ul>
+      </div>
     </nav>
   );
 }
