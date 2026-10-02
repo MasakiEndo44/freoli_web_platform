@@ -37,11 +37,11 @@ export function PastLives({ pastLives }: { pastLives: LiveEvent[] }) {
               <Link
                 href={`/lives/${live.id}`}
                 aria-label={`${live.date} ${live.venue} の詳細を見る`}
-                className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="group block min-w-0 max-w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               >
                 <Card
                   variant="hoverable"
-                  className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6"
+                  className="flex min-w-0 max-w-full flex-col gap-4 md:flex-row md:items-center md:gap-6"
                 >
                   <div className="md:w-40 flex items-end gap-3 shrink-0">
                     <div className="font-jp font-bold text-[42px] leading-none tabular-nums text-zinc-50">
@@ -61,12 +61,12 @@ export function PastLives({ pastLives }: { pastLives: LiveEvent[] }) {
                       {live.venue}
                     </div>
                     {others.length > 0 && (
-                      <div className="font-jp text-xs text-zinc-400 mt-1">
+                      <div className="mt-1 break-words font-jp text-xs text-zinc-400 [overflow-wrap:anywhere]">
                         対バン: {others.join(" / ")}
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 shrink-0">
+                  <div className="flex shrink-0 items-center gap-4 self-start md:self-center">
                     {typeof live.actual_attendance === "number" && (
                       <div className="font-inter text-xs text-zinc-300">
                         <span className="text-zinc-500 mr-1">動員</span>

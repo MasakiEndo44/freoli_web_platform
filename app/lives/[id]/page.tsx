@@ -67,6 +67,70 @@ function ReservationCard({
   );
 }
 
+function LiveImage({
+  src,
+  alt,
+  width = 1110,
+  height = 1475,
+}: {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}) {
+  return (
+    <figure className="w-full max-w-full min-w-0 overflow-hidden rounded-md border border-zinc-800 bg-zinc-950/80">
+      <div className="w-full max-w-full overflow-hidden">
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          priority
+          sizes="(min-width: 1024px) 540px, calc(100vw - 24px)"
+          className="block h-auto w-full"
+        />
+      </div>
+    </figure>
+  );
+}
+
+function LiveMediaGallery({
+  live,
+  className = "",
+}: {
+  live: LiveEvent;
+  className?: string;
+}) {
+  if (!live.flyerImagePath && !live.timelineImagePath) return null;
+
+  return (
+    <section className={`min-w-0 max-w-full ${className}`.trim()}>
+      <div className="grid min-w-0 max-w-full gap-5 lg:grid-cols-2">
+        {live.flyerImagePath ? (
+          <LiveImage
+            src={live.flyerImagePath}
+            alt={live.flyerAlt ?? `${live.title ?? live.venue} フライヤー`}
+            width={1110}
+            height={1475}
+          />
+        ) : null}
+        {live.timelineImagePath ? (
+          <LiveImage
+            src={live.timelineImagePath}
+            alt={
+              live.timelineImageAlt ??
+              `${live.title ?? live.venue} タイムテーブル`
+            }
+            width={1086}
+            height={1448}
+          />
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
 export function generateStaticParams() {
   return lives.map((live) => ({ id: live.id }));
 }
@@ -99,8 +163,8 @@ export default function LiveDetailPage({
   const others = (live.participants ?? []).filter((name) => name !== "FREOLI");
 
   return (
-    <main className="min-h-screen bg-black/85">
-      <section className="mx-auto max-w-6xl px-3 py-8 sm:px-4 md:px-8 md:py-14">
+    <main className="min-h-screen overflow-x-hidden bg-black/85">
+      <section className="mx-auto w-full max-w-6xl overflow-hidden px-3 py-8 sm:px-4 md:px-8 md:py-14">
         <Link
           href={isUpcoming ? "/#next-live" : "/#past-lives"}
           className="mb-10 inline-flex font-inter text-[10px] font-semibold tracking-[0.18em] text-cyan-400 uppercase underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
@@ -108,8 +172,8 @@ export default function LiveDetailPage({
           {isUpcoming ? "Next Live" : "Past Lives"}
         </Link>
 
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-start">
-          <div className="min-w-0">
+        <div className="grid w-full min-w-0 max-w-full gap-8 overflow-hidden lg:grid-cols-[minmax(0,1fr)_minmax(300px,360px)] lg:items-start">
+          <div className="min-w-0 max-w-full overflow-hidden">
             <Heading variant="eyebrow" className="mb-4">
               Live Detail
             </Heading>
@@ -175,6 +239,8 @@ export default function LiveDetailPage({
               ) : null}
             </div>
 
+            <LiveMediaGallery live={live} className="mt-8 lg:hidden" />
+
             <ReservationCard live={live} className="mt-6 lg:hidden" />
 
             {others.length > 0 ? (
@@ -182,11 +248,11 @@ export default function LiveDetailPage({
                 <Heading variant="h2" className="mb-4 text-xl md:text-2xl">
                   ACTS
                 </Heading>
-                <ul className="flex flex-wrap gap-2">
+                <ul className="flex w-full max-w-full flex-wrap gap-2 overflow-hidden">
                   {others.map((name) => (
                     <li
                       key={name}
-                      className="max-w-full break-words border border-zinc-800 bg-zinc-900/70 px-3 py-2 font-jp text-sm text-zinc-300"
+                      className="min-w-0 max-w-full break-words border border-zinc-800 bg-zinc-900/70 px-3 py-2 font-jp text-sm text-zinc-300 [overflow-wrap:anywhere]"
                     >
                       {name}
                     </li>
@@ -196,27 +262,14 @@ export default function LiveDetailPage({
             ) : null}
           </div>
 
-          {live.flyerImagePath || live.reservationImagePath ? (
-            <div className="mx-auto flex min-w-0 w-full max-w-[min(100%,420px)] flex-col gap-5 lg:mx-0">
-              {live.flyerImagePath ? (
-                <figure className="min-w-0 w-full">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
-                    <Image
-                      src={live.flyerImagePath}
-                      alt={
-                        live.flyerAlt ?? `${live.title ?? live.venue} フライヤー`
-                      }
-                      fill
-                      sizes="(min-width: 1024px) 420px, calc(100vw - 24px)"
-                      className="object-contain"
-                    />
-                  </div>
-                </figure>
-              ) : null}
-              <ReservationCard live={live} className="hidden w-full lg:flex" />
+          {live.reservationImagePath ? (
+            <div className="mx-auto hidden w-full max-w-full min-w-0 overflow-hidden lg:block">
+              <ReservationCard live={live} className="w-full" />
             </div>
           ) : null}
         </div>
+
+        <LiveMediaGallery live={live} className="mt-10 hidden lg:block" />
       </section>
     </main>
   );

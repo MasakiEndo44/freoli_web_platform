@@ -17,9 +17,7 @@ export function SubscribeBar() {
         {featuredRelease.description}「{featuredRelease.title}」を各配信サービスで配信中です。
       </p>
       <ul className="grid gap-3 md:grid-cols-2">
-        {releases.map((release, index) => {
-          const isFeatured = index === 0;
-
+        {releases.map((release) => {
           return (
             <li key={release.title} className="min-w-0">
               <a
@@ -27,33 +25,18 @@ export function SubscribeBar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${release.title} by ${release.artist} を聴く`}
-                className={[
-                  "group flex min-h-[132px] min-w-0 flex-col justify-between rounded-md border px-4 py-4 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 sm:px-5",
-                  isFeatured
-                    ? "border-cyan-300 bg-cyan-400 text-zinc-950 hover:bg-cyan-300"
-                    : "border-zinc-800 bg-zinc-900/80 text-zinc-50 hover:border-cyan-400",
-                ].join(" ")}
+                className="group flex min-h-[132px] min-w-0 flex-col justify-between rounded-md border border-zinc-800 bg-zinc-900/80 px-4 py-4 text-zinc-50 transition-colors duration-150 hover:border-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 sm:px-5"
               >
                 <span className="flex min-w-0 items-start justify-between gap-4">
                   <span className="min-w-0">
-                    <span
-                      className={[
-                        "block font-inter text-[10px] font-semibold uppercase tracking-[0.16em]",
-                        isFeatured ? "text-zinc-800" : "text-cyan-400",
-                      ].join(" ")}
-                    >
+                    <span className="block font-inter text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-400">
                       {release.description}
                     </span>
                     <span className="mt-3 block break-words font-jp text-2xl font-semibold leading-tight">
                       {release.title}
                     </span>
                   </span>
-                  <span
-                    className={[
-                      "shrink-0 font-inter text-xs tabular-nums",
-                      isFeatured ? "text-zinc-800" : "text-zinc-500",
-                    ].join(" ")}
-                  >
+                  <span className="shrink-0 font-inter text-xs tabular-nums text-zinc-500">
                     {formatReleaseDate(release.releasedAt)}
                   </span>
                 </span>
