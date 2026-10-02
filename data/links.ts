@@ -33,13 +33,13 @@ export const links: SocialLink[] = [
   {
     platform: "spotify",
     label: "Spotify",
-    url: null,
-    status: "coming-2025",
+    url: "https://open.spotify.com/artist/3xQtHZItRlYCq4VNIPCsM8",
+    status: "active",
   },
   {
     platform: "apple-music",
     label: "Apple Music",
-    url: "https://music.apple.com/jp/artist/anomuder/1589759263",
+    url: "https://music.apple.com/jp/artist/6781139418",
     status: "active",
   },
 ];

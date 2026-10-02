@@ -1,6 +1,11 @@
 import { Heading } from "@/components/ui/Heading";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { links, type SocialLink } from "@/data/links";
 import { featuredRelease, releases } from "@/data/releases";
+
+type ArtistLinkPlatform = Extract<SocialLink["platform"], "apple-music" | "spotify">;
+
+const ARTIST_LINK_PLATFORMS: ArtistLinkPlatform[] = ["apple-music", "spotify"];
 
 function formatReleaseDate(iso: string) {
   const [year, month, day] = iso.split("-");
@@ -8,6 +13,13 @@ function formatReleaseDate(iso: string) {
 }
 
 export function SubscribeBar() {
+  const artistLinks = ARTIST_LINK_PLATFORMS.map((platform) =>
+    links.find((link) => link.platform === platform)
+  ).filter(
+    (link): link is SocialLink =>
+      Boolean(link?.url) && link?.status === "active"
+  );
+
   return (
     <SectionContainer id="subscribe" className="bg-black/85">
       <Heading variant="h2" className="mb-8">
@@ -63,6 +75,26 @@ export function SubscribeBar() {
           );
         })}
       </ul>
+      {artistLinks.length > 0 ? (
+        <div className="mt-7 border-t border-zinc-800 pt-5">
+          <div className="font-inter text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
+            Artist Links
+          </div>
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
+            {artistLinks.map((link) => (
+              <a
+                key={link.platform}
+                href={link.url ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[32px] items-center font-inter text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-300 underline decoration-zinc-700 underline-offset-[7px] transition-colors hover:text-cyan-400 hover:decoration-cyan-400/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </SectionContainer>
   );
 }

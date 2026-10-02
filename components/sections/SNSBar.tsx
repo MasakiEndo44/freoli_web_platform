@@ -89,7 +89,7 @@ export function SNSBar() {
                     aria-label={`${link.label}（準備中）`}
                     className="flex min-h-16 min-w-0 cursor-not-allowed flex-col items-center justify-center gap-2 text-zinc-600"
                   >
-                    <span className="[&_svg]:h-7 [&_svg]:w-7 md:[&_svg]:h-9 md:[&_svg]:w-9">
+                    <span className="[&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-8 md:[&_svg]:w-8">
                       {icon}
                     </span>
                     <span className="min-w-0 truncate font-inter text-[11px] tracking-[0.04em] text-zinc-500 sm:text-sm md:text-lg">
@@ -108,7 +108,7 @@ export function SNSBar() {
                   aria-label={link.label}
                   className="flex min-h-16 min-w-0 flex-col items-center justify-center gap-2 text-zinc-400 transition-colors duration-150 hover:text-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
                 >
-                  <span className="[&_svg]:h-7 [&_svg]:w-7 md:[&_svg]:h-9 md:[&_svg]:w-9">
+                  <span className="[&_svg]:h-6 [&_svg]:w-6 md:[&_svg]:h-8 md:[&_svg]:w-8">
                     {icon}
                   </span>
                   <span className="min-w-0 truncate font-inter text-[11px] tracking-[0.04em] text-zinc-400 sm:text-sm md:text-lg">
