@@ -8,7 +8,7 @@ export type LogoMarkProps = {
 };
 
 export function LogoMark({
-  src = "/images/assets/freoli_logo.png",
+  src = "/images/assets/freoli_symbol_white.png",
   alt = "FREOLI ロゴ",
   className = "",
 }: LogoMarkProps) {
@@ -21,9 +21,9 @@ export function LogoMark({
       <Image
         src={src}
         alt={alt}
-        width={1486}
-        height={354}
-        className="h-[40px] md:h-[53px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+        width={2000}
+        height={2000}
+        className="h-[42px] md:h-[54px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
       />
     </Link>
   );

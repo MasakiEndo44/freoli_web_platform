@@ -1,6 +1,6 @@
 import { Heading } from "@/components/ui/Heading";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { featuredRelease, releases } from "@/data/releases";
+import { releases } from "@/data/releases";
 
 function formatReleaseDate(iso: string) {
   const [year, month, day] = iso.split("-");
@@ -13,9 +13,6 @@ export function SubscribeBar() {
       <Heading variant="h2" className="mb-8">
         LISTEN
       </Heading>
-      <p className="mb-6 max-w-2xl font-jp text-sm leading-relaxed text-zinc-400">
-        {featuredRelease.description}「{featuredRelease.title}」を各配信サービスで配信中です。
-      </p>
       <ul className="grid gap-3 md:grid-cols-2">
         {releases.map((release) => {
           return (
