@@ -4,9 +4,27 @@ export type NewsEntry = {
   title: string;
   body: string;
   tags?: Array<"live" | "release" | "media" | "other">;
+  url?: string;
+  linkLabel?: string;
 };
 
 export const news: NewsEntry[] = [
+  {
+    id: "2026-10-01-pico-pico-party-timetable",
+    date: "2026-10-01",
+    title: "10/12「PICO PICO PARTY!」タイムテーブル公開",
+    body: "10月12日(月・祝) 新宿 SUN FACE「PICO PICO PARTY!」のタイムテーブルをライブ詳細に追加しました。FREOLIは16:30出演予定です。",
+    tags: ["live"],
+  },
+  {
+    id: "2026-09-07-saisei-to-yume-release",
+    date: "2026-09-07",
+    title: "2nd single「サイセイトユメ」配信開始",
+    body: "2nd single「サイセイトユメ」を各配信サービスで配信開始しました。LISTENセクションから聴けます。",
+    tags: ["release"],
+    url: "https://linkco.re/47BNVXXy",
+    linkLabel: "Listen",
+  },
   {
     id: "2026-09-01-pico-pico-party-live",
     date: "2026-09-01",
@@ -24,9 +42,11 @@ export const news: NewsEntry[] = [
   {
     id: "2026-06-18-padoma-release",
     date: "2026-06-18",
-    title: "新曲「パドマ」の配信リンクを公開しました",
-    body: "1st single「パドマ」を各配信サービスで聴ける配信ページへのリンクを、LISTENセクションに追加しました。",
+    title: "1st single「パドマ」配信開始",
+    body: "1st single「パドマ」を各配信サービスで配信開始しました。LISTENセクションから聴けます。",
     tags: ["release"],
+    url: "https://linkco.re/vU38MtGM",
+    linkLabel: "Listen",
   },
   {
     id: "2026-05-20-site-launch",

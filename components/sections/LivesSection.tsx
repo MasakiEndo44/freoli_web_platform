@@ -24,11 +24,11 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
     <Link
       href={`/lives/${live.id}`}
       aria-label={`${live.date} ${eventTitle} の詳細を見る`}
-      className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+      className="group block min-w-0 max-w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
     >
       <Card
         variant="hoverable"
-        className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6"
+        className="flex min-w-0 max-w-full flex-col gap-4 md:flex-row md:items-center md:gap-6"
       >
         <div className="flex shrink-0 items-end gap-3 md:w-40">
           <div className="font-jp text-[42px] font-bold leading-none tabular-nums text-zinc-50">
@@ -55,13 +55,13 @@ function NextLiveCard({ live }: { live: LiveEvent }) {
             </div>
           ) : null}
           {others.length > 0 ? (
-            <div className="mt-1 break-words font-jp text-xs text-zinc-400">
+            <div className="mt-1 break-words font-jp text-xs text-zinc-400 [overflow-wrap:anywhere]">
               対バン: {others.join(" / ")}
             </div>
           ) : null}
         </div>
 
-        <div className="flex shrink-0 items-center gap-4">
+        <div className="flex shrink-0 items-center gap-4 self-start md:self-center">
           <span className="inline-flex font-inter text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-400 underline decoration-zinc-700 underline-offset-[6px] transition-colors group-hover:text-cyan-400 group-hover:decoration-cyan-400/70">
             Detail
           </span>

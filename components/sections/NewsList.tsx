@@ -56,6 +56,16 @@ export function NewsList() {
                 <p className="min-w-0 break-words font-jp text-sm text-zinc-400 leading-relaxed">
                   {entry.body}
                 </p>
+                {entry.url ? (
+                  <a
+                    href={entry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[32px] items-center self-start font-inter text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-400 underline decoration-cyan-400/50 underline-offset-[6px] transition-colors hover:text-cyan-300 hover:decoration-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                  >
+                    {entry.linkLabel ?? "Detail"}
+                  </a>
+                ) : null}
               </Card>
             </li>
           ))}

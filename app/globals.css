@@ -11,6 +11,7 @@
   html {
     @apply bg-black;
     color-scheme: dark;
+    overflow-x: hidden;
   }
 
   body {
@@ -19,6 +20,7 @@
     font-family: var(--font-jp-serif);
     font-feature-settings: "palt" 1;
     position: relative;
+    overflow-x: hidden;
   }
 
   body::before {

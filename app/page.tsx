@@ -16,7 +16,7 @@ export default function HomePage() {
   const { upcoming, past } = partitionLives(lives);
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen min-w-0 overflow-x-hidden">
       {/* 非交渉 UX シーケンス（AGENTS.md §1 / 要件定義書 F2.1 / engineering.md §4.2）：
           1.Hero → 2.SNSBar → 3.NextLive → 4.PastLives → 5.Members → 6.PhotoGallery
           → 7.Subscribe → 8.News → 9.ContactForm */}
