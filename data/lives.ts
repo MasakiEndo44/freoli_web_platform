@@ -26,6 +26,17 @@ export type LiveEvent = {
 
 export const lives: LiveEvent[] = [
   {
+    id: "2027-01-09-shimokitazawa-waver",
+    title: "夜出演予定",
+    date: "2027-01-09",
+    venue: "下北沢 WAVER",
+    venueUrl: "https://waverwaver.net/",
+    venuePhone: "03-6804-0094",
+    venueMapsQuery: "下北沢 WAVER",
+    organizer: "booked",
+    actual_attendance: null,
+  },
+  {
     id: "2026-10-12-sun-face",
     title: "PICO PICO PARTY!",
     date: "2026-10-12",
