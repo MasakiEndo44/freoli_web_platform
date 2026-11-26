@@ -27,7 +27,7 @@ export type LiveEvent = {
 export const lives: LiveEvent[] = [
   {
     id: "2027-01-09-shimokitazawa-waver",
-    title: "出演予定",
+    title: "夜出演予定",
     date: "2027-01-09",
     venue: "下北沢 WAVER",
     venueUrl: "https://waverwaver.net/",
